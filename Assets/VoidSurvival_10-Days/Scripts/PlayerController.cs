@@ -39,4 +39,13 @@ public class PlayerController : MonoBehaviour
         // プレイヤーを動かす
         _rigidbody.velocity = _moveInput * moveSpeed;
     }
+
+    /// <summary>
+    /// プレイヤーがインタラクトボタンをクリックしたときの処理
+    /// </summary>
+    public void ActInteract()
+    {
+        // クリック時の処理（必要に応じて実装）
+        Debug.Log("Player clicked!");
+    }
 }
