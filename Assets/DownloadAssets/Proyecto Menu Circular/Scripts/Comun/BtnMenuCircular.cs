@@ -105,7 +105,8 @@ namespace MoonAntonio.UI
 		/// <param name="eventData">Datos del evento.</param>
 		public void OnPointerExit(PointerEventData eventData)// Cuando sale el punto
 		{
-			menu.seleccionado = null;
+			if (Input.GetMouseButtonDown(0))
+				menu.seleccionado = null;
 			circulo.color = colorBase;
 		}
 		#endregion

@@ -1025,6 +1025,82 @@ PrefabInstance:
       propertyPath: playerController
       value: 
       objectReference: {fileID: 1204831706}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[0].titulo
+      value: sss
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[1].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4db017495c69e8140a56a0e2b669e3f8, type: 3}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[0].color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[0].color.b
+      value: 0.48393556
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[0].color.g
+      value: 0.48393556
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[0].color.r
+      value: 0.8207547
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[1].color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[1].color.b
+      value: 0.7264151
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[1].color.g
+      value: 0.540168
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[1].color.r
+      value: 0.2775454
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[2].color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[2].color.b
+      value: 0.32395872
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[2].color.g
+      value: 0.754717
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[2].color.r
+      value: 0.5018672
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[3].color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[3].color.b
+      value: 0.28248486
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[3].color.g
+      value: 0.7886749
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: opciones.Array.data[3].color.r
+      value: 0.8679245
+      objectReference: {fileID: 0}
     - target: {fileID: 6732806925246934951, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
