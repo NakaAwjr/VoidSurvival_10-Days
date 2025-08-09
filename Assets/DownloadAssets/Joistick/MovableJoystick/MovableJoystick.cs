@@ -4,7 +4,8 @@ using UnityStandardAssets.CrossPlatformInput;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
-public class MovableJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler {
+public class MovableJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+{
 
 	[SerializeField]
 	RectTransform content;
@@ -20,7 +21,17 @@ public class MovableJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 	CrossPlatformInputManager.VirtualAxis horizontalVirtualAxis;
 	CrossPlatformInputManager.VirtualAxis verticalVirtualAxis;
 
-	void OnEnable () {
+	void OnEnable()
+	{
+		if (CrossPlatformInputManager.AxisExists(horizontalAxisName))
+		{
+			CrossPlatformInputManager.UnRegisterVirtualAxis(horizontalAxisName);
+		}
+		if (CrossPlatformInputManager.AxisExists(verticalAxisName))
+		{
+			CrossPlatformInputManager.UnRegisterVirtualAxis(verticalAxisName);
+		}
+
 		horizontalVirtualAxis = new CrossPlatformInputManager.VirtualAxis(horizontalAxisName);
 		verticalVirtualAxis = new CrossPlatformInputManager.VirtualAxis(verticalAxisName);
 
@@ -30,47 +41,55 @@ public class MovableJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 		// 可動範囲 = 基盤の大きさ
 		content.sizeDelta = Vector2.one * radius * 2;
 		// stickの親がcontent
-		stick.SetParent(content,false);
+		stick.SetParent(content, false);
 
 		// 一旦(0,0)へ
 		MoveTo(Vector2.zero);
 	}
 
-	public void OnPointerDown (PointerEventData data) {
-		MoveTo (data.position);
+	public void OnPointerDown(PointerEventData data)
+	{
+		MoveTo(data.position);
 	}
 
-	void MoveTo (Vector2 pos) {
+	void MoveTo(Vector2 pos)
+	{
 		content.position = pos;
 		stick.localPosition = Vector2.zero;
 	}
 
-	public void OnPointerUp (PointerEventData data) {
-		UpdateVirtualAxes (Vector2.zero);
+	public void OnPointerUp(PointerEventData data)
+	{
+		UpdateVirtualAxes(Vector2.zero);
 	}
 
-	public void OnDrag (PointerEventData data) {
+	public void OnDrag(PointerEventData data)
+	{
 		Vector2 value = (Vector2)data.position - (Vector2)content.position;
-		UpdateVirtualAxes (value);
+		UpdateVirtualAxes(value);
 	}
 
-	void UpdateVirtualAxes (Vector2 value) {
+	void UpdateVirtualAxes(Vector2 value)
+	{
 		// 移動位置を指定の半径内で制限する
-		value = Vector2.ClampMagnitude (value, radius);
+		value = Vector2.ClampMagnitude(value, radius);
 		// stickを移動
 		stick.localPosition = value;
 
 		Vector2 normalizedValue = value / radius;
-		horizontalVirtualAxis.Update (normalizedValue.x);
-		verticalVirtualAxis.Update (normalizedValue.y);
+		horizontalVirtualAxis.Update(normalizedValue.x);
+		verticalVirtualAxis.Update(normalizedValue.y);
 	}
 
-	void OnDisable () {
-		if (horizontalVirtualAxis != null) {
-			horizontalVirtualAxis.Remove ();
+	void OnDisable()
+	{
+		if (horizontalVirtualAxis != null)
+		{
+			horizontalVirtualAxis.Remove();
 		}
-		if (verticalVirtualAxis != null) {
-			verticalVirtualAxis.Remove ();
+		if (verticalVirtualAxis != null)
+		{
+			verticalVirtualAxis.Remove();
 		}
 	}
 }

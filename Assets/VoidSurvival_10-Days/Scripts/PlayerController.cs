@@ -12,6 +12,11 @@ public class PlayerController : MonoBehaviour
     private CharacterRenderer _characterRenderer;
 
     /// <summary>
+    /// インタラクトアクションを実行するためのインターフェース
+    /// </summary>
+    private IInteractAction _interactAction;
+
+    /// <summary>
     /// ジョイスティックからの入力を格納する変数
     /// </summary>
     private Vector2 _moveInput;
@@ -45,7 +50,26 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void ActInteract()
     {
-        // クリック時の処理（必要に応じて実装）
-        Debug.Log("Player clicked!");
+        if (_interactAction != null)
+        {
+            _interactAction.InteractAction();
+        }
+        else
+        {
+            Debug.LogWarning("No interact action assigned.");
+        }
     }
+
+    // トリガーイベント
+    #region Collider Events
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        _interactAction = other.GetComponent<IInteractAction>();
+    }
+
+    public void OnTriggerExit2D(Collider2D other)
+    {
+        _interactAction = null;
+    }
+    #endregion
 }
