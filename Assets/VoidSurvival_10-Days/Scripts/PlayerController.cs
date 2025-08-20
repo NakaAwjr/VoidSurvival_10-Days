@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No interact action assigned.");
+            ItemManager.Instance.quickItems[ItemManager.Instance.selectedQuickItemIndex]?.Use();
         }
     }
 

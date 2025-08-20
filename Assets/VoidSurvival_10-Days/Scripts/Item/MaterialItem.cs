@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewMaterialItem", menuName = "Items/MaterialItem")]
-public class MaterialItem : Item
+public class MaterialItem : Item, IDatabaseEntry<int>
 {
     public override bool CanUseOn()
     {
