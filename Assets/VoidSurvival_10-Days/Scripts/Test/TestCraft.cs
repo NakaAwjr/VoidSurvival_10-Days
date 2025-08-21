@@ -6,6 +6,9 @@ public class TestCraft : MonoBehaviour
 {
     [SerializeField] private CraftingRecipeDatabase craftingRecipeDatabase;
     [SerializeField] private ItemDatabase itemDatabase;
+
+    [SerializeField] private InvenrtyDialog inventoryDialog;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,5 +23,7 @@ public class TestCraft : MonoBehaviour
         CraftingManager.Instance.CraftItem(craftingRecipeDatabase.GetValue(0), canCraftCount);
         Debug.Log($"Crafted {canCraftCount} items from recipe 0.");
         Debug.Log("Inventory after crafting: " + ItemManager.Instance.GetItemStack(item)?.Amount);
+
+        inventoryDialog.OpenInventory();
     }
 }
