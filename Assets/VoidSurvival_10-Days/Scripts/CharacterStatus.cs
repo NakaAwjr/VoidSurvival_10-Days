@@ -16,18 +16,20 @@ public abstract class CharacterStatus : MonoBehaviour
 
     public int MaxHitPoint => maxHitPoint;
     public int CurrentHealth => _currentHitPoint;
-    public int Power;
-    public int Defense;
+    public int Power => power;
+    public int Defense => defense;
 
-    [SerializeField] private int maxHitPoint = 100;
+    [SerializeField] protected int maxHitPoint = 100;
+    [SerializeField] protected int power = 10;
+    [SerializeField] protected int defense = 5;
 
-    private int _currentHitPoint;
+    protected int _currentHitPoint;
     protected StatusEnum _status = StatusEnum.Idle;
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        _currentHitPoint = maxHitPoint;
+        _currentHitPoint = MaxHitPoint;
     }
 
     /// <summary>
@@ -58,7 +60,7 @@ public abstract class CharacterStatus : MonoBehaviour
     {
         if (_status == StatusEnum.Dead) return;
 
-        _currentHitPoint = Mathf.Min(_currentHitPoint + amount, maxHitPoint);
+        _currentHitPoint = Mathf.Min(_currentHitPoint + amount, MaxHitPoint);
     }
     /// <summary>
     /// 死んだときの処理

@@ -13,27 +13,21 @@ public abstract class CharacterRenderer : MonoBehaviour
         Till
     }
 
-    [SerializeField] private CharacterStatus characterStatus;
+    [SerializeField] protected CharacterStatus characterStatus;
+    [SerializeField] private Transform characterTransform;
     private Animator _animator;
 
-    /// <summary>
-    /// 待機状態の方向を定義する配列
-    /// ここでは、北、南、東、西の4方向を定義
-    /// </summary>
-    private static readonly string[] idleDirections = { "Idle N", "Idle S", "Idle E", "Idle W" };
-    /// <summary>
-    /// 移動状態の方向を定義する配列
-    /// ここでは、北、南、東、西の4方向を定義
-    /// </summary>
-    private static readonly string[] runDirections = { "Run N", "Run S", "Run E", "Run W" };
-    private static readonly string[] attackDirections = { "Attack N", "Attack S", "Attack E", "Attack W" };
-    private static readonly string[] tillDirections = { "Till N", "Till S", "Till E", "Till W" };
+    /// ここでは、北、南、西の3方向を定義
+    private static readonly string[] idleDirections = { "Idle N", "Idle S", "Idle W" };
+    private static readonly string[] runDirections = { "Run N", "Run S", "Run W" };
+    private static readonly string[] attackDirections = { "Attack N", "Attack S", "Attack W" };
+    private static readonly string[] tillDirections = { "Till N", "Till S", "Till W" };
 
     /// <summary>
     /// 最後に設定された方向のインデックス
-    /// 0: 北, 1: 南, 2: 東, 3: 西
+    /// 0: 北, 1: 南, 2: 西
     /// </summary>
-    private int lastDirection = 0;
+    protected int lastDirection = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +51,8 @@ public abstract class CharacterRenderer : MonoBehaviour
 
             // 入力の方向に基づいてアニメーションを設定
             lastDirection = DirectionToIndex(direction);
+            // 左右反転
+            characterTransform.localScale = new Vector3(-Mathf.Sign(direction.x), 1, 1);
             // アニメーションを再生
             _animator.Play(runDirections[lastDirection]);
         }
@@ -85,7 +81,7 @@ public abstract class CharacterRenderer : MonoBehaviour
         }
         else
         {
-            return dir.x > 0 ? 2 : 3; // 東または西
+            return 2;
         }
     }
 }

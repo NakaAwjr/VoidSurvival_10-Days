@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rigidbody;
     private CharacterRenderer _characterRenderer;
+    private CharacterStatus _characterStatus;
 
     /// <summary>
     /// インタラクトアクションを実行するためのインターフェース
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _characterRenderer = GetComponentInChildren<CharacterRenderer>();
+        _characterStatus = GetComponent<CharacterStatus>();
     }
 
     // Update is called once per frame
@@ -38,11 +40,14 @@ public class PlayerController : MonoBehaviour
         // 正規化し、速度を一定にする
         _moveInput.Normalize();
 
-        // キャラクターのアニメーションを更新
-        _characterRenderer.SetDirection(_moveInput);
+        if (_characterStatus.IsMoovable)
+        {
+            // キャラクターのアニメーションを更新
+            _characterRenderer.SetDirection(_moveInput);
 
-        // プレイヤーを動かす
-        _rigidbody.velocity = _moveInput * moveSpeed;
+            // プレイヤーを動かす
+            _rigidbody.velocity = _moveInput * moveSpeed;
+        }
     }
 
     /// <summary>
@@ -56,7 +61,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            ItemManager.Instance.quickItems[ItemManager.Instance.selectedQuickItemIndex]?.Use();
+            //ItemManager.Instance.quickItems[ItemManager.Instance.selectedQuickItemIndex]?.Use();
+            _characterRenderer.SetActionAnimation(CharacterRenderer.ActionType.Attack);
+            _characterStatus.GoToActiveStatefPossible();
         }
     }
 
