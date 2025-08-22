@@ -471,6 +471,7 @@ GameObject:
   - component: {fileID: 1204831708}
   - component: {fileID: 1204831707}
   - component: {fileID: 1204831706}
+  - component: {fileID: 1204831709}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -580,6 +581,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1204831709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204831704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17459fd9dba9df54d81e425d16ec7263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Power: 0
+  Defense: 0
+  maxHitPoint: 100
+  maxStaminaPoint: 100
 --- !u!1 &1307273497
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,9 +867,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1372959966}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f723505009514c46b86f183fad6d7c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b3b510b260f96e419900ee732e0b929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterStatus: {fileID: 1204831709}
 --- !u!1 &1629869652
 GameObject:
   m_ObjectHideFlags: 0
