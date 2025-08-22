@@ -134,9 +134,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17459fd9dba9df54d81e425d16ec7263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Power: 0
-  Defense: 0
   maxHitPoint: 100
+  power: 10
+  defense: 5
   maxStaminaPoint: 100
 --- !u!1 &3238310417581190792
 GameObject:

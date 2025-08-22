@@ -9,8 +9,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
 
     private Rigidbody2D _rigidbody;
-    private CharacterRenderer _characterRenderer;
-    private CharacterStatus _characterStatus;
+    private PlayerRenderer _renderer;
+    private PlayerStatus _status;
 
     /// <summary>
     /// インタラクトアクションを実行するためのインターフェース
@@ -26,8 +26,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _characterRenderer = GetComponentInChildren<CharacterRenderer>();
-        _characterStatus = GetComponent<CharacterStatus>();
+        _renderer = GetComponentInChildren<PlayerRenderer>();
+        _status = GetComponent<PlayerStatus>();
     }
 
     // Update is called once per frame
@@ -40,10 +40,10 @@ public class PlayerController : MonoBehaviour
         // 正規化し、速度を一定にする
         _moveInput.Normalize();
 
-        if (_characterStatus.IsMoovable)
+        if (_status.IsMoovable)
         {
             // キャラクターのアニメーションを更新
-            _characterRenderer.SetDirection(_moveInput);
+            _renderer.SetDirection(_moveInput);
 
             // プレイヤーを動かす
             _rigidbody.velocity = _moveInput * moveSpeed;
@@ -62,8 +62,8 @@ public class PlayerController : MonoBehaviour
         else
         {
             //ItemManager.Instance.quickItems[ItemManager.Instance.selectedQuickItemIndex]?.Use();
-            _characterRenderer.SetActionAnimation(CharacterRenderer.ActionType.Attack);
-            _characterStatus.GoToActiveStatefPossible();
+            _renderer.SetActionAnimation(CharacterRenderer.ActionType.Attack);
+            _status.GoToActiveStatefPossible();
         }
     }
 
