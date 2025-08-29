@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class PlayerStatus : CharacterStatus
 {
-    // 攻撃力、防御力は後で書き換える、これは装備に依存するようにする
-
+    //スタミナ
     public int MaxStaminaPoint => maxStaminaPoint;
     public int CurrentStaminaPoint => _currentStaminaPoint;
 
@@ -14,5 +13,16 @@ public class PlayerStatus : CharacterStatus
     {
         base.Start();
         _currentStaminaPoint = MaxStaminaPoint;
+    }
+
+    protected override int getPower()
+    {
+        //将来的に装備品やバフなどで変動する場合を考慮してオーバーライド
+        return power;
+    }
+    protected override int getDefense()
+    {
+        //将来的に装備品やバフなどで変動する場合を考慮してオーバーライド
+        return defense;
     }
 }

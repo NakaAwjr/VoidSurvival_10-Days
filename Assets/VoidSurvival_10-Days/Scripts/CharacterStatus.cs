@@ -16,8 +16,8 @@ public abstract class CharacterStatus : MonoBehaviour
 
     public int MaxHitPoint => maxHitPoint;
     public int CurrentHealth => _currentHitPoint;
-    public int Power => power;
-    public int Defense => defense;
+    public int Power => getPower();
+    public int Defense => getDefense();
 
     [SerializeField] protected int maxHitPoint = 100;
     [SerializeField] protected int power = 10;
@@ -88,5 +88,14 @@ public abstract class CharacterStatus : MonoBehaviour
         if (_status != StatusEnum.Dead) return;
 
         _status = StatusEnum.Idle;
+    }
+
+    protected virtual int getPower()
+    {
+        return power;
+    }
+    protected virtual int getDefense()
+    {
+        return defense;
     }
 }

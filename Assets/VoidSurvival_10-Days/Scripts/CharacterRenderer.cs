@@ -7,21 +7,14 @@ using UnityEngine;
 [RequireComponent(typeof(AnimatorController))]
 public abstract class CharacterRenderer : MonoBehaviour
 {
-    public enum ActionType
-    {
-        Attack,
-        Till
-    }
-
     [SerializeField] protected CharacterStatus characterStatus;
     [SerializeField] private Transform characterTransform;
-    private Animator _animator;
+    protected Animator _animator;
 
-    /// ここでは、北、南、西の3方向を定義
+    /// アニメーションの名前
     private static readonly string[] idleDirections = { "Idle N", "Idle S", "Idle W" };
     private static readonly string[] runDirections = { "Run N", "Run S", "Run W" };
     private static readonly string[] attackDirections = { "Attack N", "Attack S", "Attack W" };
-    private static readonly string[] tillDirections = { "Till N", "Till S", "Till W" };
 
     /// <summary>
     /// 最後に設定された方向のインデックス
@@ -58,11 +51,9 @@ public abstract class CharacterRenderer : MonoBehaviour
         }
     }
     /// <summary>
-    /// アクションアニメーションを設定する
-    /// アクションタイプに応じて異なるアニメーションを再生
-    /// デフォルトは攻撃アニメーション
+    /// 攻撃アニメーションを設定する
     /// </summary>
-    public virtual void SetActionAnimation(ActionType actionType = ActionType.Attack)
+    public void SetAttackAnimation()
     {
         if (characterStatus.IsActive)
         {

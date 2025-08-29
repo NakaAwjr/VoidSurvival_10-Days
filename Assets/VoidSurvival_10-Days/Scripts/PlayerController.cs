@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
@@ -52,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
     /// <summary>
     /// プレイヤーがインタラクトボタンをクリックしたときの処理
+    /// インタラクトアクション(話しかけるなど)が設定されていればそれを実行し、なければインタラクトアイテムを使用する
     /// </summary>
     public void ActInteract()
     {
@@ -62,7 +61,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             //ItemManager.Instance.quickItems[ItemManager.Instance.selectedQuickItemIndex]?.Use();
-            _renderer.SetActionAnimation(CharacterRenderer.ActionType.Attack);
+            _renderer.SetAttackAnimation();
             _status.GoToActiveStatefPossible();
         }
     }
