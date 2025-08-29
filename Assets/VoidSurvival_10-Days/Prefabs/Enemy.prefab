@@ -363,7 +363,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 10000
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -376,7 +376,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 7
+  m_Constraints: 4
 --- !u!95 &373418718257310808
 Animator:
   serializedVersion: 7
@@ -463,6 +463,9 @@ MonoBehaviour:
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 129
+  moveSpeed: 3
+  detectionRadius: 5
+  detectionInterval: 1
 --- !u!114 &2963673527599896786
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,11 +10,15 @@ public class EnemyMove : MonoBehaviour
     /// 衝突判定したいレイヤー(プレイヤーと敵以外の障害物)
     /// </summary>
     [SerializeField] LayerMask raycastLayerMask;
+    [SerializeField] private float moveSpeed = 3.0f;
+    [SerializeField] private float detectionRadius = 5.0f;
+    [SerializeField] private float detectionInterval = 1.0f;
 
     private EnemyStatus _status;
     private EnemyRenderer _renderer;
     private NavMeshAgent _navMeshAgent;
     private RaycastHit2D[] _hits = new RaycastHit2D[10];
+    private Vector3 _position;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +26,9 @@ public class EnemyMove : MonoBehaviour
         _status = GetComponent<EnemyStatus>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _renderer = GetComponent<EnemyRenderer>();
+        _navMeshAgent.speed = moveSpeed;
+        _position = transform.position;
+        StartCoroutine(DetectionCoroutine());
     }
 
     // Update is called once per frame
@@ -49,14 +57,39 @@ public class EnemyMove : MonoBehaviour
             if (_hitCount == 0)
             {
                 // プレイヤーに向かって移動
+                StopCoroutine(DetectionCoroutine());
                 _navMeshAgent.isStopped = false;
                 _navMeshAgent.SetDestination(_player.transform.position);
             }
             else
             {
                 // プレイヤーが障害物の向こう側にいる場合は停止
-                _navMeshAgent.isStopped = true;
+                StartCoroutine(DetectionCoroutine());
             }
+        }
+    }
+
+    //ランダムに移動する
+    private void GoToNextPoint()
+    {
+        if (!_status.IsMoovable) return;
+        if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance < 0.5f)
+        {
+            Vector3 randomDirection = Random.insideUnitSphere * detectionRadius;
+            randomDirection += _position;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomDirection, out hit, detectionRadius, 1))
+            {
+                _navMeshAgent.SetDestination(hit.position);
+            }
+        }
+    }
+    private IEnumerator DetectionCoroutine()
+    {
+        while (true)
+        {
+            GoToNextPoint();
+            yield return new WaitForSeconds(detectionInterval);
         }
     }
 }
