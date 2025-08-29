@@ -13,7 +13,7 @@ public class PlayerRenderer : CharacterRenderer
     /// </summary>
     public void SetActionAnimation(ActionType actionType)
     {
-        if (characterStatus.IsActive)
+        if (_characterStatus.IsActive)
         {
             switch (actionType)
             {

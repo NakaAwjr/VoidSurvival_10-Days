@@ -5,10 +5,10 @@ using UnityEngine;
 /// キャラクターのアニメーションを制御するクラス
 /// </summary>
 [RequireComponent(typeof(AnimatorController))]
+[RequireComponent(typeof(CharacterStatus))]
 public abstract class CharacterRenderer : MonoBehaviour
 {
-    [SerializeField] protected CharacterStatus characterStatus;
-    [SerializeField] private Transform characterTransform;
+    protected CharacterStatus _characterStatus;
     protected Animator _animator;
 
     /// アニメーションの名前
@@ -20,11 +20,12 @@ public abstract class CharacterRenderer : MonoBehaviour
     /// 最後に設定された方向のインデックス
     /// 0: 北, 1: 南, 2: 西
     /// </summary>
-    protected int lastDirection = 0;
+    public int lastDirection { get; private set; } = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        _characterStatus = GetComponent<CharacterStatus>();
         _animator = GetComponent<Animator>();
     }
 
@@ -33,7 +34,7 @@ public abstract class CharacterRenderer : MonoBehaviour
     /// </summary>
     public void SetDirection(Vector2 direction)
     {
-        if (characterStatus.IsMoovable)
+        if (_characterStatus.IsMoovable)
         {
             // 入力の大きさが小さい場合は待機状態を使用
             if (direction.magnitude < 0.01f)
@@ -45,7 +46,7 @@ public abstract class CharacterRenderer : MonoBehaviour
             // 入力の方向に基づいてアニメーションを設定
             lastDirection = DirectionToIndex(direction);
             // 左右反転
-            characterTransform.localScale = new Vector3(-Mathf.Sign(direction.x), 1, 1);
+            transform.localScale = new Vector3(-Mathf.Sign(direction.x), 1, 1);
             // アニメーションを再生
             _animator.Play(runDirections[lastDirection]);
         }
@@ -55,7 +56,7 @@ public abstract class CharacterRenderer : MonoBehaviour
     /// </summary>
     public void SetAttackAnimation()
     {
-        if (characterStatus.IsActive)
+        if (_characterStatus.IsActive)
         {
             _animator.Play(attackDirections[lastDirection]);
         }

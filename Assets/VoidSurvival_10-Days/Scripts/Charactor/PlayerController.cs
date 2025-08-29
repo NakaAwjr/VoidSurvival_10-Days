@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _renderer = GetComponentInChildren<PlayerRenderer>();
+        _renderer = GetComponent<PlayerRenderer>();
         _status = GetComponent<PlayerStatus>();
     }
 

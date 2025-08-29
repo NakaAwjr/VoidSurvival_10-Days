@@ -85,7 +85,7 @@ public abstract class CharacterStatus : MonoBehaviour
     /// </summary>
     public void GoToIdleStateIfPossible()
     {
-        if (_status != StatusEnum.Dead) return;
+        if (_status == StatusEnum.Dead) return;
 
         _status = StatusEnum.Idle;
     }
