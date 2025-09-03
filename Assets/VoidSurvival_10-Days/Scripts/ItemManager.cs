@@ -229,9 +229,18 @@ public class ItemManager
         }
 
         // 装備スロットのアイテムも同様に設定
-        equipmentSlot[EquipmentType.Head] = _itemDatabase.GetValue(saveData.EquipmentSlot.Head);
-        equipmentSlot[EquipmentType.Body] = _itemDatabase.GetValue(saveData.EquipmentSlot.Body);
-        equipmentSlot[EquipmentType.Legs] = _itemDatabase.GetValue(saveData.EquipmentSlot.Legs);
+        foreach (var slot in saveData.EquipmentSlot)
+        {
+            var itemData = _itemDatabase.GetValue(slot.ItemID);
+            if (equipmentSlot.ContainsKey(slot.Type))
+            {
+                equipmentSlot[slot.Type] = itemData;
+            }
+            else
+            {
+                Debug.LogWarning($"スロットが存在しません。コンストラクタを見直してください。");
+            }
+        }
     }
     public ItemSaveData ToSaveData()
     {
@@ -240,7 +249,7 @@ public class ItemManager
             Inventory = new List<ItemStackSaveData>(),
             QuickItems = new int[QUICK_ITEM_COUNT],
             SelectedQuickItemIndex = selectedQuickItemIndex,
-            EquipmentSlot = new EquipmentSlotSaveData()
+            EquipmentSlot = new List<EquipmentSlotSaveData>()
         };
 
         // アイテムのIDと数量を保存
@@ -267,9 +276,17 @@ public class ItemManager
         }
 
         // 装備スロットのアイテムIDを保存
-        saveData.EquipmentSlot.Head = equipmentSlot[EquipmentType.Head] == null ? -1 : equipmentSlot[EquipmentType.Head].ItemID;
-        saveData.EquipmentSlot.Body = equipmentSlot[EquipmentType.Body] == null ? -1 : equipmentSlot[EquipmentType.Body].ItemID;
-        saveData.EquipmentSlot.Legs = equipmentSlot[EquipmentType.Legs] == null ? -1 : equipmentSlot[EquipmentType.Legs].ItemID;
+        foreach (var slot in equipmentSlot)
+        {
+            if (slot.Value != null)
+            {
+                saveData.EquipmentSlot.Add(new EquipmentSlotSaveData() { Type = slot.Key, ItemID = slot.Value.ItemID });
+            }
+            else
+            {
+                saveData.EquipmentSlot.Add(new EquipmentSlotSaveData() { Type = slot.Key, ItemID = -1 });
+            }
+        }
 
         return saveData;
     }

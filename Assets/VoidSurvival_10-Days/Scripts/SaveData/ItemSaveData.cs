@@ -10,12 +10,7 @@ public class ItemSaveData
     public List<ItemStackSaveData> Inventory;
     public int[] QuickItems = new int[ItemManager.QUICK_ITEM_COUNT] { -1, -1, -1, -1 };
     public int SelectedQuickItemIndex;
-    public EquipmentSlotSaveData EquipmentSlot = new EquipmentSlotSaveData()
-    {
-        Head = -1,
-        Body = -1,
-        Legs = -1
-    };
+    public List<EquipmentSlotSaveData> EquipmentSlot;
 }
 
 [System.Serializable]
@@ -28,7 +23,6 @@ public struct ItemStackSaveData
 [System.Serializable]
 public struct EquipmentSlotSaveData
 {
-    public int Head;
-    public int Body;
-    public int Legs;
+    public ItemManager.EquipmentType Type;
+    public int ItemID;
 }
