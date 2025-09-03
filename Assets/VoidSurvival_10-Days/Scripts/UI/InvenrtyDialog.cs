@@ -13,6 +13,7 @@ public class InvenrtyDialog : MonoBehaviour
     {
         gameObject.SetActive(false);
         _itemButtons = vewportContent.GetComponentsInChildren<ItemButton>();
+        OpenInventory();
     }
 
     public void OpenInventory()
