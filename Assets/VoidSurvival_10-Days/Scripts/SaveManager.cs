@@ -1,15 +1,25 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// ゲームの初期化を行うコンポーネント
+/// ゲームデータのセーブ・ロードを扱う
 /// </summary>
-public class GameManager : MonoBehaviour
+public class SaveManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    public static SaveManager Instance { get; private set; }
 
-    private ISaveService _saveService = new LocalSaveService();
+    public const int SaveSlotNumber = 10;
+    public const string SaveSlotKey = "SaveSlot";
+
+    private ISaveService<SaveData> _saveService = new LocalSaveService<SaveData>();
+    private ISaveService<SerializableDictionary<string, string>> _saveKeyService = new LocalSaveService<SerializableDictionary<string, string>>();
+
+    /// <summary>
+    /// 各セーブスロットの名前とセーブした時間を記録する
+    /// </summary>
+    public SerializableDictionary<string, string> saveKeys { get; private set; }
 
     [SerializeField] private string scene;
     [SerializeField] private ItemDatabase itemDatabase;
@@ -19,7 +29,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     [SerializeField] private List<ItemStack> initialInventory = new List<ItemStack>();
 
-    private void Awake()
+    private async void Awake()
     {
         if (Instance == null)
         {
@@ -32,6 +42,17 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
         ItemManager.Initialize(itemDatabase, initialInventory);
         CraftingManager.Initialize(recipeDatabase);
+
+        saveKeys = await _saveKeyService.LoadAsync(SaveSlotKey);
+        if (saveKeys == null)
+        {
+            saveKeys = new SerializableDictionary<string, string>();
+            //スロット10個作成
+            for (int i = 0; i < SaveSlotNumber; i++)
+            {
+                saveKeys.Add($"SaveData{i}", DateTime.MinValue.ToString());
+            }
+        }
     }
 
     public async void LoadGameAsync(string key)
@@ -54,6 +75,8 @@ public class GameManager : MonoBehaviour
         SaveData _data = new SaveData();
         _data.ItemData = ItemManager.Instance.ToSaveData();
         _data.RecipeData = CraftingManager.Instance.ToSaveData();
+        saveKeys.SetValue(key, DateTime.Now.ToString());
         await _saveService.SaveAsync(key, _data);
+        await _saveKeyService.SaveAsync(SaveSlotKey, saveKeys);
     }
 }

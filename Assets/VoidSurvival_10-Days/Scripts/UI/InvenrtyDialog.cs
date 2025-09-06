@@ -1,33 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class InvenrtyDialog : MonoBehaviour
+public class InvenrtyDialog : Dialog
 {
     [SerializeField] private GameObject vewportContent;
     [SerializeField] private GameObject itemButtonPrefab;
     private ItemButton[] _itemButtons;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        gameObject.SetActive(false);
+        base.Start();
         _itemButtons = vewportContent.GetComponentsInChildren<ItemButton>();
-        OpenInventory();
     }
 
-    public void OpenInventory()
-    {
-        gameObject.SetActive(true);
-        UpdateInventoryUI();
-
-    }
-    public void CloseInventory()
-    {
-        gameObject.SetActive(false);
-    }
-
-    public void UpdateInventoryUI()
+    public override void UpdateUI()
     {
         var inventory = ItemManager.Instance.inventory;
 

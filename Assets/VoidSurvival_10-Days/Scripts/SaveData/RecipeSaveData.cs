@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class RecipeSaveData
+public struct RecipeSaveData
 {
     public List<int> Recipes;
 }

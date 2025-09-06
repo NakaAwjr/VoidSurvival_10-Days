@@ -21,7 +21,6 @@ public class TestCraft : MonoBehaviour
         Debug.Log($"Crafted {canCraftCount} items from recipe 0.");
         Debug.Log("Inventory after crafting: " + ItemManager.Instance.GetItemStack(item)?.Amount);
 
-        inventoryDialog.OpenInventory();
-        GameManager.Instance.SaveGameAsync("Test");
+        inventoryDialog.OpenDialog();
     }
 }

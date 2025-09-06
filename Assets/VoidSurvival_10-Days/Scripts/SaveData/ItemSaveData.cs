@@ -5,12 +5,12 @@ using System.Collections.Generic;
 /// IDが-1はnullを表すので、アイテムIDに-1を設定しないように
 /// </summary>
 [System.Serializable]
-public class ItemSaveData
+public struct ItemSaveData
 {
-    public List<ItemStackSaveData> Inventory;
-    public int[] QuickItems = new int[ItemManager.QUICK_ITEM_COUNT] { -1, -1, -1, -1 };
+    public SerializableDictionary<int, int> Inventory;
+    public int[] QuickItems;
     public int SelectedQuickItemIndex;
-    public List<EquipmentSlotSaveData> EquipmentSlot;
+    public SerializableDictionary<ItemManager.EquipmentType, int> EquipmentSlot;
 }
 
 [System.Serializable]

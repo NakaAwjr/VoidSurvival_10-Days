@@ -108,7 +108,7 @@ public class CraftingManager : MonoBehaviour
 
     public void FromSaveData(RecipeSaveData saveData)
     {
-        if (saveData == null || saveData.Recipes == null)
+        if (saveData.Recipes == null)
         {
             Debug.LogError("Invalid crafting save data.");
             return;

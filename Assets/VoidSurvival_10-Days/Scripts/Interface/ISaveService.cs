@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 /// セーブシステム
 /// ローカルセーブやクラウドセーブなど、保存方法を抽象化する
 /// </summary>
-public interface ISaveService
+public interface ISaveService<T> where T : class
 {
-    Task SaveAsync(string key, SaveData data);
-    Task<SaveData> LoadAsync(string key);
+    Task SaveAsync(string key, T data);
+    Task<T> LoadAsync(string key);
 }

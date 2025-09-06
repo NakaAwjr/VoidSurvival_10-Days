@@ -196,17 +196,17 @@ public class ItemManager
 
         // アイテムIDを使用してアイテムを取得し、インベントリに設定
         inventory = new List<ItemStack>();
-        foreach (var inv in saveData.Inventory)
+        foreach (var inv in saveData.Inventory.keyValuePairs)
         {
-            Item itemData = _itemDatabase.GetValue(inv.ItemID);
+            Item itemData = _itemDatabase.GetValue(inv.Key);
             if (itemData != null)
             {
                 // アイテムが存在する場合は数量を設定
-                inventory.Add(new ItemStack(itemData, inv.Amount));
+                inventory.Add(new ItemStack(itemData, inv.Value));
             }
             else
             {
-                Debug.LogWarning($"Item with ID {inv.ItemID} not found in database.");
+                Debug.LogWarning($"Item with ID {inv.Key} not found in database.");
             }
         }
 
@@ -229,12 +229,12 @@ public class ItemManager
         }
 
         // 装備スロットのアイテムも同様に設定
-        foreach (var slot in saveData.EquipmentSlot)
+        foreach (var slot in saveData.EquipmentSlot.keyValuePairs)
         {
-            var itemData = _itemDatabase.GetValue(slot.ItemID);
-            if (equipmentSlot.ContainsKey(slot.Type))
+            var itemData = _itemDatabase.GetValue(slot.Value);
+            if (equipmentSlot.ContainsKey(slot.Key))
             {
-                equipmentSlot[slot.Type] = itemData;
+                equipmentSlot[slot.Key] = itemData;
             }
             else
             {
@@ -246,20 +246,16 @@ public class ItemManager
     {
         ItemSaveData saveData = new ItemSaveData
         {
-            Inventory = new List<ItemStackSaveData>(),
+            Inventory = new SerializableDictionary<int, int>(),
             QuickItems = new int[QUICK_ITEM_COUNT],
             SelectedQuickItemIndex = selectedQuickItemIndex,
-            EquipmentSlot = new List<EquipmentSlotSaveData>()
+            EquipmentSlot = new SerializableDictionary<EquipmentType, int>()
         };
 
         // アイテムのIDと数量を保存
         foreach (var itemStack in inventory)
         {
-            saveData.Inventory.Add(new ItemStackSaveData()
-            {
-                ItemID = itemStack.Item.ItemID,
-                Amount = itemStack.Amount
-            });
+            saveData.Inventory.Add(itemStack.Item.ItemID, itemStack.Amount);
         }
 
         // クイックアイテムのIDを保存
@@ -280,11 +276,11 @@ public class ItemManager
         {
             if (slot.Value != null)
             {
-                saveData.EquipmentSlot.Add(new EquipmentSlotSaveData() { Type = slot.Key, ItemID = slot.Value.ItemID });
+                saveData.EquipmentSlot.Add(slot.Key, slot.Value.ItemID);
             }
             else
             {
-                saveData.EquipmentSlot.Add(new EquipmentSlotSaveData() { Type = slot.Key, ItemID = -1 });
+                saveData.EquipmentSlot.Add(slot.Key, -1);
             }
         }
 
