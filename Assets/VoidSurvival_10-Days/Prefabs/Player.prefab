@@ -227,6 +227,9 @@ MonoBehaviour:
   maxHitPoint: 100
   power: 10
   defense: 5
+  onDie:
+    m_PersistentCalls:
+      m_Calls: []
   maxStaminaPoint: 100
 --- !u!114 &532207684018058466
 MonoBehaviour:
@@ -268,7 +271,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5663732322454542391}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.345, y: -2.208, z: 0.008825509}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -339,7 +342,7 @@ MonoBehaviour:
   onTriggerEnter:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2882814635830300548}
+      - m_Target: {fileID: 532207684018058466}
         m_TargetAssemblyTypeName: CharactorAttack, Assembly-CSharp
         m_MethodName: OnAttackHit
         m_Mode: 0

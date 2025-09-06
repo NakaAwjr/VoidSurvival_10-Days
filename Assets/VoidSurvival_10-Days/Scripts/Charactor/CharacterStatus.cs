@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class CharacterStatus : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public abstract class CharacterStatus : MonoBehaviour
 
     protected int _currentHitPoint;
     protected StatusEnum _status = StatusEnum.Idle;
+
+    public UnityEvent onDie;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -67,7 +70,7 @@ public abstract class CharacterStatus : MonoBehaviour
     /// </summary>
     public virtual void OnDie()
     {
-
+        onDie?.Invoke();
     }
 
     /// <summary>
