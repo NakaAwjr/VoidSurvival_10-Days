@@ -8,7 +8,6 @@ public class CharacterItemDropper : MonoBehaviour
     [SerializeField] private FieldItem fieldItemPrefab;
     private CharacterStatus _status;
     private bool _isDropInvoked;
-    public ItemDatabase database;
     private void Start()
     {
         _status = GetComponent<CharacterStatus>();

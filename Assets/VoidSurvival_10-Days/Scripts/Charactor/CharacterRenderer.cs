@@ -15,6 +15,7 @@ public abstract class CharacterRenderer : MonoBehaviour
     private static readonly string[] idleDirections = { "Idle N", "Idle S", "Idle W" };
     private static readonly string[] runDirections = { "Run N", "Run S", "Run W" };
     private static readonly string[] attackDirections = { "Attack N", "Attack S", "Attack W" };
+    private static readonly string dieDirection = "Die";
 
     /// <summary>
     /// 最後に設定された方向のインデックス
@@ -27,6 +28,7 @@ public abstract class CharacterRenderer : MonoBehaviour
     {
         _characterStatus = GetComponent<CharacterStatus>();
         _animator = GetComponent<Animator>();
+        _characterStatus.onDie.AddListener(SetDieAnimation);
     }
 
     /// <summary>
@@ -60,6 +62,14 @@ public abstract class CharacterRenderer : MonoBehaviour
         {
             _animator.Play(attackDirections[lastDirection]);
         }
+    }
+
+    /// <summary>
+    /// 死亡アニメーションを設定する
+    /// </summary>
+    public void SetDieAnimation()
+    {
+        _animator.Play(dieDirection);
     }
 
     /// <summary>
