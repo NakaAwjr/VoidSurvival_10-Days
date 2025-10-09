@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractActionMessage : MonoBehaviour, IInteractAction
+public class InteractActionMessage : InteractAction
 {
     // メッセージを表示するためのサンプルメッセージリスト
     [SerializeField]
@@ -14,7 +13,7 @@ public class InteractActionMessage : MonoBehaviour, IInteractAction
     /// <summary>
     /// プレイヤーがインタラクトボタンをクリックしたときの処理
     /// </summary>
-    public void InteractAction()
+    public override void Action()
     {
         // メッセージを表示するコルーチンを開始
         StartCoroutine(MessageText.Instance.TextMessage(messages));

@@ -4,6 +4,7 @@ public class MainUI : MonoBehaviour
 {
     public static MainUI Instance { get; private set; }
     [SerializeField] private GameObject controllers;
+    [SerializeField] private GameObject dialogs;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +18,7 @@ public class MainUI : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(controllers);
+        DontDestroyOnLoad(dialogs);
         OpenMainUI();
     }
 

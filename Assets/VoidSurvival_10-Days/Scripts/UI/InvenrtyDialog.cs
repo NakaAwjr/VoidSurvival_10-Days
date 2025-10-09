@@ -10,6 +10,7 @@ public class InvenrtyDialog : Dialog
     protected override void Start()
     {
         base.Start();
+        DontDestroyOnLoad(gameObject);
         _itemButtons = vewportContent.GetComponentsInChildren<ItemButton>();
     }
 

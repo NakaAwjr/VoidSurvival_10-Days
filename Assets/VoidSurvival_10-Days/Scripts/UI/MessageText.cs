@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.EventSystems;
 
-public class MessageText : MonoBehaviour
+public class MessageText : Dialog
 {
     [SerializeField] private GameObject messagePanel;
     [SerializeField] private TMP_Text text;
@@ -15,8 +14,9 @@ public class MessageText : MonoBehaviour
     public static MessageText Instance { get; private set; }
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         // シングルトンパターンの実装
         if (Instance == null)
         {
@@ -26,12 +26,6 @@ public class MessageText : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        // メッセージパネルを非表示にする
-        messagePanel.SetActive(false);
-
-        // コントローラーを探す
-        _controllears = GameObject.Find("Controllers");
-
         // //テスト用
         // List<string> list = new List<string>()
         // {
@@ -52,13 +46,7 @@ public class MessageText : MonoBehaviour
         if (messages.Count != 0)
         {
             // メッセージパネルを表示
-            messagePanel.SetActive(true);
-
-            // コントローラーを無効化
-            if (_controllears != null)
-            {
-                _controllears.SetActive(false);
-            }
+            OpenDialog();
 
             foreach (string s in messages)
             {
@@ -73,16 +61,10 @@ public class MessageText : MonoBehaviour
             }
 
             // メッセージパネルを非表示にする
-            messagePanel.SetActive(false);
+            CloseDialog();
 
             // テキストをクリア
             text.text = "";
-
-            // コントローラーを再度有効化
-            if (_controllears != null)
-            {
-                _controllears.SetActive(true);
-            }
         }
     }
 }

@@ -4,8 +4,7 @@ public abstract class Dialog : MonoBehaviour
 {
     protected virtual void Start()
     {
-        gameObject.SetActive(false);
-        DontDestroyOnLoad(gameObject);
+        CloseDialog();
     }
 
     /// <summary>

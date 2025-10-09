@@ -53,8 +53,8 @@ public class CraftDialog : Dialog
                 selectedItemName.text = _selectRecipe.ResultItem.ItemName;
                 selectedItemDescription.text = _selectRecipe.ResultItem.ItemDescription;
                 // 可能なクラフト数を設定
-                craftCountSlider.maxValue = CraftingManager.Instance.NumberCanCrafting(_selectRecipe);
-                craftCountSlider.value = craftCountSlider.maxValue > 0 ? 1 : 0;
+                craftCountSlider.maxValue = CraftingManager.Instance.NumberCanCrafting(_selectRecipe) > 0 ? CraftingManager.Instance.NumberCanCrafting(_selectRecipe) : 1;
+                craftCountSlider.value = 1;
                 craftCountText.text = craftCountSlider.value.ToString();
                 // 必要なアイテムを表示
                 var requiredItems = _selectRecipe.RequiredItems;
@@ -85,8 +85,8 @@ public class CraftDialog : Dialog
                 selectedIcon.sprite = null;
                 selectedItemName.text = "No Selection";
                 selectedItemDescription.text = string.Empty;
-                craftCountSlider.maxValue = 0;
-                craftCountSlider.value = 0;
+                craftCountSlider.maxValue = 1;
+                craftCountSlider.value = 1;
 
                 foreach (var button in _requireItemButtons)
                 {
@@ -99,14 +99,15 @@ public class CraftDialog : Dialog
     protected override void Start()
     {
         base.Start();
+        DontDestroyOnLoad(gameObject);
         _recipeButtons = vewportContent.GetComponentsInChildren<RecipeButton>();
         _requireItemButtons = requiredItemPanel.GetComponentsInChildren<ItemButton>();
         // スライダー初期化
         craftCountSlider.onValueChanged.AddListener(OnCraftCountSliderChanged);
         craftCountSlider.wholeNumbers = true;
-        craftCountSlider.minValue = 0;
-        craftCountSlider.maxValue = 0;
-        craftCountSlider.value = 0;
+        craftCountSlider.minValue = 1;
+        craftCountSlider.maxValue = 1;
+        craftCountSlider.value = 1;
         // 選択状態を初期化
         selectRecipe = _recipeButtons[0]?.CraftingRecipe;
     }

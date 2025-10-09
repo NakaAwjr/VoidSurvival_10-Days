@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// インタラクトアクションを実行するためのインターフェース
     /// </summary>
-    private IInteractAction _interactAction;
+    private InteractAction _interactAction;
 
     /// <summary>
     /// ジョイスティックからの入力を格納する変数
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_interactAction != null)
         {
-            _interactAction.InteractAction();
+            _interactAction.Action();
         }
         else
         {
@@ -70,11 +70,16 @@ public class PlayerController : MonoBehaviour
     #region Collider Events
     public void OnTriggerEnter2D(Collider2D other)
     {
-        _interactAction = other.GetComponent<IInteractAction>();
+        _interactAction = other.GetComponent<InteractAction>();
+        if (_interactAction != null)
+        {
+            _interactAction.ShowInteractTarget();
+        }
     }
 
     public void OnTriggerExit2D(Collider2D other)
     {
+        _interactAction.HideInteractTarget();
         _interactAction = null;
     }
     #endregion
