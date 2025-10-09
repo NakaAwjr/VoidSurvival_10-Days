@@ -7,6 +7,7 @@ public class ItemButton : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
 {
     [SerializeField] private Image icon;
     [SerializeField] private TMP_Text amountText;
+    [SerializeField] private bool isControllable = true;
 
     private Vector2 _prevPos;
     private RectTransform _iconRectTransform;
@@ -44,6 +45,7 @@ public class ItemButton : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
     #region ドラッグ＆ドロップ
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!isControllable) return;
         if (ItemStack != null)
         {
             _iconRectTransform.SetAsLastSibling();
@@ -51,6 +53,7 @@ public class ItemButton : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
     }
     public void OnDrag(PointerEventData eventData)
     {
+        if (!isControllable) return;
         if (ItemStack != null)
         {
             _iconRectTransform.anchoredPosition += eventData.delta;
@@ -58,6 +61,7 @@ public class ItemButton : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!isControllable) return;
         if (ItemStack != null)
         {
             // ドロップ先にIItemControllを持つオブジェクトがあるか確認

@@ -49,6 +49,7 @@ namespace MoonAntonio.UI
 				{
 					// TODO Seleccionado
 					Debug.Log("Seleccionado: " + seleccionado.titulo);
+					ItemManager.Instance.SelectQuickItem(seleccionado.index);
 				}
 				Destroy(this.gameObject);
 			}
@@ -83,6 +84,9 @@ namespace MoonAntonio.UI
 				newBtn.circulo.color = interac.opciones[n].color;
 				newBtn.icono.sprite = interac.opciones[n].sprite;
 				newBtn.titulo = interac.opciones[n].titulo;
+
+				newBtn.index = interac.opciones[n].index;
+
 				newBtn.menu = this;
 				newBtn.AnimacionON();
 

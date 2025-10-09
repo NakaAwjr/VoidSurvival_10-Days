@@ -25,15 +25,28 @@ namespace MoonAntonio.UI
 		/// <summary>
 		/// <para>Color de la accion</para>
 		/// </summary>
-		public Color color;											// Color de la accion
+		public Color color;                                         // Color de la accion
 		/// <summary>
 		/// <para>Sprite de la accion</para>
 		/// </summary>
-		public Sprite sprite;										// Sprite de la accion
+		public Sprite sprite                                        // Sprite de la accion
+		{
+			get
+			{
+				if (ItemManager.Instance.quickItems[index] == null) return _defaultSprite;
+				return ItemManager.Instance.quickItems[index].Item.ItemIcon;
+			}
+		}
+		[SerializeField] Sprite _defaultSprite;
 		/// <summary>
 		/// <para>Titulo de la accion</para>
 		/// </summary>
-		public string titulo;										// Titulo de la accion
+		public string titulo;                                       // Titulo de la accion
+
+		/// <summary>
+		/// <para>クイックアイテムのインデックス</para>
+		/// </summary>
+		public int index;
 		#endregion
 	}
 }

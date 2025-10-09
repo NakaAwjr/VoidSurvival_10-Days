@@ -1,14 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class InteractButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerUpHandler, IPointerDownHandler
 {
     [SerializeField] private PlayerController playerController;
+    [SerializeField] private Image icon;
+    [SerializeField] private TMP_Text text;
 
     // このフラグはドラッグ中にクリックイベントを無効にするために使用されます
     private bool _isDragging = false;
+
+    private void Start()
+    {
+        ItemManager.Instance.OnChanged.AddListener(UpdateUI);
+        UpdateUI();
+    }
+    private void UpdateUI()
+    {
+        var itemStack = ItemManager.Instance.quickItems[ItemManager.Instance.selectedQuickItemIndex];
+        if (itemStack != null)
+        {
+            icon.sprite = itemStack.Item.ItemIcon;
+            text.text = itemStack.Amount.ToString();
+        }
+        else
+        {
+            icon.sprite = null;
+            text.text = string.Empty;
+        }
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
