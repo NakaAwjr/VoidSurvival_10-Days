@@ -42,6 +42,7 @@ public class MainUI : MonoBehaviour
 
     #region メニュー
     [SerializeField] private Dialog inventoryDialog;
+    [SerializeField] private Dialog craftDialog;
 
     public void OpenSetting()
     {
@@ -55,6 +56,7 @@ public class MainUI : MonoBehaviour
     public void OpenCraft()
     {
         // クラフト画面を開く
+        craftDialog.OpenDialog();
     }
     public void OpenArchive()
     {

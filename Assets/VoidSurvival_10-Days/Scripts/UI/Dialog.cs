@@ -18,7 +18,7 @@ public abstract class Dialog : MonoBehaviour
     /// <summary>
     /// ダイアログを開く
     /// </summary>
-    public void OpenDialog()
+    public virtual void OpenDialog()
     {
         gameObject.SetActive(true);
         UpdateUI();
