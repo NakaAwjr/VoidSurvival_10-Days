@@ -5,6 +5,7 @@ public abstract class Dialog : MonoBehaviour
     protected virtual void Start()
     {
         gameObject.SetActive(false);
+        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -21,12 +22,14 @@ public abstract class Dialog : MonoBehaviour
     {
         gameObject.SetActive(true);
         UpdateUI();
+        MainUI.Instance?.CloseMainUI();
     }
     /// <summary>
     /// ダイアログを閉じる
     /// </summary>
-    public void ClseDialog()
+    public void CloseDialog()
     {
         gameObject.SetActive(false);
+        MainUI.Instance?.OpenMainUI();
     }
 }

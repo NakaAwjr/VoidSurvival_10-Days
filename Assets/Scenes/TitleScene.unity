@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41ceef3b46519d488c9357cd7af431b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: TestScene
+  scene: MainScene
   itemDatabase: {fileID: 11400000, guid: 50111a5a09e1a5c4087f5534727699f7, type: 2}
   recipeDatabase: {fileID: 11400000, guid: d043e63f1d0e0214d9429dbf4f70b946, type: 2}
   initialInventory:
@@ -492,6 +492,7 @@ GameObject:
   - component: {fileID: 1865091075}
   - component: {fileID: 1865091074}
   - component: {fileID: 1865091073}
+  - component: {fileID: 1865091077}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -583,6 +584,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1865091077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865091072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bdd428ebe4a5f6488c6cdf1d1b3f8b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveDialog: {fileID: 1410149156}
 --- !u!1 &1896322893
 GameObject:
   m_ObjectHideFlags: 0

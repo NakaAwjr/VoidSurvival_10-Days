@@ -10,7 +10,7 @@ public class SaveDialog : Dialog
     {
         base.Start();
         _saveSlotButtons = viewPortContent.GetComponentsInChildren<SaveSlotButton>();
-        OpenDialog();
+        CloseDialog();
     }
     /// <summary>
     /// 押されたボタンのkeyを取得
