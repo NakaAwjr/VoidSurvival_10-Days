@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 9101039530348238618}
   - component: {fileID: 2963673527599896786}
   - component: {fileID: 7755728593475807535}
+  - component: {fileID: 8536152843561593343}
   m_Layer: 10
   m_Name: Enemy
   m_TagString: Untagged
@@ -250,7 +251,7 @@ Transform:
   - {fileID: 5049831687009014291}
   - {fileID: 1836633675968848361}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8805832949413881036
 SpriteRenderer:
@@ -448,6 +449,9 @@ MonoBehaviour:
   maxHitPoint: 100
   power: 10
   defense: 5
+  onDie:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &9101039530348238618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,6 +496,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackInterval: 1
   attackCollider: {fileID: 9166427525847344308}
+--- !u!114 &8536152843561593343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2841025465799559543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 855628392b25e93409c0f648fed159b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropItems:
+  - dropRate: 1
+    item: {fileID: 11400000, guid: 0c64eaac1d175204589f6a7db8ba535f, type: 2}
+    number: 1
+  fieldItemPrefab: {fileID: 1033813288063196199, guid: c49213c899fac5643973eb645668efe1, type: 3}
 --- !u!1 &3990186048357359759
 GameObject:
   m_ObjectHideFlags: 0
