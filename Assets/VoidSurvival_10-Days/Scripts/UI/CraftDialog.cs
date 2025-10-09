@@ -110,6 +110,9 @@ public class CraftDialog : Dialog
         craftCountSlider.value = 1;
         // 選択状態を初期化
         selectRecipe = _recipeButtons[0]?.CraftingRecipe;
+        // イベント登録
+        ItemManager.Instance.OnChanged.AddListener(UpdateUI);
+        CraftingManager.Instance.OnChanged.AddListener(UpdateUI);
     }
     public override void OpenDialog()
     {
@@ -160,7 +163,6 @@ public class CraftDialog : Dialog
         if (_selectRecipe != null && _craftCount > 0)
         {
             CraftingManager.Instance.CraftItem(_selectRecipe, _craftCount);
-            UpdateUI();
         }
     }
     /// <summary>

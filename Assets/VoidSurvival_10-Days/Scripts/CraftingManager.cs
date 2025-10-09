@@ -1,11 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CraftingManager : MonoBehaviour
 {
     public static CraftingManager Instance { get; private set; }
     private CraftingRecipeDatabase _craftingRecipeDatabase;
     public List<CraftingRecipe> craftingRecipes { get; private set; } // クラフト可能なレシピのリスト
+
+    /// <summary>
+    /// Craftingrecipesが変更されたときに発火するイベント
+    /// </summary>
+    public UnityEvent OnChanged = new UnityEvent();
 
     private CraftingManager(CraftingRecipeDatabase craftingRecipeDatabase)
     {
@@ -104,6 +110,7 @@ public class CraftingManager : MonoBehaviour
         {
             Debug.LogWarning("Recipe already exists in the crafting manager.");
         }
+        OnChanged?.Invoke();
     }
 
     public void FromSaveData(RecipeSaveData saveData)

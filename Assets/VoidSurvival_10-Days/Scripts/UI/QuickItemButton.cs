@@ -3,8 +3,9 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class ItemButton : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
+class QuickItemButton : MonoBehaviour, IItemControll, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
+    [SerializeField] private int index;
     [SerializeField] private Image icon;
     [SerializeField] private TMP_Text amountText;
 
@@ -22,26 +23,28 @@ public class ItemButton : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
             {
                 icon.sprite = _itemStack.Item.ItemIcon;
                 amountText.text = _itemStack.Amount > 1 ? _itemStack.Amount.ToString() : string.Empty;
-                gameObject.SetActive(true);
             }
             else
             {
                 icon.sprite = null;
                 amountText.text = string.Empty;
-                gameObject.SetActive(false);
             }
         }
     }
     private ItemStack _itemStack;
 
+    public void OnDrop(Item item)
+    {
+        ItemManager.Instance.SetQuickItem(index, item);
+    }
+
+    #region ドラッグ＆ドロップ
     private void Start()
     {
         _rectTransform = GetComponent<RectTransform>();
         _iconRectTransform = icon.GetComponent<RectTransform>();
         _prevPos = _iconRectTransform.anchoredPosition;
     }
-
-    #region ドラッグ＆ドロップ
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (ItemStack != null)
@@ -60,15 +63,32 @@ public class ItemButton : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
     {
         if (ItemStack != null)
         {
-            // ドロップ先にIItemControllを持つオブジェクトがあるか確認
+            // ドロップ先はQuickItemButtonのみ
             var results = new System.Collections.Generic.List<RaycastResult>();
             EventSystem.current.RaycastAll(eventData, results);
             foreach (var result in results)
             {
-                var itemControll = result.gameObject.GetComponent<IItemControll>();
+                var itemControll = result.gameObject.GetComponent<QuickItemButton>();
                 if (itemControll != null)
                 {
-                    itemControll.OnDrop(ItemStack.Item);
+                    if (itemControll.ItemStack != null)
+                    {
+                        // スワップ
+                        var temp = itemControll.ItemStack;
+                        itemControll.OnDrop(this.ItemStack.Item);
+                        OnDrop(temp.Item);
+                    }
+                    else
+                    {
+                        // 移動
+                        itemControll.OnDrop(this.ItemStack.Item);
+                        OnDrop(null);
+                    }
+                }
+                else
+                {
+                    // クイックアイテム以外にドロップした場合は解除
+                    OnDrop(null);
                 }
             }
             _iconRectTransform.anchoredPosition = _prevPos;
