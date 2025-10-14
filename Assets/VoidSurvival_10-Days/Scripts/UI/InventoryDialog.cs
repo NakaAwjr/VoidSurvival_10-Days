@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class InvenrtyDialog : Dialog
+public class InventoryDialog : Dialog
 {
     [SerializeField] private GameObject vewportContent;
     [SerializeField] private GameObject quickItemsContent;
     [SerializeField] private GameObject itemButtonPrefab;
-    private ItemButton[] _itemButtons;
+    private InventoryItemButton[] _itemButtons;
     private QuickItemButton[] _quickItemButtons;
 
     // Start is called before the first frame update
@@ -13,7 +13,7 @@ public class InvenrtyDialog : Dialog
     {
         base.Start();
         DontDestroyOnLoad(gameObject);
-        _itemButtons = vewportContent.GetComponentsInChildren<ItemButton>();
+        _itemButtons = vewportContent.GetComponentsInChildren<InventoryItemButton>();
         _quickItemButtons = quickItemsContent.GetComponentsInChildren<QuickItemButton>();
         ItemManager.Instance.OnChanged.AddListener(UpdateUI);
     }
@@ -28,8 +28,8 @@ public class InvenrtyDialog : Dialog
         {
             for (int i = _itemButtons.Length; i < inventory.Count; i++)
             {
-                Instantiate(itemButtonPrefab, vewportContent.transform).GetComponent<ItemButton>();
-                _itemButtons = vewportContent.GetComponentsInChildren<ItemButton>();
+                Instantiate(itemButtonPrefab, vewportContent.transform).GetComponent<InventoryItemButton>();
+                _itemButtons = vewportContent.GetComponentsInChildren<InventoryItemButton>();
             }
         }
         for (int i = 0; i < _itemButtons.Length; i++)

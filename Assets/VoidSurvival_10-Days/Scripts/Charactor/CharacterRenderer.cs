@@ -1,10 +1,9 @@
-using UnityEditor.Animations;
 using UnityEngine;
 
 /// <summary>
 /// キャラクターのアニメーションを制御するクラス
 /// </summary>
-[RequireComponent(typeof(AnimatorController))]
+[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CharacterStatus))]
 public abstract class CharacterRenderer : MonoBehaviour
 {

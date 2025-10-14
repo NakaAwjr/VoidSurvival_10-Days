@@ -6,7 +6,7 @@ public class TestCraft : MonoBehaviour
 {
     [SerializeField] private CraftingRecipeDatabase craftingRecipeDatabase;
     [SerializeField] private ItemDatabase itemDatabase;
-    [SerializeField] private InvenrtyDialog inventoryDialog;
+    [SerializeField] private InventoryDialog inventoryDialog;
 
     // Start is called before the first frame update
     void Start()

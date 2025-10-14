@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8690845258092319856}
   - component: {fileID: 6024937437234342337}
   - component: {fileID: 5434761161291217523}
-  - component: {fileID: 5861700222220062089}
   m_Layer: 5
   m_Name: AmountText
   m_TagString: Untagged
@@ -136,29 +135,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!223 &5861700222220062089
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2357348074487402487}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 1
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 11
-  m_TargetDisplay: 0
 --- !u!1 &4810768206061353768
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +146,6 @@ GameObject:
   - component: {fileID: 399625992242338903}
   - component: {fileID: 2757400844642316398}
   - component: {fileID: 2565355100195988575}
-  - component: {fileID: 3106265628867054819}
   m_Layer: 5
   m_Name: IconImage
   m_TagString: Untagged
@@ -236,29 +211,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!223 &3106265628867054819
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4810768206061353768}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 1
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 10
-  m_TargetDisplay: 0
 --- !u!1 &8850396541147244205
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,7 +223,6 @@ GameObject:
   - component: {fileID: 1466410593975648232}
   - component: {fileID: 184269816186671578}
   - component: {fileID: 7843617214414944767}
-  - component: {fileID: 4664673292517732905}
   m_Layer: 5
   m_Name: ItemButton
   m_TagString: Untagged
@@ -383,17 +334,3 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4664673292517732905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8850396541147244205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66c8d8909d8709e4b83112c479bb8060, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  icon: {fileID: 2565355100195988575}
-  amountText: {fileID: 5434761161291217523}

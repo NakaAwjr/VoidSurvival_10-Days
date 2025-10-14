@@ -94,6 +94,7 @@ MonoBehaviour:
   circulo: {fileID: 114293911834558628}
   icono: {fileID: 114483996133422628}
   titulo: 
+  index: 0
   menu: {fileID: 0}
   velAnimacion: 8
 --- !u!114 &114829386745555702
