@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class InteractButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerUpHandler, IPointerDownHandler
 {
     [SerializeField] private PlayerController playerController;
-    [SerializeField] private ItemButton itemButton;
+    [SerializeField] private Image icon;
+    [SerializeField] private TMP_Text text;
 
     // このフラグはドラッグ中にクリックイベントを無効にするために使用されます
     private bool _isDragging = false;
@@ -18,7 +19,17 @@ public class InteractButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     }
     private void UpdateUI()
     {
-        itemButton.ItemStack = ItemManager.Instance.quickItems[ItemManager.Instance.selectedQuickItemIndex];
+        var itemStack = ItemManager.Instance.quickItems[ItemManager.Instance.selectedQuickItemIndex];
+        if (itemStack != null)
+        {
+            icon.sprite = itemStack.Item.ItemIcon;
+            text.text = itemStack.Amount.ToString();
+        }
+        else
+        {
+            icon.sprite = null;
+            text.text = string.Empty;
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -28,7 +39,6 @@ public class InteractButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     /// ボタンがクリックされたときの処理
     public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log("Interact Button Clicked");
         // ここにボタンがクリックされたときの処理を記述
         if (!_isDragging)
         {

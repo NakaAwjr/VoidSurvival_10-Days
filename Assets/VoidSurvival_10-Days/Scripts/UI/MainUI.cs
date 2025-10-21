@@ -43,12 +43,14 @@ public class MainUI : MonoBehaviour
     }
 
     #region メニュー
+    [SerializeField] private Dialog settingDialog;
     [SerializeField] private Dialog inventoryDialog;
     [SerializeField] private Dialog craftDialog;
 
     public void OpenSetting()
     {
         // 設定画面を開く
+        settingDialog.OpenDialog();
     }
     public void OpenPlayerInfo()
     {

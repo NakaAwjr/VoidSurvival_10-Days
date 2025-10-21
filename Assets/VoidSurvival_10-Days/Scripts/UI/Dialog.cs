@@ -22,13 +22,17 @@ public abstract class Dialog : MonoBehaviour
         gameObject.SetActive(true);
         UpdateUI();
         MainUI.Instance?.CloseMainUI();
+        // TimeManagerのタイマーを停止
+        TimeManager.Instance.PauseTimer();
     }
     /// <summary>
     /// ダイアログを閉じる
     /// </summary>
-    public void CloseDialog()
+    public virtual void CloseDialog()
     {
         gameObject.SetActive(false);
         MainUI.Instance?.OpenMainUI();
+        // TimeManagerのタイマーを再開
+        TimeManager.Instance.ResumeTimer();
     }
 }

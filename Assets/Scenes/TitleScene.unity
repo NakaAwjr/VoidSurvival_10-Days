@@ -222,6 +222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 389016310}
   - component: {fileID: 389016309}
+  - component: {fileID: 389016311}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -247,6 +248,8 @@ MonoBehaviour:
   initialInventory:
   - item: {fileID: 11400000, guid: 0c64eaac1d175204589f6a7db8ba535f, type: 2}
     amount: 5
+  initialRecipes:
+  - {fileID: 11400000, guid: e8ecb3ba1ad9bc348b4e550411c0dfeb, type: 2}
 --- !u!4 &389016310
 Transform:
   m_ObjectHideFlags: 0
@@ -262,6 +265,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &389016311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389016308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87b654cc60d4830419d315f6d3f14cb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minutesPerDay: 30
+  maxDays: 10
 --- !u!1 &1046025738
 GameObject:
   m_ObjectHideFlags: 0

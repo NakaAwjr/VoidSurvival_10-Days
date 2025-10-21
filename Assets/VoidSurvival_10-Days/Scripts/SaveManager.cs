@@ -28,6 +28,10 @@ public class SaveManager : MonoBehaviour
     /// 初期インベントリを設定
     /// </summary>
     [SerializeField] private List<ItemStack> initialInventory = new List<ItemStack>();
+    /// <summary>
+    /// 初期レシピを設定
+    /// </summary>
+    [SerializeField] private List<CraftingRecipe> initialRecipes = new List<CraftingRecipe>();
 
     private async void Awake()
     {
@@ -41,7 +45,7 @@ public class SaveManager : MonoBehaviour
         }
         DontDestroyOnLoad(this);
         ItemManager.Initialize(itemDatabase, initialInventory);
-        CraftingManager.Initialize(recipeDatabase);
+        CraftingManager.Initialize(recipeDatabase, initialRecipes);
 
         saveKeys = await _saveKeyService.LoadAsync(SaveSlotKey);
         if (saveKeys == null)
@@ -65,9 +69,11 @@ public class SaveManager : MonoBehaviour
         {
             ItemManager.Instance.FromSaveData(_data.ItemData);
             CraftingManager.Instance.FromSaveData(_data.RecipeData);
+            TimeManager.Instance.FromSaveData(_data.ElapsedTime);
         }
         _loadOp.allowSceneActivation = true;
         Debug.Log("ロード完了");
+        TimeManager.Instance.ResumeTimer();
     }
 
     public async void SaveGameAsync(string key)
@@ -75,6 +81,7 @@ public class SaveManager : MonoBehaviour
         SaveData _data = new SaveData();
         _data.ItemData = ItemManager.Instance.ToSaveData();
         _data.RecipeData = CraftingManager.Instance.ToSaveData();
+        _data.ElapsedTime = TimeManager.Instance.ElapsedTime;
         saveKeys.SetValue(key, DateTime.Now.ToString());
         await _saveService.SaveAsync(key, _data);
         await _saveKeyService.SaveAsync(SaveSlotKey, saveKeys);

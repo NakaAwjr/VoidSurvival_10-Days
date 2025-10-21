@@ -13,16 +13,23 @@ public class CraftingManager : MonoBehaviour
     /// </summary>
     public UnityEvent OnChanged = new UnityEvent();
 
-    private CraftingManager(CraftingRecipeDatabase craftingRecipeDatabase)
+    private CraftingManager(CraftingRecipeDatabase craftingRecipeDatabase, List<CraftingRecipe> initialRecipes = null)
     {
         _craftingRecipeDatabase = craftingRecipeDatabase;
-        craftingRecipes = new List<CraftingRecipe>();
+        if (initialRecipes != null)
+        {
+            craftingRecipes = new List<CraftingRecipe>(initialRecipes);
+        }
+        else
+        {
+            craftingRecipes = new List<CraftingRecipe>();
+        }
     }
-    public static void Initialize(CraftingRecipeDatabase craftingRecipeDatabase)
+    public static void Initialize(CraftingRecipeDatabase craftingRecipeDatabase, List<CraftingRecipe> initialRecipes = null)
     {
         if (Instance == null)
         {
-            Instance = new CraftingManager(craftingRecipeDatabase);
+            Instance = new CraftingManager(craftingRecipeDatabase, initialRecipes);
         }
         else
         {
