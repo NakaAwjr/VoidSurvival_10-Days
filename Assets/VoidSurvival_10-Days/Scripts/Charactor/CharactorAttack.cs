@@ -65,7 +65,6 @@ public class CharactorAttack : MonoBehaviour
     public void OnAttackFinished()
     {
         attackCollider.enabled = false;
-        Debug.Log("Attack Finished");
         StartCoroutine(CooldownCoroutine());
     }
     /// <summary>

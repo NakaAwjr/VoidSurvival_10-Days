@@ -80,7 +80,6 @@ public abstract class CharacterStatus : MonoBehaviour
     public void GoToActiveStatefPossible()
     {
         if (!IsActive) return;
-
         _status = StatusEnum.Active;
     }
     /// <summary>
@@ -89,7 +88,6 @@ public abstract class CharacterStatus : MonoBehaviour
     public void GoToIdleStateIfPossible()
     {
         if (_status == StatusEnum.Dead) return;
-
         _status = StatusEnum.Idle;
     }
 

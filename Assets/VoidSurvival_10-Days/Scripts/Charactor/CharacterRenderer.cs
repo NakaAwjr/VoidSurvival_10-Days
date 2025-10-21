@@ -59,7 +59,7 @@ public abstract class CharacterRenderer : MonoBehaviour
     {
         if (_characterStatus.IsActive)
         {
-            _animator.Play(attackDirections[lastDirection]);
+            _animator.Play(attackDirections[lastDirection], -1, 0f);
         }
     }
 

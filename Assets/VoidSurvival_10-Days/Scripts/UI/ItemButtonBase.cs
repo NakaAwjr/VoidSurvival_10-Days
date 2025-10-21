@@ -31,14 +31,12 @@ public abstract class ItemButtonBase : MonoBehaviour,
 
     protected bool isLongPushing = false;
     protected ItemStack itemStack;
-    protected IEnumerator longPushCoroutine;
 
     protected virtual void Start()
     {
         rectTransform = GetComponent<RectTransform>();
         iconRectTransform = icon.GetComponent<RectTransform>();
         prevPos = iconRectTransform.anchoredPosition;
-        longPushCoroutine = WaitLongPush();
     }
 
     public virtual ItemStack ItemStack
@@ -70,6 +68,7 @@ public abstract class ItemButtonBase : MonoBehaviour,
     /// <returns></returns>
     protected IEnumerator WaitLongPush()
     {
+        Debug.Log("Wait Long Push Started");
         yield return new WaitForSeconds(longPushTime);
         isLongPushing = true;
     }
@@ -79,18 +78,19 @@ public abstract class ItemButtonBase : MonoBehaviour,
     {
         isLongPushing = false;
         if (!isControllable) return;
-        StartCoroutine(longPushCoroutine);
+        Debug.Log("Pointer Down");
+        StartCoroutine(WaitLongPush());
     }
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
         if (!isControllable) return;
-        StopCoroutine(longPushCoroutine);
+        StopCoroutine(WaitLongPush());
     }
 
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
-        StopCoroutine(longPushCoroutine);
+        StopCoroutine(WaitLongPush());
         if (!isControllable || !isLongPushing || itemStack == null) return;
 
         // 一番前に表示
