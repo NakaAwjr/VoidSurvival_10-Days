@@ -5326,6 +5326,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Interact
       objectReference: {fileID: 0}
+    - target: {fileID: 3263688797828857999, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
+      propertyPath: menu
+      value: 
+      objectReference: {fileID: 2688394651327205866, guid: b636e9d7f5ad7414cb54adc11ac0dc1d, type: 3}
     - target: {fileID: 5185093094245350749, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
       propertyPath: icon
       value: 

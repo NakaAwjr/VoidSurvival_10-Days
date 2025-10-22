@@ -76,6 +76,7 @@ namespace MoonAntonio.UI
 				// Animacion
 				timer += Time.deltaTime;
 				transform.localScale = Vector3.one * timer * velAnimacion;
+				if (transform.localScale.x > 1.0f) transform.localScale = Vector3.one;
 				yield return null;
 			}
 			// Reseteo

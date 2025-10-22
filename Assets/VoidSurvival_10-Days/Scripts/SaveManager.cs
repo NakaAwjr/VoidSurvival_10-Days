@@ -35,6 +35,9 @@ public class SaveManager : MonoBehaviour
 
     private async void Awake()
     {
+        // フレームレート設定
+        Application.targetFrameRate = 61;
+
         if (Instance == null)
         {
             Instance = this;
