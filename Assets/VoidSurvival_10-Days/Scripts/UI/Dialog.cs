@@ -4,7 +4,7 @@ public abstract class Dialog : MonoBehaviour
 {
     protected virtual void Start()
     {
-        gameObject.SetActive(false);
+        CloseDialog();
     }
 
     /// <summary>
@@ -17,16 +17,22 @@ public abstract class Dialog : MonoBehaviour
     /// <summary>
     /// ダイアログを開く
     /// </summary>
-    public void OpenDialog()
+    public virtual void OpenDialog()
     {
         gameObject.SetActive(true);
         UpdateUI();
+        MainUI.Instance?.CloseMainUI();
+        // TimeManagerのタイマーを停止
+        TimeManager.Instance.PauseTimer();
     }
     /// <summary>
     /// ダイアログを閉じる
     /// </summary>
-    public void ClseDialog()
+    public virtual void CloseDialog()
     {
         gameObject.SetActive(false);
+        MainUI.Instance?.OpenMainUI();
+        // TimeManagerのタイマーを再開
+        TimeManager.Instance.ResumeTimer();
     }
 }

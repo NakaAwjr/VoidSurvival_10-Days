@@ -36,6 +36,12 @@ namespace MoonAntonio.UI
 		/// <para>Titulo del boton.</para>
 		/// </summary>
 		public string titulo;                               // Titulo del boton
+
+		/// <summary>
+		/// <para>クイックアイテムのインデックス</para>
+		/// </summary>
+		public int index;
+
 		/// <summary>
 		/// <para>Menu del boton</para>
 		/// </summary>
@@ -70,6 +76,7 @@ namespace MoonAntonio.UI
 				// Animacion
 				timer += Time.deltaTime;
 				transform.localScale = Vector3.one * timer * velAnimacion;
+				if (transform.localScale.x > 1.0f) transform.localScale = Vector3.one;
 				yield return null;
 			}
 			// Reseteo

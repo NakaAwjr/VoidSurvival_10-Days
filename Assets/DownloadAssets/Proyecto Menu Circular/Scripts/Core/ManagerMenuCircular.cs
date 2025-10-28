@@ -45,12 +45,16 @@ namespace MoonAntonio.UI
 		#endregion
 
 		#region API
+		public bool isUsed = false;
+
 		/// <summary>
 		/// <para>Abre el menu circular.</para>
 		/// </summary>
 		/// <param name="interac">Datos de la interaccion</param>
 		public void AbrirMenu(Interactivo interac, Vector2 pos)// Abre el menu circular.
 		{
+			if (isUsed) return;
+			isUsed = true;
 			// Instancia el menu
 			MenuCircular newMenu = Instantiate(menu) as MenuCircular;
 

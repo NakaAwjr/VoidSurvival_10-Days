@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ItemManager
 {
@@ -37,6 +37,14 @@ public class ItemManager
         Legs,
     }
 
+    /// <summary>
+    /// 何かしら変更されたときに発火するイベント
+    /// </summary>
+    public UnityEvent OnChanged = new UnityEvent();
+    /// <summary>
+    /// アイテムを取得したときに発火するイベント
+    /// </summary>
+    public UnityEvent<Item> OnGetItem = new UnityEvent<Item>();
 
     private ItemManager(ItemDatabase itemDatabase, List<ItemStack> inventory = null)
     {
@@ -109,6 +117,8 @@ public class ItemManager
             // アイテムが存在しない場合は新たに追加
             inventory.Add(new ItemStack(item, amount));
         }
+        OnChanged?.Invoke();
+        OnGetItem?.Invoke(item);
     }
     /// <summary>
     /// アイテムを削除する処理
@@ -142,6 +152,7 @@ public class ItemManager
         {
             Debug.LogWarning($"Item {item.name} not found in inventory.");
         }
+        OnChanged?.Invoke();
     }
     /// <summary>
     /// クイックアイテムを設定
@@ -155,7 +166,16 @@ public class ItemManager
             Debug.LogError("Invalid quick item index: " + index);
             return;
         }
+        for (int i = 0; i < QUICK_ITEM_COUNT; i++)
+        {
+            if (quickItems[i] != null && quickItems[i].Item == item)
+            {
+                // 既にクイックアイテムに設定されている場合は解除
+                quickItems[i] = null;
+            }
+        }
         quickItems[index] = GetItemStack(item);
+        OnChanged?.Invoke();
     }
     /// <summary>
     /// クイックアイテムのインデックスを選択
@@ -169,6 +189,7 @@ public class ItemManager
             return;
         }
         selectedQuickItemIndex = index;
+        OnChanged?.Invoke();
     }
     /// <summary>
     /// 装備スロットにアイテムを設定する処理
@@ -188,6 +209,7 @@ public class ItemManager
             Debug.LogError($"スロット{type}は存在しません");
             return;
         }
+        OnChanged?.Invoke();
     }
 
     public void FromSaveData(ItemSaveData saveData)

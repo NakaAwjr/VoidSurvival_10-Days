@@ -13,7 +13,12 @@ public class FieldItem : MonoBehaviour
             image.sprite = _item.ItemIcon;
         }
     }
-    private Item _item;
+    [SerializeField] private Item _item;
+
+    private void Start()
+    {
+        Item = _item;
+    }
 
     public void Initialize()
     {

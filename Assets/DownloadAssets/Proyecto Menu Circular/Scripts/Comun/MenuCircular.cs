@@ -49,8 +49,10 @@ namespace MoonAntonio.UI
 				{
 					// TODO Seleccionado
 					Debug.Log("Seleccionado: " + seleccionado.titulo);
+					ItemManager.Instance.SelectQuickItem(seleccionado.index);
 				}
 				Destroy(this.gameObject);
+				ManagerMenuCircular.instance.isUsed = false;
 			}
 		}
 
@@ -77,17 +79,22 @@ namespace MoonAntonio.UI
 				float yPos = Mathf.Cos(theta);
 
 				// Asignacion de la posicion del boton
-				newBtn.transform.localPosition = new Vector3(xPos, yPos, 0.0f) * 100.0f;
+				// newBtn.transform.localPosition = new Vector3(xPos, yPos, 0.0f) * 100.0f;
+				newBtn.transform.localPosition = new Vector3(xPos, yPos, 0.0f) * 80.0f;
 
 				// Representacion de los datos
 				newBtn.circulo.color = interac.opciones[n].color;
 				newBtn.icono.sprite = interac.opciones[n].sprite;
 				newBtn.titulo = interac.opciones[n].titulo;
+
+				newBtn.index = interac.opciones[n].index;
+
 				newBtn.menu = this;
 				newBtn.AnimacionON();
 
-				yield return new WaitForSeconds(0.06f);
+				// yield return new WaitForSeconds(0.06f);
 			}
+			yield return null;
 		}
 		#endregion
 

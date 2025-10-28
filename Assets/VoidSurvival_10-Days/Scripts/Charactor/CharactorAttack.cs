@@ -42,6 +42,7 @@ public class CharactorAttack : MonoBehaviour
     public void OnAttackStart()
     {
         attackCollider.enabled = true;
+        Debug.Log("Attack Start");
         // 攻撃方向に応じて攻撃コライダーの位置を調整
         switch (_characterRenderer.lastDirection)
         {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CraftingManager : MonoBehaviour
 {
@@ -7,16 +8,28 @@ public class CraftingManager : MonoBehaviour
     private CraftingRecipeDatabase _craftingRecipeDatabase;
     public List<CraftingRecipe> craftingRecipes { get; private set; } // クラフト可能なレシピのリスト
 
-    private CraftingManager(CraftingRecipeDatabase craftingRecipeDatabase)
+    /// <summary>
+    /// Craftingrecipesが変更されたときに発火するイベント
+    /// </summary>
+    public UnityEvent OnChanged = new UnityEvent();
+
+    private CraftingManager(CraftingRecipeDatabase craftingRecipeDatabase, List<CraftingRecipe> initialRecipes = null)
     {
         _craftingRecipeDatabase = craftingRecipeDatabase;
-        craftingRecipes = new List<CraftingRecipe>();
+        if (initialRecipes != null)
+        {
+            craftingRecipes = new List<CraftingRecipe>(initialRecipes);
+        }
+        else
+        {
+            craftingRecipes = new List<CraftingRecipe>();
+        }
     }
-    public static void Initialize(CraftingRecipeDatabase craftingRecipeDatabase)
+    public static void Initialize(CraftingRecipeDatabase craftingRecipeDatabase, List<CraftingRecipe> initialRecipes = null)
     {
         if (Instance == null)
         {
-            Instance = new CraftingManager(craftingRecipeDatabase);
+            Instance = new CraftingManager(craftingRecipeDatabase, initialRecipes);
         }
         else
         {
@@ -104,6 +117,7 @@ public class CraftingManager : MonoBehaviour
         {
             Debug.LogWarning("Recipe already exists in the crafting manager.");
         }
+        OnChanged?.Invoke();
     }
 
     public void FromSaveData(RecipeSaveData saveData)
