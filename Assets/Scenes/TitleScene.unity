@@ -250,6 +250,10 @@ MonoBehaviour:
     amount: 5
   - item: {fileID: 11400000, guid: 4e8b53c5cfcd5a148954e30268313b70, type: 2}
     amount: 1
+  - item: {fileID: 11400000, guid: 15498ad63ce06a14988c9fdc077ce208, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 1fad69fa4eb506446a70c8c9ff4a3fb1, type: 2}
+    amount: 1
   initialRecipes:
   - {fileID: 11400000, guid: e8ecb3ba1ad9bc348b4e550411c0dfeb, type: 2}
 --- !u!4 &389016310
