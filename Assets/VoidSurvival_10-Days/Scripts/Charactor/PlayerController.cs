@@ -60,9 +60,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            //ItemManager.Instance.quickItems[ItemManager.Instance.selectedQuickItemIndex]?.Use();
-            _renderer.SetAttackAnimation();
-            _status.GoToActiveStatefPossible();
+            ItemManager.Instance.quickItems[ItemManager.Instance.selectedQuickItemIndex]?.Item.Use(gameObject);
         }
     }
 

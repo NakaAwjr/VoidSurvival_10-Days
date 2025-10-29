@@ -9,7 +9,7 @@ public class MaterialItem : Item, IDatabaseEntry<int>
         return false;
     }
 
-    public override void Use()
+    public override void Use(GameObject player)
     {
         // 素材アイテムは使用できないため、何もしない
         Debug.Log("This item cannot be used.");

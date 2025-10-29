@@ -9540,7 +9540,7 @@ PrefabInstance:
     - target: {fileID: 5185093094245350749, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
       propertyPath: playerController
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1868515073}
     - target: {fileID: 6719351172167809430, guid: 42c65e89eca886e4d97477a89a01beac, type: 3}
       propertyPath: opciones.Array.data[1].index
       value: 1
@@ -17049,6 +17049,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 946d018d010fb1f48ae32d42b31a1296, type: 3}
+--- !u!114 &1868515073 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7186683053911358325, guid: 946d018d010fb1f48ae32d42b31a1296, type: 3}
+  m_PrefabInstance: {fileID: 1868515072}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60bf668f65f91574d884bca0eadca3b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1894554264 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2565355100195988575, guid: c349ffa5cb111c345ac7b83d270c98e4, type: 3}

@@ -20,5 +20,5 @@ public abstract class Item : ScriptableObject, IDatabaseEntry<int>
     /// <summary>
     /// アイテムを使用する処理
     /// </summary>
-    public abstract void Use(); // アイテムを使用する処理
+    public abstract void Use(GameObject player); // アイテムを使用する処理
 }

@@ -242,12 +242,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41ceef3b46519d488c9357cd7af431b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: MainScene
+  scene: TestScene
   itemDatabase: {fileID: 11400000, guid: 50111a5a09e1a5c4087f5534727699f7, type: 2}
   recipeDatabase: {fileID: 11400000, guid: d043e63f1d0e0214d9429dbf4f70b946, type: 2}
   initialInventory:
   - item: {fileID: 11400000, guid: 0c64eaac1d175204589f6a7db8ba535f, type: 2}
     amount: 5
+  - item: {fileID: 11400000, guid: 4e8b53c5cfcd5a148954e30268313b70, type: 2}
+    amount: 1
   initialRecipes:
   - {fileID: 11400000, guid: e8ecb3ba1ad9bc348b4e550411c0dfeb, type: 2}
 --- !u!4 &389016310
