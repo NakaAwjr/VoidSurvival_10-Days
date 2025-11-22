@@ -287,6 +287,21 @@ MonoBehaviour:
   maxDays: 10
   OnDayChanged:
     m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 0
+  OnMinuteChanged:
+    m_PersistentCalls:
       m_Calls: []
 --- !u!1 &446671645
 GameObject:
@@ -318,8 +333,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d0cffa7bc62f748a7113a590b78242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealthPoint: 0
-  RequiredItemsForRepair: []
+  Level: 1
+  requiredItemsForEachLevelUp: []
+  requiredItemsForRepair: []
 --- !u!114 &446671647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,6 +350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   facilities:
   - {fileID: 446671646}
+  damagePerMinute: 1
 --- !u!4 &446671648
 Transform:
   m_ObjectHideFlags: 0

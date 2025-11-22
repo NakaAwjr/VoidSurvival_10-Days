@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterStatus))]
-public class CharactorAttack : MonoBehaviour
+public class CharacterAttack : MonoBehaviour
 {
     /// <summary>
     /// 攻撃間隔

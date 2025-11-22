@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,15 +8,17 @@ public abstract class CharacterStatus : MonoBehaviour
     {
         Idle,
         Active,
+        Fatigue,    // スタミナ切れ状態(プレイヤー専用)
         Dead
     }
 
+    protected CharacterBuffManager _buffManager;
 
     // キャラクターのステータスがIdleのときに移動、行動可能
-    public bool IsMoovable => _status == StatusEnum.Idle;
+    public virtual bool IsMoovable => _status == StatusEnum.Idle;
     public bool IsActive => _status == StatusEnum.Idle;
 
-    public int MaxHitPoint => maxHitPoint;
+    public int MaxHitPoint => getMaxHitPoint();
     public int CurrentHealth => _currentHitPoint;
     public int Power => getPower();
     public int Defense => getDefense();
@@ -32,9 +35,11 @@ public abstract class CharacterStatus : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        _buffManager = GetComponent<CharacterBuffManager>();
         _currentHitPoint = MaxHitPoint;
     }
 
+    #region Methods
     /// <summary>
     /// キャラクターがダメージを受けたときの処理
     /// ダメージは防御力を考慮して計算される
@@ -85,18 +90,25 @@ public abstract class CharacterStatus : MonoBehaviour
     /// <summary>
     /// 待機状態に戻る処理
     /// </summary>
-    public void GoToIdleStateIfPossible()
+    public virtual void GoToIdleStateIfPossible()
     {
         if (_status == StatusEnum.Dead) return;
         _status = StatusEnum.Idle;
     }
+    #endregion
 
+    #region Getters for Status
+    protected virtual int getMaxHitPoint()
+    {
+        return _buffManager.GetMaxHitPointBuff(maxHitPoint);
+    }
     protected virtual int getPower()
     {
-        return power;
+        return _buffManager.GetPowerBuff(power);
     }
     protected virtual int getDefense()
     {
-        return defense;
+        return _buffManager.GetDefenseBuff(defense);
     }
+    #endregion
 }

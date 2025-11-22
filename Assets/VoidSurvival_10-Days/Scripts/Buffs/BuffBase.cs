@@ -1,0 +1,33 @@
+using System;
+
+/// <summary>
+/// バフの適用方法
+/// add: 加算
+/// multiply: 乗算
+/// </summary>
+public enum BuffOperationType
+{
+    Add,
+    Multiply,
+}
+
+/// <summary>
+/// キャラクターに適用されるバフの種類
+/// </summary>
+public enum CharacterBuffType
+{
+    MaxHitPoint,
+    Power,
+    Defense,
+    MaxStaminaPoint,
+    StaminaHealSpeed,
+}
+
+[Serializable]
+public abstract class BuffBase
+{
+    public Enum BuffType { get; set; }
+    public abstract float GetValue();
+    public BuffOperationType OperationType { get; set; }
+    public String Description { get; set; }
+}
