@@ -20,7 +20,7 @@ public class InteractButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     private void UpdateUI()
     {
         var itemStack = ItemManager.Instance.quickItems[ItemManager.Instance.selectedQuickItemIndex];
-        if (itemStack != null && itemStack.Amount > 0)
+        if (itemStack != null)
         {
             icon.sprite = itemStack.Item.ItemIcon;
             text.text = itemStack.Amount.ToString();

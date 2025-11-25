@@ -147,6 +147,17 @@ public class ItemManager
                 // 数量が0以下になった場合はアイテムを削除
                 inventory.Remove(existingStack);
             }
+            if (quickItems.Contains(existingStack))
+            {
+                // クイックアイテムからも削除
+                for (int i = 0; i < QUICK_ITEM_COUNT; i++)
+                {
+                    if (quickItems[i] == existingStack)
+                    {
+                        quickItems[i] = null;
+                    }
+                }
+            }
         }
         else
         {
