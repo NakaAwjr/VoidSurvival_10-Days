@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class CharacterBuffManager : MonoBehaviour
 {
-    public List<CharacterBuff> ActiveBuffs = new List<CharacterBuff>();
+    public List<BuffBase> ActiveBuffs = new List<BuffBase>();
     public int GetPowerBuff(int basePower)
     {
         var powerBuffs = ActiveBuffs.FindAll(b => b.BuffType.Equals(CharacterBuffType.Power));
@@ -15,7 +15,7 @@ public class CharacterBuffManager : MonoBehaviour
             // Multiply処理を先に適用し、その後Add処理を適用する
             if (buff.OperationType == BuffOperationType.Multiply)
             {
-                basePower = (int)(basePower * buff.GetValue());
+                basePower = (int)(basePower * (buff.GetValue() + 1));
             }
             if (buff.OperationType == BuffOperationType.Add)
             {
@@ -32,7 +32,7 @@ public class CharacterBuffManager : MonoBehaviour
             // Multiply処理を先に適用し、その後Add処理を適用する
             if (buff.OperationType == BuffOperationType.Multiply)
             {
-                baseDefense = (int)(baseDefense * buff.GetValue());
+                baseDefense = (int)(baseDefense * (buff.GetValue() + 1));
             }
             if (buff.OperationType == BuffOperationType.Add)
             {
@@ -49,7 +49,7 @@ public class CharacterBuffManager : MonoBehaviour
             // Multiply処理を先に適用し、その後Add処理を適用する
             if (buff.OperationType == BuffOperationType.Multiply)
             {
-                baseMaxHitPoint = (int)(baseMaxHitPoint * buff.GetValue());
+                baseMaxHitPoint = (int)(baseMaxHitPoint * (buff.GetValue() + 1));
             }
             if (buff.OperationType == BuffOperationType.Add)
             {
@@ -66,7 +66,7 @@ public class CharacterBuffManager : MonoBehaviour
             // Multiply処理を先に適用し、その後Add処理を適用する
             if (buff.OperationType == BuffOperationType.Multiply)
             {
-                baseMaxStaminaPoint = (int)(baseMaxStaminaPoint * buff.GetValue());
+                baseMaxStaminaPoint = (int)(baseMaxStaminaPoint * (buff.GetValue() + 1));
             }
             if (buff.OperationType == BuffOperationType.Add)
             {
@@ -83,7 +83,7 @@ public class CharacterBuffManager : MonoBehaviour
             // Multiply処理を先に適用し、その後Add処理を適用する
             if (buff.OperationType == BuffOperationType.Multiply)
             {
-                baseStaminaHealSpeed = (int)(baseStaminaHealSpeed * buff.GetValue());
+                baseStaminaHealSpeed = (int)(baseStaminaHealSpeed * (buff.GetValue() + 1));
             }
             if (buff.OperationType == BuffOperationType.Add)
             {

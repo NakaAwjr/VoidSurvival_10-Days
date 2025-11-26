@@ -18,25 +18,16 @@ public abstract class FacilityBase : MonoBehaviour
     public abstract String FacilityName { get; protected set; }
     public abstract FacilityManager.FacilityType FacilityType { get; }
     /// <summary>
-    /// 通常効果
+    /// 施設の効果
     /// </summary>
-    public virtual List<BuffBase> NormalBuffs => new List<BuffBase>();
-    /// <summary>
-    /// 施設が破壊されたときの効果
-    /// </summary>
-    public virtual List<BuffBase> BreakBuffs => new List<BuffBase>();
+    /// <returns></returns>
+    public virtual List<BuffBase> Buffs { get; private set; } = new List<BuffBase>();
     #endregion
 
     protected const int MaxLevel = 4;
-    public int Level { get; protected set; } = 1;
+    public int Level = 1;
     public int CurrentHealthPoint => _currentHealthPoint;
     protected int _currentHealthPoint;
-    /// <summary>
-    /// 施設の効果
-    /// HPが0より大きい場合は通常効果、0以下の場合は破壊効果を返す
-    /// </summary>
-    /// <returns></returns>
-    public List<BuffBase> Buffs => CurrentHealthPoint > 0 ? NormalBuffs : BreakBuffs;
 
     #region Inspector Fields
     // インスペクターで設定する項目
