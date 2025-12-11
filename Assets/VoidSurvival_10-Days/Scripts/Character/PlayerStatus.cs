@@ -35,7 +35,7 @@ public class PlayerStatus : CharacterStatus
         {
             _power += weapon.Power;
         }
-        return _buffManager.GetPowerBuff(_power);
+        return _buffManager.GetStatusBuff(CharacterBuffType.Power, _power);
     }
     protected override int getDefense()
     {
@@ -43,15 +43,15 @@ public class PlayerStatus : CharacterStatus
 
         // この辺に装備品の影響を考慮するコードを追加
 
-        return _buffManager.GetDefenseBuff(_defense);
+        return _buffManager.GetStatusBuff(CharacterBuffType.Defense, _defense);
     }
     protected int getMaxStaminaPoint()
     {
-        return _buffManager.GetMaxStaminaPointBuff(maxStaminaPoint);
+        return _buffManager.GetStatusBuff(CharacterBuffType.MaxStaminaPoint, maxStaminaPoint);
     }
     protected int getStaminaHealSpeed()
     {
-        return _buffManager.GetStaminaHealSpeedBuff(staminaHealSpeed);
+        return _buffManager.GetStatusBuff(CharacterBuffType.StaminaHealSpeed, staminaHealSpeed);
     }
     #endregion
 

@@ -7,6 +7,23 @@ using UnityEngine;
 public class CharacterBuffManager : MonoBehaviour
 {
     public List<BuffBase> ActiveBuffs = new List<BuffBase>();
+    public int GetStatusBuff(CharacterBuffType buffType, int baseValue)
+    {
+        var buffs = ActiveBuffs.FindAll(b => b.BuffType.Equals(buffType));
+        foreach (var buff in buffs)
+        {
+            // Multiply処理を先に適用し、その後Add処理を適用する
+            if (buff.OperationType == BuffOperationType.Multiply)
+            {
+                baseValue = (int)(baseValue * (buff.GetValue() + 1));
+            }
+            if (buff.OperationType == BuffOperationType.Add)
+            {
+                baseValue += (int)buff.GetValue();
+            }
+        }
+        return baseValue;
+    }
     public int GetPowerBuff(int basePower)
     {
         var powerBuffs = ActiveBuffs.FindAll(b => b.BuffType.Equals(CharacterBuffType.Power));

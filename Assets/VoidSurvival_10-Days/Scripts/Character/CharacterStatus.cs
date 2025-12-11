@@ -100,15 +100,15 @@ public abstract class CharacterStatus : MonoBehaviour
     #region Getters for Status
     protected virtual int getMaxHitPoint()
     {
-        return _buffManager.GetMaxHitPointBuff(maxHitPoint);
+        return _buffManager.GetStatusBuff(CharacterBuffType.MaxHitPoint, maxHitPoint);
     }
     protected virtual int getPower()
     {
-        return _buffManager.GetPowerBuff(power);
+        return _buffManager.GetStatusBuff(CharacterBuffType.Power, power);
     }
     protected virtual int getDefense()
     {
-        return _buffManager.GetDefenseBuff(defense);
+        return _buffManager.GetStatusBuff(CharacterBuffType.Defense, defense);
     }
     #endregion
 }
