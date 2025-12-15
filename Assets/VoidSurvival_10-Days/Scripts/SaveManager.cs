@@ -24,6 +24,7 @@ public class SaveManager : MonoBehaviour
     [SerializeField] private string scene;
     [SerializeField] private ItemDatabase itemDatabase;
     [SerializeField] private CraftingRecipeDatabase recipeDatabase;
+    [SerializeField] private WorkbenchRecipeDataBase workbenchRecipeDatabase;
     /// <summary>
     /// 初期インベントリを設定
     /// </summary>
@@ -49,6 +50,7 @@ public class SaveManager : MonoBehaviour
         DontDestroyOnLoad(this);
         ItemManager.Initialize(itemDatabase, initialInventory);
         CraftingManager.Initialize(recipeDatabase, initialRecipes);
+        WorkbenchManager.Initialize(workbenchRecipeDatabase);
 
         saveKeys = await _saveKeyService.LoadAsync(SaveSlotKey);
         if (saveKeys == null)
