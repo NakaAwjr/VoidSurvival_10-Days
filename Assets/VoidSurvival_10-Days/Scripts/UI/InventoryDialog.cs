@@ -1,10 +1,15 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InventoryDialog : Dialog
 {
     [SerializeField] private GameObject vewportContent;
     [SerializeField] private GameObject quickItemsContent;
     [SerializeField] private GameObject itemButtonPrefab;
+    /// <summary>
+    /// アイテムボタンがクリックされたときに呼ばれるイベント
+    /// </summary>
+    public UnityEvent<ItemStack> OnButtonClicked;
     private InventoryItemButton[] _itemButtons;
     private QuickItemButton[] _quickItemButtons;
 
@@ -55,5 +60,9 @@ public class InventoryDialog : Dialog
                 _quickItemButtons[i].ItemStack = null;
             }
         }
+    }
+    public void OnItemButtonClicked(ItemStack itemStack)
+    {
+        OnButtonClicked?.Invoke(itemStack);
     }
 }

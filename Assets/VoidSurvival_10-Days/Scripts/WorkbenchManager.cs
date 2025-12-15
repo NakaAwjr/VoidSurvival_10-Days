@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -14,7 +16,7 @@ public class WorkbenchManager
     // 今作成している数
     private int _workingAmount;
     // 作業進捗
-    private int _workingProgress;
+    public int workingProgress { get; private set; }
     /// <summary>
     /// 今作業台に入っている必要アイテム
     /// </summary>
@@ -66,7 +68,7 @@ public class WorkbenchManager
         {
             return 0;
         }
-
+        minCount = Mathf.Min(minCount, itemStack.Amount / recipe.RequiredItem.Amount);
         return minCount;
     }
     /// <summary>
@@ -112,12 +114,13 @@ public class WorkbenchManager
     {
         _workingRecipe = null;
         _workingAmount = 0;
-        _workingProgress = 0;
+        workingProgress = 0;
         // RequiredItemを返却
         if (WorkingRequiredItem != null)
         {
-            ItemManager.Instance.AddItem(WorkingRequiredItem.Item, WorkingRequiredItem.Amount);
+            var temp = new ItemStack(WorkingRequiredItem.Item, WorkingRequiredItem.Amount);
             WorkingRequiredItem = null;
+            ItemManager.Instance.AddItem(temp.Item, temp.Amount);
         }
         TimeManager.Instance.OnMinuteChanged.RemoveListener(Crafting);
     }
@@ -128,8 +131,9 @@ public class WorkbenchManager
     {
         if (WorkingResultItem != null)
         {
-            ItemManager.Instance.AddItem(WorkingResultItem.Item, WorkingResultItem.Amount);
+            var temp = new ItemStack(WorkingResultItem.Item, WorkingResultItem.Amount);
             WorkingResultItem = null;
+            ItemManager.Instance.AddItem(temp.Item, temp.Amount);
         }
     }
     /// <summary>
@@ -156,8 +160,8 @@ public class WorkbenchManager
         }
 
         // 進行
-        _workingProgress++;
-        if (_workingProgress >= _workingRecipe.time)
+        workingProgress++;
+        if (workingProgress >= _workingRecipe.time)
         {
             // クラフト完了
             if (WorkingResultItem == null)
@@ -174,7 +178,7 @@ public class WorkbenchManager
                 WorkingRequiredItem = null;
             }
             _workingAmount--;
-            _workingProgress = 0;
+            workingProgress = 0;
         }
         // 作業完了チェック
         if (_workingAmount <= 0)

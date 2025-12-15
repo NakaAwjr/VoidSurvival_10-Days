@@ -19,4 +19,4 @@ MonoBehaviour:
   RequiredItem:
     item: {fileID: 11400000, guid: 0c64eaac1d175204589f6a7db8ba535f, type: 2}
     amount: 1
-  time: 0
+  time: 10

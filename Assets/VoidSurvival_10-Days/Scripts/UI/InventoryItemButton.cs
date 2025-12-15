@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class InventoryItemButton : ItemButtonBase
 {
+    [SerializeField] private InventoryDialog inventoryDialog;
     [SerializeField] private ScrollRect scrollRect;
 
     public override void OnBeginDrag(PointerEventData eventData)
@@ -50,6 +51,14 @@ public class InventoryItemButton : ItemButtonBase
             {
                 itemControll.OnDrop(itemStack.Item);
             }
+        }
+    }
+
+    public void OnClick()
+    {
+        if (isControllable && !isLongPushing)
+        {
+            inventoryDialog.OnItemButtonClicked(itemStack);
         }
     }
 }

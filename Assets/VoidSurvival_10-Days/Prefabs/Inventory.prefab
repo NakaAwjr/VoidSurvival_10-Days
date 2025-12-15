@@ -35,7 +35,6 @@ RectTransform:
   - {fileID: 3949531549958916680}
   - {fileID: 633499407493892455}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -95,6 +94,9 @@ MonoBehaviour:
   vewportContent: {fileID: 3423154767293734083}
   quickItemsContent: {fileID: 8583340422415205808}
   itemButtonPrefab: {fileID: 2232850534595487839}
+  OnButtonClicked:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1358325742553765781
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,7 +128,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6000164437133393871}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -206,7 +207,6 @@ RectTransform:
   - {fileID: 5721154763286977545}
   - {fileID: 7268678682254381944}
   m_Father: {fileID: 2360888106348706632}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.8}
@@ -314,7 +314,6 @@ RectTransform:
   m_Children:
   - {fileID: 1153717910005898557}
   m_Father: {fileID: 633499407493892455}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -441,7 +440,6 @@ RectTransform:
   m_Children:
   - {fileID: 6000164437133393871}
   m_Father: {fileID: 633499407493892455}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -567,7 +565,6 @@ RectTransform:
   m_Children:
   - {fileID: 5826430610761910145}
   m_Father: {fileID: 4524932080363013993}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -645,7 +642,6 @@ RectTransform:
   m_Children:
   - {fileID: 1713181154476842775}
   m_Father: {fileID: 633499407493892455}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -734,7 +730,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1153717910005898557}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -809,7 +804,6 @@ RectTransform:
   m_Children:
   - {fileID: 3573027685121895647}
   m_Father: {fileID: 5721154763286977545}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -846,7 +840,6 @@ RectTransform:
   m_Children:
   - {fileID: 1280185460941391176}
   m_Father: {fileID: 7268678682254381944}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -887,7 +880,6 @@ RectTransform:
   - {fileID: 4563097847816964465}
   - {fileID: 3875674197510696188}
   m_Father: {fileID: 2360888106348706632}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.8}
   m_AnchorMax: {x: 1, y: 1}
@@ -1773,6 +1765,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7843617214414944767, guid: c349ffa5cb111c345ac7b83d270c98e4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843617214414944767, guid: c349ffa5cb111c345ac7b83d270c98e4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843617214414944767, guid: c349ffa5cb111c345ac7b83d270c98e4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8045174106857586104}
+    - target: {fileID: 7843617214414944767, guid: c349ffa5cb111c345ac7b83d270c98e4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843617214414944767, guid: c349ffa5cb111c345ac7b83d270c98e4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843617214414944767, guid: c349ffa5cb111c345ac7b83d270c98e4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventoryItemButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843617214414944767, guid: c349ffa5cb111c345ac7b83d270c98e4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8850396541147244205, guid: c349ffa5cb111c345ac7b83d270c98e4, type: 3}
       propertyPath: m_Name
       value: InventoryItemButton
@@ -1807,6 +1827,7 @@ MonoBehaviour:
   longPushTime: 0.5
   isHide: 1
   isControllable: 1
+  inventoryDialog: {fileID: 6893999480344233540}
   scrollRect: {fileID: 7716838871379359148}
 --- !u!114 &3405397531544106113 stripped
 MonoBehaviour:
