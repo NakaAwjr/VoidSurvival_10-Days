@@ -4,6 +4,8 @@ public class PlayerStatus : CharacterStatus
 {
     // キャラクターのステータスがIdleまたはFatigueのときに移動可能
     public override bool IsMoovable => _status == StatusEnum.Idle || _status == StatusEnum.Fatigue;
+    // ダッシュ可能かどうか
+    public bool IsDashing => _status == StatusEnum.Idle;
     //スタミナ
     public int MaxStaminaPoint => getMaxStaminaPoint();
     public int CurrentStaminaPoint => _currentStaminaPoint;

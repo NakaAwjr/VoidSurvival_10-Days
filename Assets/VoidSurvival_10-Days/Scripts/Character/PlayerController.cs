@@ -38,13 +38,20 @@ public class PlayerController : MonoBehaviour
         // 正規化し、速度を一定にする
         _moveInput.Normalize();
 
+        var _moveSpeed = moveSpeed;
+        if (_moveInput.magnitude > 0 && DashButton.IsDashing && _status.IsDashing)
+        {
+            _moveSpeed = moveSpeed * 2;
+            _status.ConsumeStamina(1);
+        }
+
         if (_status.IsMoovable)
         {
             // キャラクターのアニメーションを更新
             _renderer.SetDirection(_moveInput);
 
             // プレイヤーを動かす
-            _rigidbody.velocity = _moveInput * moveSpeed;
+            _rigidbody.velocity = _moveInput * _moveSpeed;
         }
     }
 
