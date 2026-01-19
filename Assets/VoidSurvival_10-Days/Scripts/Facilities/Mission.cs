@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// ミッション管理クラス
@@ -14,11 +15,17 @@ class Mission : FacilityBase
     public override FacilityManager.FacilityType FacilityType => FacilityManager.FacilityType.Mission;
     public override String FacilityName { get; protected set; } = "ミッション施設";
     public override int MaxHealthPoint { get; protected set; } = 250;
-
-    public override void DamageFacility(int damageAmount)
+    public override List<BuffBase> Buffs => new List<BuffBase>()
     {
-        // ダメージ蓄積度合いの低下　一段階ごとに-5%
-        var reducedDamageAmount = (int)(damageAmount * (1 - 0.05f * Level));
-        base.DamageFacility(reducedDamageAmount);
-    }
+        new DynamicBuff(() =>
+        {
+            if (IsBroken) return 0f;
+            return -0.05f * Level;
+        })
+        {
+            BuffType = BuffType.FacilityDamageAccumulation,
+            OperationType = BuffOperationType.Multiply,
+            Description = "FacilityDamageAccumulation reduced by " + (5 * Level) + "%"
+        },
+    };
 }

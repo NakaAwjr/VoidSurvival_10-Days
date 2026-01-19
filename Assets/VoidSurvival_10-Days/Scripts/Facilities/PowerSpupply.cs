@@ -24,6 +24,16 @@ class PowerSpupply : FacilityBase
         new DynamicBuff(() =>
         {
             if (IsBroken) return 0f;
+            return -0.15f * Level;
+        })
+        {
+            BuffType = BuffType.WorkbenchEfficiency,
+            OperationType = BuffOperationType.Multiply,
+            Description = "WorkbenchEfficiency increased by " + (15 * Level) + "%"
+        },
+        new DynamicBuff(() =>
+        {
+            if (IsBroken) return 0f;
             return 0.33f * Level;
         })
         {
@@ -40,6 +50,16 @@ class PowerSpupply : FacilityBase
             BuffType = CharacterBuffType.StaminaHealSpeed,
             OperationType = BuffOperationType.Multiply,
             Description = "StaminaRecoverySpeed increased by " + (33 * Level) + "%"
+        },
+        new DynamicBuff(() =>
+        {
+            if (IsBroken) return 0f;
+            return 0.25f * Level;
+        })
+        {
+            BuffType = BuffType.FacilityDamageAccumulation,
+            OperationType = BuffOperationType.Multiply,
+            Description = "FacilityDamageAccumulation increased by " + (25 * Level) + "%"
         }
     };
 }

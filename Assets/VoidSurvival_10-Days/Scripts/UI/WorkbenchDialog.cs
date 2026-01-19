@@ -108,7 +108,7 @@ public class WorkbenchDialog : Dialog
         requiredItemButton.SetItem(WorkbenchManager.Instance.WorkingRequiredItem);
         resultItemButton.SetItem(WorkbenchManager.Instance.WorkingResultItem);
         progressSlider.value = WorkbenchManager.Instance.WorkingProgress;
-        progressSlider.maxValue = _selectRecipe != null ? _selectRecipe.time : 1;
+        progressSlider.maxValue = _selectRecipe != null ? WorkbenchManager.Instance.WorkingTime() : 1;
     }
 
     #region Events

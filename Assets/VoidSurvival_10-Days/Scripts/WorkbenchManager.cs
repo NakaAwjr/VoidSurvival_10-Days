@@ -10,6 +10,7 @@ using UnityEngine.Events;
 public class WorkbenchManager
 {
     public static WorkbenchManager Instance { get; private set; }
+    private ItemDatabase _itemDatabase;
     private WorkbenchRecipeDataBase _workbenchRecipeDataBase;
 
     // 今作成しているレシピ
@@ -34,17 +35,24 @@ public class WorkbenchManager
     /// </summary>
     public UnityEvent OnChangeWorkingState = new UnityEvent();
 
-    private WorkbenchManager(WorkbenchRecipeDataBase workbenchRecipeDataBase)
+    /// <summary>
+    /// 作業台で利用可能な全てのバフ一覧
+    /// </summary>
+    public static List<BuffBase> AllBuffs = new List<BuffBase>();
+
+    private WorkbenchManager(ItemDatabase itemDatabase, WorkbenchRecipeDataBase workbenchRecipeDataBase)
     {
+        _itemDatabase = itemDatabase;
         _workbenchRecipeDataBase = workbenchRecipeDataBase;
         Instance = this;
     }
-    public static void Initialize(WorkbenchRecipeDataBase workbenchRecipeDataBase)
+    public static void Initialize(ItemDatabase itemDatabase, WorkbenchRecipeDataBase workbenchRecipeDataBase)
     {
         if (Instance == null)
         {
-            new WorkbenchManager(workbenchRecipeDataBase);
+            new WorkbenchManager(itemDatabase, workbenchRecipeDataBase);
         }
+        // AllBuffs = FacilityManager.Instance.GetBuffs(BuffType.WorkbenchEfficiency);
     }
 
     /// <summary>
@@ -87,6 +95,11 @@ public class WorkbenchManager
     public void StartCraftItem(WorkbenchRecipe recipe, int amount)
     {
         // エラー処理
+        if (FacilityManager.Instance.GetFacility(FacilityManager.FacilityType.PowerSpupply).IsBroken)
+        {
+            Debug.LogWarning("Cannot start crafting: Power Supply facility is broken.");
+            return;
+        }
         if (recipe == null || amount <= 0)
         {
             Debug.LogError("Invalid crafting recipe or count.");
@@ -151,6 +164,13 @@ public class WorkbenchManager
     /// </summary>
     public void Crafting()
     {
+        if (FacilityManager.Instance.GetFacility(FacilityManager.FacilityType.PowerSpupply).IsBroken)
+        {
+            Debug.LogWarning("Crafting paused: Power Supply facility is broken.");
+            TimeManager.Instance.OnMinuteChanged.RemoveListener(Crafting);
+            return;
+        }
+
         // エラー処理
         if (_workingRecipe == null || _workingAmount <= 0)
         {
@@ -168,9 +188,12 @@ public class WorkbenchManager
             return;
         }
 
+        Debug.Log("元の進行度: " + _workingRecipe.time + ", 現在の進行度: " + WorkingTime());
+        Debug.Log(AllBuffs);
+
         // 進行
         WorkingProgress++;
-        if (WorkingProgress >= _workingRecipe.time)
+        if (WorkingProgress >= WorkingTime())
         {
             // クラフト完了
             if (WorkingResultItem == null)
@@ -195,5 +218,68 @@ public class WorkbenchManager
             StopCraftItem();
         }
         OnChangeWorkingState.Invoke();
+    }
+    /// <summary>
+    /// 現在のレシピの作成にかかる時間を返す
+    /// </summary>
+    /// <returns></returns>
+    public int WorkingTime()
+    {
+        if (_workingRecipe != null)
+        {
+            float time = _workingRecipe.time;
+            foreach (var buff in AllBuffs)
+            {
+                if (buff.OperationType == BuffOperationType.Multiply)
+                {
+                    time = time * (1 + buff.GetValue());
+                }
+                else if (buff.OperationType == BuffOperationType.Add)
+                {
+                    time += buff.GetValue();
+                }
+            }
+            return Mathf.CeilToInt(time);
+        }
+        return 0;
+    }
+
+    public void FromSaveData(WorkbenchSaveData data)
+    {
+        _workingRecipe = data.WorkingRecipe != -1 ? _workbenchRecipeDataBase.GetValue(_itemDatabase.GetValue(data.WorkingRecipe)) : null;
+        _workingAmount = data.WorkingAmount;
+        WorkingProgress = data.WorkingProgress;
+        WorkingRequiredItem = data.WorkingRequiredItem.ItemID != -1 ? new ItemStack(_itemDatabase.GetValue(data.WorkingRequiredItem.ItemID), data.WorkingRequiredItem.Amount) : null;
+        WorkingResultItem = data.WorkingResultItem.ItemID != -1 ? new ItemStack(_itemDatabase.GetValue(data.WorkingResultItem.ItemID), data.WorkingResultItem.Amount) : null;
+        if (_workingRecipe != null && WorkingRequiredItem != null)
+        {
+            TimeManager.Instance.OnMinuteChanged.AddListener(Crafting);
+        }
+    }
+    public WorkbenchSaveData ToSaveData()
+    {
+        WorkbenchSaveData data = new WorkbenchSaveData();
+        data.WorkingRecipe = _workingRecipe != null ? _workingRecipe.ResultItem.ItemID : -1;
+        data.WorkingAmount = _workingAmount;
+        data.WorkingProgress = WorkingProgress;
+        data.WorkingRequiredItem = WorkingRequiredItem != null ? new ItemStackSaveData()
+        {
+            ItemID = WorkingRequiredItem.Item.ItemID,
+            Amount = WorkingRequiredItem.Amount
+        } : new ItemStackSaveData()
+        {
+            ItemID = -1,
+            Amount = 0
+        };
+        data.WorkingResultItem = WorkingResultItem != null ? new ItemStackSaveData()
+        {
+            ItemID = WorkingResultItem.Item.ItemID,
+            Amount = WorkingResultItem.Amount
+        } : new ItemStackSaveData()
+        {
+            ItemID = -1,
+            Amount = 0
+        };
+        return data;
     }
 }

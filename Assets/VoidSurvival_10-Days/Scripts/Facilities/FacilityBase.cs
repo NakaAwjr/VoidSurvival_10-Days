@@ -26,8 +26,8 @@ public abstract class FacilityBase : MonoBehaviour
 
     protected const int MaxLevel = 4;
     public int Level = 1;
-    public int CurrentHealthPoint => _currentHealthPoint;
-    protected int _currentHealthPoint;
+    public float CurrentHealthPoint => _currentHealthPoint;
+    protected float _currentHealthPoint;
 
     #region Inspector Fields
     // インスペクターで設定する項目
@@ -65,7 +65,8 @@ public abstract class FacilityBase : MonoBehaviour
     /// 施設の初期化
     /// </summary>
     /// <param name="level"></param>
-    public void initialize(int level, int currentHealthPoint)
+    /// <param name="currentHealthPoint"></param>
+    public void initialize(int level, float currentHealthPoint)
     {
         Level = level;
         _currentHealthPoint = currentHealthPoint;
@@ -143,7 +144,7 @@ public abstract class FacilityBase : MonoBehaviour
     /// 施設にダメージを与える
     /// </summary>
     /// <param name="damageAmount"></param>
-    public virtual void DamageFacility(int damageAmount)
+    public virtual void DamageFacility(float damageAmount)
     {
         _currentHealthPoint -= damageAmount;
         if (_currentHealthPoint < 0)

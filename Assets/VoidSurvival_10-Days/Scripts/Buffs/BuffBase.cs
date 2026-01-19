@@ -23,6 +23,15 @@ public enum CharacterBuffType
     StaminaHealSpeed,
 }
 
+/// <summary>
+/// その他のバフの種類
+/// </summary>
+public enum BuffType
+{
+    WorkbenchEfficiency,
+    FacilityDamageAccumulation,
+}
+
 [Serializable]
 public abstract class BuffBase
 {

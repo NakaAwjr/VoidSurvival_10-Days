@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 /// <summary>
 /// 施設管理クラス
@@ -24,9 +25,16 @@ public class FacilityManager : MonoBehaviour
     /// 毎分施設に与えるダメージ量
     /// 1分ごとのダメージ量：4　雷雨時：10　雨天時：8
     /// </summary>
-    [SerializeField] private int damagePerMinute = 1;
+    [SerializeField] private float damagePerMinute = 1;
 
+    /// <summary>
+    /// 全ての施設のバフ一覧
+    /// </summary>
     private List<BuffBase> allBuffs;
+    /// <summary>
+    /// 施設に対するバフ一覧
+    /// </summary>
+    private List<BuffBase> facilityBuffs;
 
     private void Awake()
     {
@@ -44,6 +52,9 @@ public class FacilityManager : MonoBehaviour
 
     private void Start()
     {
+        facilityBuffs = GetBuffs(BuffType.FacilityDamageAccumulation);
+        WorkbenchManager.AllBuffs = GetBuffs(BuffType.WorkbenchEfficiency);
+        Debug.Log("施設バフ一覧：" + facilityBuffs.Count);
         // 毎分施設にダメージを与える
         TimeManager.Instance.OnMinuteChanged.AddListener(DamageFacilitys);
     }
@@ -82,7 +93,7 @@ public class FacilityManager : MonoBehaviour
             {
                 var modified = new DynamicBuff(() =>
                 {
-                    if (obc.IsBroken) return 0f;
+                    if (buff.GetValue() == 0) return 0f;
                     if (buff.GetValue() < 0)
                     {
                         return buff.GetValue() - obc.GetOBCEffect();
@@ -108,13 +119,23 @@ public class FacilityManager : MonoBehaviour
     /// </summary>
     private void DamageFacilitys()
     {
-        // 衛星施設のダメージ蓄積量の増加　一段階ごとに＋25％(電源)
-        var _powerSpupply = GetFacility(FacilityType.PowerSpupply) as PowerSpupply;
-        var _damagePerMinute = (int)(damagePerMinute * (1 + 0.25f * _powerSpupply.Level));
+        var _damagePerMinute = damagePerMinute;
+        foreach (var buff in facilityBuffs)
+        {
+            if (buff.OperationType == BuffOperationType.Multiply)
+            {
+                _damagePerMinute = _damagePerMinute * (1 + buff.GetValue());
+            }
+            else if (buff.OperationType == BuffOperationType.Add)
+            {
+                _damagePerMinute += buff.GetValue();
+            }
+        }
         foreach (var facility in facilities)
         {
             facility.DamageFacility(_damagePerMinute);
         }
+        obc.DamageFacility(_damagePerMinute);
     }
     /// <summary>
     /// 全ての施設のバフをプレイヤーに付与する
@@ -129,5 +150,67 @@ public class FacilityManager : MonoBehaviour
                 buffManager.ActiveBuffs.Add(buff);
             }
         }
+    }
+    /// <summary>
+    /// 指定した種類のバフを全て取得する
+    /// </summary>
+    /// <param name="buffType"></param>
+    /// <returns></returns>
+    public List<BuffBase> GetBuffs(Enum buffType)
+    {
+        var facilityBuffs = new List<BuffBase>();
+        foreach (var buff in allBuffs)
+        {
+            if (buff.BuffType.Equals(buffType))
+            {
+                facilityBuffs.Add(buff);
+            }
+        }
+        return facilityBuffs;
+    }
+
+    /// <summary>
+    /// セーブデータから施設情報を復元する
+    /// </summary>
+    /// <param name="facilityDatas"></param>
+    public void FromSaveData(FacilitySaveData[] facilityDatas)
+    {
+        if (facilityDatas == null) return;
+        foreach (var data in facilityDatas)
+        {
+            var facility = GetFacility(data.Type);
+            if (facility != null)
+            {
+                facility.initialize(data.Level, data.CurrentHealthPoint);
+            }
+        }
+    }
+    /// <summary>
+    /// 施設情報をセーブデータに変換する
+    /// </summary>
+    /// <returns></returns>
+    public FacilitySaveData[] ToSaveData()
+    {
+        List<FacilitySaveData> facilityDatas = new List<FacilitySaveData>();
+        foreach (var facility in facilities)
+        {
+            FacilitySaveData data = new FacilitySaveData
+            {
+                Type = facility.FacilityType,
+                Level = facility.Level,
+                CurrentHealthPoint = facility.CurrentHealthPoint
+            };
+            facilityDatas.Add(data);
+        }
+        // OBCのデータも追加
+        FacilitySaveData obcData = new FacilitySaveData
+        {
+            Type = FacilityType.OBC,
+            Level = obc.Level,
+            CurrentHealthPoint = obc.CurrentHealthPoint
+        };
+        facilityDatas.Add(obcData);
+
+        return facilityDatas.ToArray();
     }
 }

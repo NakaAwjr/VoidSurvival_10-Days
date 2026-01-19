@@ -14,27 +14,38 @@ class ThermalControl : FacilityBase
     public override FacilityManager.FacilityType FacilityType => FacilityManager.FacilityType.ThermalControl;
     public override String FacilityName { get; protected set; } = "熱制御";
     public override int MaxHealthPoint { get; protected set; } = 300;
-    // public override List<BuffBase> NormalBuffs => new List<BuffBase>()
-    // {
-    //     new WorkbenchBuff(this)
-    //     {
-    //         BuffType = CharacterBuffType.WorkbenchWorkTime,
-    //         OperationType = BuffOperationType.Multiply,
-    //         Description = "WorkbenchWorkTime decreased by " + (15 * Level) + "%"
-    //     }
-    // };
-
-    // バフ
-    // public class WorkbenchBuff : CharacterBuff
-    // {
-    //     private ThermalControl _thermalControl;
-    //     public WorkbenchBuff(ThermalControl thermalControl)
-    //     {
-    //         _thermalControl = thermalControl;
-    //     }
-    //     public override float GetValue()
-    //     {
-    //         return 1 - (0.15f * _thermalControl.Level);
-    //     }
-    // }
+    public override List<BuffBase> Buffs => new List<BuffBase>()
+    {
+        new DynamicBuff(() =>
+        {
+            if (IsBroken) return 0f;
+            return -0.15f * Level;
+        })
+        {
+            BuffType = BuffType.FacilityDamageAccumulation,
+            OperationType = BuffOperationType.Multiply,
+            Description = "FacilityDamageAccumulation reduced by " + (15 * Level) + "%"
+        },
+        new DynamicBuff(() =>
+        {
+            if (IsBroken) return 0f;
+            return -0.10f * Level;
+        })
+        {
+            BuffType = BuffType.WorkbenchEfficiency,
+            OperationType = BuffOperationType.Multiply,
+            Description = "WorkbenchEfficiency increased by " + (10 * Level) + "%"
+        },
+        // デバフ
+        new DynamicBuff(() =>
+        {
+            if (!IsBroken) return 0f;
+            return 1.0f; // +100%
+        })
+        {
+            BuffType = BuffType.FacilityDamageAccumulation,
+            OperationType = BuffOperationType.Multiply,
+            Description = "FacilityDamageAccumulation increased by 100% when broken"
+        }
+    };
 }
