@@ -6,16 +6,20 @@ using TMPro;
 
 public class WorkbenchDialog : Dialog
 {
-    [SerializeField] private InventoryDialog inventoryDialog;
-    [SerializeField] private GameObject vewportContent;
+    [Header("参照")]
+    [SerializeField] private DialogID inventoryDialog;
+    private InventoryDialog inventoryDialogInstance => MainUI.Instance.GetDialog(inventoryDialog) as InventoryDialog;
+    [Header("スロット参照")]
+    [SerializeField] private RectTransform content;
+    [SerializeField] private WorkbenchRecipeButton recipeButton;
+    [Header("UI参照")]
     [SerializeField] private Slider craftCountSlider;
     [SerializeField] private TMP_Text craftCountText;
     [SerializeField] private Slider progressSlider;
-
-    [SerializeField] private WorkbenchRecipeButton recipeButton;
     [SerializeField] private ItemButton requiredItemButton;
     [SerializeField] private ItemButton resultItemButton;
-    private WorkbenchRecipeButton[] _recipeButtons;
+
+    private WorkbenchRecipeListUI recipeSlots;
 
     private Item _selectedItem;
     private Item selectedItem
@@ -26,27 +30,9 @@ public class WorkbenchDialog : Dialog
             _selectedItem = value;
             // レシピを取得して表示
             var recipes = WorkbenchManager.Instance.GetRecipes(_selectedItem);
-            // レシピボタンの数がレシピ数より少ない場合、追加する
-            if (_recipeButtons.Length < recipes.Count)
-            {
-                for (int i = _recipeButtons.Length; i < recipes.Count; i++)
-                {
-                    Instantiate(recipeButton, vewportContent.transform);
-                }
-                _recipeButtons = vewportContent.GetComponentsInChildren<WorkbenchRecipeButton>();
-            }
-            // レシピボタンにレシピを割り当てる
-            for (int i = 0; i < _recipeButtons.Length; i++)
-            {
-                if (i < recipes.Count)
-                {
-                    _recipeButtons[i].WorkbenchRecipe = recipes[i];
-                }
-                else
-                {
-                    _recipeButtons[i].WorkbenchRecipe = null;
-                }
-            }
+            recipeSlots.Refresh(recipes);
+            // 最初のレシピを選択状態にする
+            selectRecipe = recipes.Count > 0 ? recipes[0] : null;
         }
     }
     private int _craftCount;
@@ -71,21 +57,22 @@ public class WorkbenchDialog : Dialog
                 // 可能なクラフト数を設定
                 craftCountSlider.maxValue = WorkbenchManager.Instance.NumberCanCrafting(_selectRecipe) > 0 ? WorkbenchManager.Instance.NumberCanCrafting(_selectRecipe) : 1;
                 craftCountSlider.value = 1;
+                craftCount = (int)craftCountSlider.value;
                 craftCountText.text = craftCountSlider.value.ToString();
             }
             else
             {
                 craftCountSlider.maxValue = 1;
                 craftCountSlider.value = 1;
+                craftCount = 1;
             }
         }
     }
 
-    protected override void Start()
+    protected override void OnEnable()
     {
-        base.Start();
-        DontDestroyOnLoad(gameObject);
-        _recipeButtons = vewportContent.GetComponentsInChildren<WorkbenchRecipeButton>();
+        base.OnEnable();
+        OnWarkbenchStateChanged();
         // スライダー初期化
         craftCountSlider.onValueChanged.AddListener(OnCraftCountSliderChanged);
         craftCountSlider.wholeNumbers = true;
@@ -94,48 +81,37 @@ public class WorkbenchDialog : Dialog
         craftCountSlider.value = 1;
         // 選択状態を初期化
         selectedItem = ItemManager.Instance.inventory[0]?.Item;
-        selectRecipe = _recipeButtons[0]?.WorkbenchRecipe;
+        selectRecipe = recipeSlots.Slots[0]?.WorkbenchRecipe;
         // イベント登録
         ItemManager.Instance.OnChanged.AddListener(UpdateUI);
+        WorkbenchManager.Instance.OnChangeWorkingState.AddListener(OnWarkbenchStateChanged);
+        inventoryDialogInstance.OnButtonClicked.AddListener(ItemSelectedFromInventory);
     }
-    private void Update()
+    protected override void OnDisable()
     {
-        progressSlider.value = WorkbenchManager.Instance.workingProgress;
-        progressSlider.maxValue = _selectRecipe != null ? _selectRecipe.time : 1;
+        base.OnDisable();
+        // イベント解除
+        ItemManager.Instance.OnChanged.RemoveListener(UpdateUI);
+        WorkbenchManager.Instance.OnChangeWorkingState.RemoveListener(OnWarkbenchStateChanged);
+        inventoryDialogInstance.OnButtonClicked.RemoveListener(ItemSelectedFromInventory);
     }
-    public override void OpenDialog()
+    private void Awake()
     {
-        base.OpenDialog();
-        inventoryDialog.OpenDialog();
-        inventoryDialog.OnButtonClicked.AddListener(ItemSelectedFromInventory);
-        // 選択状態を初期化
-        selectedItem = ItemManager.Instance.inventory[0]?.Item;
-        selectRecipe = _recipeButtons[0]?.WorkbenchRecipe;
-    }
-    public override void CloseDialog()
-    {
-        base.CloseDialog();
-        inventoryDialog.CloseDialog();
-        inventoryDialog.OnButtonClicked.RemoveListener(ItemSelectedFromInventory);
+        recipeSlots = new WorkbenchRecipeListUI(content, recipeButton);
     }
     public override void UpdateUI()
     {
-        requiredItemButton.ItemStack = WorkbenchManager.Instance.WorkingRequiredItem;
-        resultItemButton.ItemStack = WorkbenchManager.Instance.WorkingResultItem;
-        if (_selectRecipe != null)
-        {
-            // 可能なクラフト数を設定
-            craftCountSlider.maxValue = WorkbenchManager.Instance.NumberCanCrafting(_selectRecipe) > 0 ? WorkbenchManager.Instance.NumberCanCrafting(_selectRecipe) : 1;
-            craftCountSlider.value = 1;
-            craftCountText.text = craftCountSlider.value.ToString();
-        }
-        else
-        {
-            craftCountSlider.maxValue = 1;
-            craftCountSlider.value = 1;
-        }
+        selectRecipe = _selectRecipe;
+    }
+    public void OnWarkbenchStateChanged()
+    {
+        requiredItemButton.SetItem(WorkbenchManager.Instance.WorkingRequiredItem);
+        resultItemButton.SetItem(WorkbenchManager.Instance.WorkingResultItem);
+        progressSlider.value = WorkbenchManager.Instance.WorkingProgress;
+        progressSlider.maxValue = _selectRecipe != null ? _selectRecipe.time : 1;
     }
 
+    #region Events
     /// <summary>
     /// インベントリからアイテムが選択されたとき
     /// </summary>
@@ -173,12 +149,19 @@ public class WorkbenchDialog : Dialog
     {
         craftCount = (int)value;
     }
+    /// <summary>
+    /// クラフト停止(ReqiredItemButtonをクリックしたとき)
+    /// </summary>
     public void Stop()
     {
         WorkbenchManager.Instance.StopCraftItem();
     }
+    /// <summary>
+    /// 完成品回収(ResultItemButtonをクリックしたとき)
+    /// </summary>
     public void CollectResultItem()
     {
         WorkbenchManager.Instance.CollectResultItem();
     }
+    #endregion
 }

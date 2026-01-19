@@ -14,9 +14,8 @@ public class MessageText : Dialog
     public static MessageText Instance { get; private set; }
 
     // Start is called before the first frame update
-    protected override void Start()
+    protected void Awake()
     {
-        base.Start();
         // シングルトンパターンの実装
         if (Instance == null)
         {
@@ -26,6 +25,7 @@ public class MessageText : Dialog
         {
             Destroy(gameObject);
         }
+        CloseDialog();
         // //テスト用
         // List<string> list = new List<string>()
         // {

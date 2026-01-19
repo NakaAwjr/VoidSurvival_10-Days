@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class WorkbenchRecipeButton : MonoBehaviour
+public class WorkbenchRecipeButton : SlotUIBase
 {
     [SerializeField] private WorkbenchDialog dialog;
     [SerializeField] private Image icon;
@@ -10,7 +10,7 @@ public class WorkbenchRecipeButton : MonoBehaviour
     public WorkbenchRecipe WorkbenchRecipe
     {
         get => _workbenchRecipe;
-        set
+        private set
         {
             _workbenchRecipe = value;
             if (_workbenchRecipe != null)
@@ -29,6 +29,14 @@ public class WorkbenchRecipeButton : MonoBehaviour
     }
     private WorkbenchRecipe _workbenchRecipe;
 
+    public void SetRecipe(WorkbenchRecipe recipe)
+    {
+        WorkbenchRecipe = recipe;
+    }
+    public override void Clear()
+    {
+        WorkbenchRecipe = null;
+    }
     public void OnClick()
     {
         dialog.RecipeSelected(WorkbenchRecipe);

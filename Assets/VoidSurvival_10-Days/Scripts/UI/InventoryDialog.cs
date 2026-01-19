@@ -3,66 +3,99 @@ using UnityEngine.Events;
 
 public class InventoryDialog : Dialog
 {
-    [SerializeField] private GameObject vewportContent;
-    [SerializeField] private GameObject quickItemsContent;
-    [SerializeField] private GameObject itemButtonPrefab;
+    [Header("スロット参照")]
+    [SerializeField] private RectTransform itemsContent;
+    [SerializeField] private RectTransform quickItemsContent;
+    [SerializeField] private InventoryItemButton itemButtonTemplate;
+    [SerializeField] private QuickItemButton quickItemButtonTemplate;
     /// <summary>
     /// アイテムボタンがクリックされたときに呼ばれるイベント
     /// </summary>
     public UnityEvent<ItemStack> OnButtonClicked;
-    private InventoryItemButton[] _itemButtons;
-    private QuickItemButton[] _quickItemButtons;
 
-    // Start is called before the first frame update
-    protected override void Start()
+    private SlotContainer<InventoryItemButton> inventorySlots;
+    private SlotContainer<QuickItemButton> quickItemSlots;
+
+    protected override void OnEnable()
     {
-        base.Start();
-        DontDestroyOnLoad(gameObject);
-        _itemButtons = vewportContent.GetComponentsInChildren<InventoryItemButton>();
-        _quickItemButtons = quickItemsContent.GetComponentsInChildren<QuickItemButton>();
+        base.OnEnable();
+        ItemManager.Instance.OnItemAdded.AddListener(OnItemAdded);
+        ItemManager.Instance.OnSlotCleared.AddListener(OnItemRemoved);
+        ItemManager.Instance.OnItemUpdated.AddListener(OnItemAmountChanged);
         ItemManager.Instance.OnChanged.AddListener(UpdateUI);
+        RefreshInventoryAll();
     }
-
-    public override void UpdateUI()
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        ItemManager.Instance.OnItemAdded.RemoveListener(OnItemAdded);
+        ItemManager.Instance.OnSlotCleared.RemoveListener(OnItemRemoved);
+        ItemManager.Instance.OnItemUpdated.RemoveListener(OnItemAmountChanged);
+        ItemManager.Instance.OnChanged.RemoveListener(UpdateUI);
+    }
+    private void Awake()
+    {
+        inventorySlots = new SlotContainer<InventoryItemButton>(itemsContent, itemButtonTemplate);
+        quickItemSlots = new SlotContainer<QuickItemButton>(quickItemsContent, quickItemButtonTemplate);
+    }
+    private void RefreshInventoryAll()
     {
         var inventory = ItemManager.Instance.inventory;
-        var quickItems = ItemManager.Instance.quickItems;
-
-        // アイテムボタンの数がインベントリのアイテム数より少ない場合、追加する
-        if (_itemButtons.Length < inventory.Count)
+        inventorySlots.EnsureSlotCount(inventory.Count);
+        for (int i = 0; i < inventory.Count; i++)
         {
-            for (int i = _itemButtons.Length; i < inventory.Count; i++)
-            {
-                Instantiate(itemButtonPrefab, vewportContent.transform).GetComponent<InventoryItemButton>();
-                _itemButtons = vewportContent.GetComponentsInChildren<InventoryItemButton>();
-            }
+            inventorySlots.Slots[i].SetItem(inventory[i]);
         }
-        for (int i = 0; i < _itemButtons.Length; i++)
-        {
-            if (i < inventory.Count)
-            {
-                _itemButtons[i].ItemStack = inventory[i];
-            }
-            else
-            {
-                _itemButtons[i].ItemStack = null;
-            }
-        }
-        // クイックアイテムの更新
-        for (int i = 0; i < _quickItemButtons.Length; i++)
-        {
-            if (i < quickItems.Length)
-            {
-                _quickItemButtons[i].ItemStack = quickItems[i];
-            }
-            else
-            {
-                _quickItemButtons[i].ItemStack = null;
-            }
-        }
+        inventorySlots.ClearFrom(inventory.Count);
     }
+    // クイックアイテムスロットの更新だけ
+    public override void UpdateUI()
+    {
+        var quickItems = ItemManager.Instance.quickItems;
+        quickItemSlots.EnsureSlotCount(quickItems.Length);
+        for (int i = 0; i < quickItems.Length; i++)
+        {
+            quickItemSlots.Slots[i].SetItem(quickItems[i]);
+        }
+        quickItemSlots.ClearFrom(quickItems.Length);
+    }
+
+    #region Item Events
+    /// <summary>
+    /// アイテムが追加されたときに呼ばれる
+    /// </summary>
+    /// <param name="index"></param>
+    private void OnItemAdded(int index)
+    {
+        inventorySlots.EnsureSlotCount(index + 1);
+        inventorySlots.Slots[index].SetItem(ItemManager.Instance.inventory[index]);
+    }
+    /// <summary>
+    /// アイテムが削除されたときに呼ばれる
+    /// </summary>
+    /// <param name="index"></param>
+    private void OnItemRemoved(int index)
+    {
+        inventorySlots.ClearFrom(index);
+    }
+    /// <summary>
+    /// アイテムの数量が変更されたときに呼ばれる
+    /// </summary>
+    /// <param name="index"></param>
+    private void OnItemAmountChanged(int index, ItemStack itemStack)
+    {
+        inventorySlots.Slots[index].SetItem(itemStack);
+    }
+    #endregion
+
+    #region Button Callbacks
+    /// <summary>
+    /// アイテムボタンがクリックされたときに呼ばれる
+    /// </summary>
+    /// <param name="itemStack"></param>
     public void OnItemButtonClicked(ItemStack itemStack)
     {
         OnButtonClicked?.Invoke(itemStack);
     }
+    #endregion
 }

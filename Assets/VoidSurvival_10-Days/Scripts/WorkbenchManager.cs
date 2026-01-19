@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// 作業台の本体
@@ -15,8 +16,10 @@ public class WorkbenchManager
     private WorkbenchRecipe _workingRecipe;
     // 今作成している数
     private int _workingAmount;
-    // 作業進捗
-    public int workingProgress { get; private set; }
+    /// <summary>
+    /// 現在の作業進行度
+    /// </summary>
+    public int WorkingProgress { get; private set; }
     /// <summary>
     /// 今作業台に入っている必要アイテム
     /// </summary>
@@ -25,6 +28,11 @@ public class WorkbenchManager
     /// 今作業台に入っている作成アイテム
     /// </summary>
     public ItemStack WorkingResultItem { get; private set; }
+
+    /// <summary>
+    /// 作業状態が変化したときに発火するイベント
+    /// </summary>
+    public UnityEvent OnChangeWorkingState = new UnityEvent();
 
     private WorkbenchManager(WorkbenchRecipeDataBase workbenchRecipeDataBase)
     {
@@ -103,6 +111,7 @@ public class WorkbenchManager
         _workingRecipe = recipe;
         _workingAmount = amount;
         WorkingRequiredItem = new ItemStack(recipe.RequiredItem.Item, recipe.RequiredItem.Amount * amount);
+        OnChangeWorkingState.Invoke();
         ItemManager.Instance.RemoveItem(recipe.RequiredItem.Item, recipe.RequiredItem.Amount * amount);
         TimeManager.Instance.OnMinuteChanged.AddListener(Crafting);
     }
@@ -114,13 +123,13 @@ public class WorkbenchManager
     {
         _workingRecipe = null;
         _workingAmount = 0;
-        workingProgress = 0;
+        WorkingProgress = 0;
         // RequiredItemを返却
         if (WorkingRequiredItem != null)
         {
-            var temp = new ItemStack(WorkingRequiredItem.Item, WorkingRequiredItem.Amount);
+            ItemManager.Instance.AddItem(WorkingRequiredItem.Item, WorkingRequiredItem.Amount);
             WorkingRequiredItem = null;
-            ItemManager.Instance.AddItem(temp.Item, temp.Amount);
+            OnChangeWorkingState.Invoke();
         }
         TimeManager.Instance.OnMinuteChanged.RemoveListener(Crafting);
     }
@@ -131,9 +140,9 @@ public class WorkbenchManager
     {
         if (WorkingResultItem != null)
         {
-            var temp = new ItemStack(WorkingResultItem.Item, WorkingResultItem.Amount);
+            ItemManager.Instance.AddItem(WorkingResultItem.Item, WorkingResultItem.Amount);
             WorkingResultItem = null;
-            ItemManager.Instance.AddItem(temp.Item, temp.Amount);
+            OnChangeWorkingState.Invoke();
         }
     }
     /// <summary>
@@ -160,8 +169,8 @@ public class WorkbenchManager
         }
 
         // 進行
-        workingProgress++;
-        if (workingProgress >= _workingRecipe.time)
+        WorkingProgress++;
+        if (WorkingProgress >= _workingRecipe.time)
         {
             // クラフト完了
             if (WorkingResultItem == null)
@@ -178,12 +187,13 @@ public class WorkbenchManager
                 WorkingRequiredItem = null;
             }
             _workingAmount--;
-            workingProgress = 0;
+            WorkingProgress = 0;
         }
         // 作業完了チェック
         if (_workingAmount <= 0)
         {
             StopCraftItem();
         }
+        OnChangeWorkingState.Invoke();
     }
 }

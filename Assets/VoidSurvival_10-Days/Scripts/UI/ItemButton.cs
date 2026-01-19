@@ -1,6 +1,6 @@
 using UnityEngine.EventSystems;
 
-class ItemButton : ItemButtonBase
+public class ItemButton : ItemButtonBase
 {
     protected override void HandleDrop(PointerEventData eventData)
     {

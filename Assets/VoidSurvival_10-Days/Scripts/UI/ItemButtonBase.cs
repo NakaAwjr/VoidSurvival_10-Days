@@ -7,7 +7,7 @@ using System.Collections;
 /// <summary>
 /// 共通の長押し・ドラッグ＆ドロップ機能を持つアイテムボタン基底クラス
 /// </summary>
-public abstract class ItemButtonBase : MonoBehaviour,
+public abstract class ItemButtonBase : ItemSlotUI,
     IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     [Header("UI参照")]
@@ -31,6 +31,7 @@ public abstract class ItemButtonBase : MonoBehaviour,
 
     protected bool isLongPushing = false;
     protected ItemStack itemStack;
+    protected Coroutine longPushCoroutine;
 
     protected virtual void Start()
     {
@@ -42,7 +43,7 @@ public abstract class ItemButtonBase : MonoBehaviour,
     public virtual ItemStack ItemStack
     {
         get => itemStack;
-        set
+        private set
         {
             itemStack = value;
             if (itemStack != null)
@@ -72,25 +73,41 @@ public abstract class ItemButtonBase : MonoBehaviour,
         yield return new WaitForSeconds(longPushTime);
         isLongPushing = true;
     }
+    public override void SetItem(ItemStack itemStack)
+    {
+        ItemStack = itemStack;
+    }
+    public override void Clear()
+    {
+        ItemStack = null;
+    }
 
-    // イベント共通部分
+    #region Event Handlers
     public virtual void OnPointerDown(PointerEventData eventData)
     {
         isLongPushing = false;
         if (!isControllable) return;
         Debug.Log("Pointer Down");
-        StartCoroutine(WaitLongPush());
+        longPushCoroutine = StartCoroutine(WaitLongPush());
     }
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
         if (!isControllable) return;
-        StopCoroutine(WaitLongPush());
+        if (longPushCoroutine != null)
+        {
+            StopCoroutine(longPushCoroutine);
+            longPushCoroutine = null;
+        }
     }
 
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
-        StopCoroutine(WaitLongPush());
+        if (longPushCoroutine != null)
+        {
+            StopCoroutine(longPushCoroutine);
+            longPushCoroutine = null;
+        }
         if (!isControllable || !isLongPushing || itemStack == null) return;
 
         // 一番前に表示
@@ -121,6 +138,7 @@ public abstract class ItemButtonBase : MonoBehaviour,
         icon.maskable = true;
         isLongPushing = false;
     }
+    #endregion
 
     /// <summary>
     /// 派生クラスで実装：ドロップ時の挙動を定義

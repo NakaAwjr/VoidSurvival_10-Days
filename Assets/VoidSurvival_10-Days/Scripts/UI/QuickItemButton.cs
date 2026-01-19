@@ -4,11 +4,9 @@ using System.Collections.Generic;
 
 public class QuickItemButton : ItemButtonBase, IItemControll
 {
-    [SerializeField] private int index;
-
     public void OnDrop(Item item)
     {
-        ItemManager.Instance.SetQuickItem(index, item);
+        ItemManager.Instance.SetQuickItem(Index, item);
     }
 
     protected override void HandleDrop(PointerEventData eventData)

@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class RecipeButton : MonoBehaviour
+public class RecipeButton : RecipeSlotUI
 {
     [SerializeField] private CraftDialog dialog;
     [SerializeField] private Image icon;
@@ -10,7 +10,7 @@ public class RecipeButton : MonoBehaviour
     public CraftingRecipe CraftingRecipe
     {
         get => _craftingRecipe;
-        set
+        private set
         {
             _craftingRecipe = value;
             if (_craftingRecipe != null)
@@ -28,6 +28,16 @@ public class RecipeButton : MonoBehaviour
         }
     }
     private CraftingRecipe _craftingRecipe;
+
+    public override void SetRecipe(CraftingRecipe recipe)
+    {
+        CraftingRecipe = recipe;
+    }
+
+    public override void Clear()
+    {
+        CraftingRecipe = null;
+    }
 
     public void OnClick()
     {
