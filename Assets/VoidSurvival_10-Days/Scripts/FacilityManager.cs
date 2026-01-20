@@ -142,7 +142,7 @@ public class FacilityManager : MonoBehaviour
         {
             if (buff.BuffType is CharacterBuffType type)
             {
-                buffManager.ActiveBuffs.Add(buff);
+                buffManager.AddBuff(buff);
             }
         }
     }

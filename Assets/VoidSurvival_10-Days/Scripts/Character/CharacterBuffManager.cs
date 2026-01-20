@@ -6,7 +6,29 @@ using UnityEngine;
 /// </summary>
 public class CharacterBuffManager : MonoBehaviour
 {
-    public List<BuffBase> ActiveBuffs = new List<BuffBase>();
+    public List<BuffBase> ActiveBuffs => _activeBuffs;
+    private List<BuffBase> _activeBuffs = new List<BuffBase>();
+    /// <summary>
+    /// バフを追加する
+    /// </summary>
+    /// <param name="buff"></param>
+    public void AddBuff(BuffBase buff)
+    {
+        _activeBuffs.Add(buff);
+    }
+    /// <summary>
+    /// バフを削除する
+    /// </summary>
+    public void RemoveBuff(BuffBase buff)
+    {
+        _activeBuffs.Remove(buff);
+    }
+    /// <summary>
+    /// baseValueに対して適用されているバフをすべて考慮した最終的な値を返す
+    /// </summary>
+    /// <param name="buffType"></param>
+    /// <param name="baseValue"></param>
+    /// <returns></returns>
     public int GetStatusBuff(CharacterBuffType buffType, int baseValue)
     {
         var buffs = ActiveBuffs.FindAll(b => b.BuffType.Equals(buffType));
