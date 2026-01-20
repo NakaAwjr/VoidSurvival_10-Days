@@ -26,7 +26,7 @@ public enum CharacterBuffType
 /// <summary>
 /// その他のバフの種類
 /// </summary>
-public enum BuffType
+public enum OthersBuffType
 {
     WorkbenchEfficiency,
     FacilityDamageAccumulation,

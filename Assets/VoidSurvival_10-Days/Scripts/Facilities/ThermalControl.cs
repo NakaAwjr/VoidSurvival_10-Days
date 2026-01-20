@@ -22,7 +22,7 @@ class ThermalControl : FacilityBase
             return -0.15f * Level;
         })
         {
-            BuffType = BuffType.FacilityDamageAccumulation,
+            BuffType = OthersBuffType.FacilityDamageAccumulation,
             OperationType = BuffOperationType.Multiply,
             Description = "FacilityDamageAccumulation reduced by " + (15 * Level) + "%"
         },
@@ -32,7 +32,7 @@ class ThermalControl : FacilityBase
             return -0.10f * Level;
         })
         {
-            BuffType = BuffType.WorkbenchEfficiency,
+            BuffType = OthersBuffType.WorkbenchEfficiency,
             OperationType = BuffOperationType.Multiply,
             Description = "WorkbenchEfficiency increased by " + (10 * Level) + "%"
         },
@@ -43,7 +43,7 @@ class ThermalControl : FacilityBase
             return 1.0f; // +100%
         })
         {
-            BuffType = BuffType.FacilityDamageAccumulation,
+            BuffType = OthersBuffType.FacilityDamageAccumulation,
             OperationType = BuffOperationType.Multiply,
             Description = "FacilityDamageAccumulation increased by 100% when broken"
         }

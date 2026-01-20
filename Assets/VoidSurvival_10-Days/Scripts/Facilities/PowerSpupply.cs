@@ -27,7 +27,7 @@ class PowerSpupply : FacilityBase
             return -0.15f * Level;
         })
         {
-            BuffType = BuffType.WorkbenchEfficiency,
+            BuffType = OthersBuffType.WorkbenchEfficiency,
             OperationType = BuffOperationType.Multiply,
             Description = "WorkbenchEfficiency increased by " + (15 * Level) + "%"
         },
@@ -57,7 +57,7 @@ class PowerSpupply : FacilityBase
             return 0.25f * Level;
         })
         {
-            BuffType = BuffType.FacilityDamageAccumulation,
+            BuffType = OthersBuffType.FacilityDamageAccumulation,
             OperationType = BuffOperationType.Multiply,
             Description = "FacilityDamageAccumulation increased by " + (25 * Level) + "%"
         }

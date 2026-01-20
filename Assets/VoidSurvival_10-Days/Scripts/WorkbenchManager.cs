@@ -35,11 +35,6 @@ public class WorkbenchManager
     /// </summary>
     public UnityEvent OnChangeWorkingState = new UnityEvent();
 
-    /// <summary>
-    /// 作業台で利用可能な全てのバフ一覧
-    /// </summary>
-    public static List<BuffBase> AllBuffs = new List<BuffBase>();
-
     private WorkbenchManager(ItemDatabase itemDatabase, WorkbenchRecipeDataBase workbenchRecipeDataBase)
     {
         _itemDatabase = itemDatabase;
@@ -189,7 +184,6 @@ public class WorkbenchManager
         }
 
         Debug.Log("元の進行度: " + _workingRecipe.time + ", 現在の進行度: " + WorkingTime());
-        Debug.Log(AllBuffs);
 
         // 進行
         WorkingProgress++;
@@ -228,6 +222,7 @@ public class WorkbenchManager
         if (_workingRecipe != null)
         {
             float time = _workingRecipe.time;
+            var AllBuffs = OthersBuffManager.GetBuffs(OthersBuffType.WorkbenchEfficiency);
             foreach (var buff in AllBuffs)
             {
                 if (buff.OperationType == BuffOperationType.Multiply)
@@ -238,6 +233,7 @@ public class WorkbenchManager
                 {
                     time += buff.GetValue();
                 }
+                Debug.Log(buff.Description + " applied. New time: " + time);
             }
             return Mathf.CeilToInt(time);
         }
@@ -251,7 +247,7 @@ public class WorkbenchManager
         WorkingProgress = data.WorkingProgress;
         WorkingRequiredItem = data.WorkingRequiredItem.ItemID != -1 ? new ItemStack(_itemDatabase.GetValue(data.WorkingRequiredItem.ItemID), data.WorkingRequiredItem.Amount) : null;
         WorkingResultItem = data.WorkingResultItem.ItemID != -1 ? new ItemStack(_itemDatabase.GetValue(data.WorkingResultItem.ItemID), data.WorkingResultItem.Amount) : null;
-        if (_workingRecipe != null && WorkingRequiredItem != null)
+        if (_workingRecipe != null && WorkingRequiredItem != null && !FacilityManager.Instance.GetFacility(FacilityManager.FacilityType.PowerSpupply).IsBroken)
         {
             TimeManager.Instance.OnMinuteChanged.AddListener(Crafting);
         }

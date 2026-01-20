@@ -31,10 +31,6 @@ public class FacilityManager : MonoBehaviour
     /// 全ての施設のバフ一覧
     /// </summary>
     private List<BuffBase> allBuffs;
-    /// <summary>
-    /// 施設に対するバフ一覧
-    /// </summary>
-    private List<BuffBase> facilityBuffs;
 
     private void Awake()
     {
@@ -48,13 +44,11 @@ public class FacilityManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         allBuffs = CollectAllBuffs();
+        AllBuffAddToOthers();
     }
 
     private void Start()
     {
-        facilityBuffs = GetBuffs(BuffType.FacilityDamageAccumulation);
-        WorkbenchManager.AllBuffs = GetBuffs(BuffType.WorkbenchEfficiency);
-        Debug.Log("施設バフ一覧：" + facilityBuffs.Count);
         // 毎分施設にダメージを与える
         TimeManager.Instance.OnMinuteChanged.AddListener(DamageFacilitys);
     }
@@ -120,6 +114,7 @@ public class FacilityManager : MonoBehaviour
     private void DamageFacilitys()
     {
         var _damagePerMinute = damagePerMinute;
+        var facilityBuffs = OthersBuffManager.GetBuffs(OthersBuffType.FacilityDamageAccumulation);
         foreach (var buff in facilityBuffs)
         {
             if (buff.OperationType == BuffOperationType.Multiply)
@@ -152,23 +147,20 @@ public class FacilityManager : MonoBehaviour
         }
     }
     /// <summary>
-    /// 指定した種類のバフを全て取得する
+    /// 全ての施設のバフをその他バフマネージャーに付与する
     /// </summary>
-    /// <param name="buffType"></param>
-    /// <returns></returns>
-    public List<BuffBase> GetBuffs(Enum buffType)
+    public void AllBuffAddToOthers()
     {
-        var facilityBuffs = new List<BuffBase>();
         foreach (var buff in allBuffs)
         {
-            if (buff.BuffType.Equals(buffType))
+            if (buff.BuffType is OthersBuffType type)
             {
-                facilityBuffs.Add(buff);
+                OthersBuffManager.AddBuff(buff);
             }
         }
-        return facilityBuffs;
     }
 
+    #region SaveData
     /// <summary>
     /// セーブデータから施設情報を復元する
     /// </summary>
@@ -213,4 +205,5 @@ public class FacilityManager : MonoBehaviour
 
         return facilityDatas.ToArray();
     }
+    #endregion
 }

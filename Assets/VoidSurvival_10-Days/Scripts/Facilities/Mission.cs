@@ -23,7 +23,7 @@ class Mission : FacilityBase
             return -0.05f * Level;
         })
         {
-            BuffType = BuffType.FacilityDamageAccumulation,
+            BuffType = OthersBuffType.FacilityDamageAccumulation,
             OperationType = BuffOperationType.Multiply,
             Description = "FacilityDamageAccumulation reduced by " + (5 * Level) + "%"
         },
