@@ -80,8 +80,8 @@ public class WorkbenchDialog : Dialog
         craftCountSlider.maxValue = 1;
         craftCountSlider.value = 1;
         // 選択状態を初期化
-        selectedItem = ItemManager.Instance.inventory[0]?.Item;
-        selectRecipe = recipeSlots.Slots[0]?.WorkbenchRecipe;
+        selectedItem = ItemManager.Instance.inventory.Count > 0 ? ItemManager.Instance.inventory[0].Item : null;
+        selectRecipe = recipeSlots.Slots.Count > 0 ? recipeSlots.Slots[0].WorkbenchRecipe : null;
         // イベント登録
         ItemManager.Instance.OnChanged.AddListener(UpdateUI);
         WorkbenchManager.Instance.OnChangeWorkingState.AddListener(OnWarkbenchStateChanged);

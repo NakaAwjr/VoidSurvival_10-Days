@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3355814540663461422}
   - component: {fileID: 1537942743602762201}
   m_Layer: 5
-  m_Name: SaveDialog
+  m_Name: LoadDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -699,11 +699,13 @@ PrefabInstance:
       objectReference: {fileID: 1537942743602762201}
     - target: {fileID: 4199825518805052838, guid: d6c6a3b6e392ceb4aac537ac9cf1f208, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Save
+      value: Load
       objectReference: {fileID: 0}
     - target: {fileID: 7791960883466998128, guid: d6c6a3b6e392ceb4aac537ac9cf1f208, type: 3}
       propertyPath: m_text
-      value: Save
+      value: 'Load
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

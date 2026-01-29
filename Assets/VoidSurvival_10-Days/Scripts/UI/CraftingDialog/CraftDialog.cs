@@ -80,7 +80,7 @@ public class CraftDialog : Dialog
         craftCountSlider.maxValue = 1;
         craftCountSlider.value = 1;
         // 選択状態を初期化
-        selectRecipe = recipeSlots.Slots[0]?.CraftingRecipe;
+        selectRecipe = recipeSlots.Slots.Count > 0 ? recipeSlots.Slots[0].CraftingRecipe : null;
     }
     protected override void OnDisable()
     {
