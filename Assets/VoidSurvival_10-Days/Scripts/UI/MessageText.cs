@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class MessageText : Dialog
+public class MessageText : Dialog, IPointerClickHandler
 {
     [SerializeField] private GameObject messagePanel;
     [SerializeField] private TMP_Text text;
 
-    private GameObject _controllears;
+    private bool isClicked = false;
 
     // シングルトンパターンのインスタンス
     public static MessageText Instance { get; private set; }
@@ -35,6 +36,10 @@ public class MessageText : Dialog
         // };
         // StartCoroutine(TextMessage(list));
     }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        isClicked = true;
+    }
 
     /// <summary>
     /// メッセージを順番に表示するコルーチン
@@ -53,11 +58,9 @@ public class MessageText : Dialog
                 text.text = s;
                 // 少し待つ
                 yield return new WaitForSeconds(0.5f);
-                // タッチやクリックが行われるまで待機
-                while (!Input.GetMouseButtonDown(0) && !Input.touchCount.Equals(1))
-                {
-                    yield return null; // フレーム待機
-                }
+                // クリックされるまで待つ
+                yield return new WaitUntil(() => isClicked);
+                isClicked = false;
             }
 
             // メッセージパネルを非表示にする
