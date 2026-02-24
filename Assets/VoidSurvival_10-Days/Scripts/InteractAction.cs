@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// プレイヤーが話しかけられるものにアタッチする基底クラス
+/// </summary>
 public abstract class InteractAction : MonoBehaviour
 {
     /// <summary>

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InteractButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerUpHandler, IPointerDownHandler
+public class InteractButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Image icon;
@@ -32,20 +32,13 @@ public class InteractButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         }
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
-    }
-
-    /// ボタンがクリックされたときの処理
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        // ここにボタンがクリックされたときの処理を記述
         if (!_isDragging)
         {
             playerController.ActInteract();
         }
     }
-
     /// ボタンがドラッグされ始めたら、クリック機能を停止させる
     public void OnBeginDrag(PointerEventData eventData)
     {

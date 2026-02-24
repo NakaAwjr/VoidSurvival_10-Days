@@ -42,6 +42,18 @@ public class ItemManager
     /// </summary>
     public UnityEvent OnChanged = new UnityEvent();
     /// <summary>
+    /// アイテムスロットの中身が変更されたときに発火するイベント
+    /// </summary>
+    public UnityEvent<int, ItemStack> OnItemUpdated = new UnityEvent<int, ItemStack>();
+    /// <summary>
+    /// アイテムが追加されたときに発火するイベント
+    /// </summary>
+    public UnityEvent<int> OnItemAdded = new UnityEvent<int>();
+    /// <summary>
+    /// アイテムが削除されたときに発火するイベント
+    /// </summary>
+    public UnityEvent<int> OnSlotCleared = new UnityEvent<int>();
+    /// <summary>
     /// アイテムを取得したときに発火するイベント
     /// </summary>
     public UnityEvent<Item> OnGetItem = new UnityEvent<Item>();
@@ -111,11 +123,13 @@ public class ItemManager
         {
             // アイテムが既に存在する場合は数量を増やす
             existingStack.Add(amount);
+            OnItemUpdated?.Invoke(inventory.IndexOf(existingStack), existingStack);
         }
         else
         {
             // アイテムが存在しない場合は新たに追加
             inventory.Add(new ItemStack(item, amount));
+            OnItemAdded?.Invoke(inventory.Count - 1);
         }
         OnChanged?.Invoke();
         OnGetItem?.Invoke(item);
@@ -142,10 +156,28 @@ public class ItemManager
         if (existingStack.Item != null)
         {
             existingStack.Remove(amount);
+            OnItemUpdated?.Invoke(inventory.IndexOf(existingStack), existingStack);
             if (existingStack.Amount <= 0)
             {
                 // 数量が0以下になった場合はアイテムを削除
+                var index = inventory.IndexOf(existingStack);
                 inventory.Remove(existingStack);
+                for (int i = index; i < inventory.Count; i++)
+                {
+                    OnItemUpdated?.Invoke(i, inventory[i]);
+                }
+                OnSlotCleared?.Invoke(inventory.Count);
+                if (quickItems.Contains(existingStack))
+                {
+                    // クイックアイテムからも削除
+                    for (int i = 0; i < QUICK_ITEM_COUNT; i++)
+                    {
+                        if (quickItems[i] == existingStack)
+                        {
+                            quickItems[i] = null;
+                        }
+                    }
+                }
             }
         }
         else

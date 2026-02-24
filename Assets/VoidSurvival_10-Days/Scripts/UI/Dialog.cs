@@ -1,10 +1,16 @@
 using UnityEngine;
 
+[System.Serializable]
 public abstract class Dialog : MonoBehaviour
 {
+    protected virtual void OnEnable()
+    {
+        UpdateUI();
+    }
+    protected virtual void OnDisable() { }
     protected virtual void Start()
     {
-        CloseDialog();
+        // CloseDialog();
     }
 
     /// <summary>
@@ -20,10 +26,9 @@ public abstract class Dialog : MonoBehaviour
     public virtual void OpenDialog()
     {
         gameObject.SetActive(true);
-        UpdateUI();
         MainUI.Instance?.CloseMainUI();
         // TimeManagerのタイマーを停止
-        TimeManager.Instance.PauseTimer();
+        // TimeManager.Instance.PauseTimer();
     }
     /// <summary>
     /// ダイアログを閉じる
@@ -33,6 +38,6 @@ public abstract class Dialog : MonoBehaviour
         gameObject.SetActive(false);
         MainUI.Instance?.OpenMainUI();
         // TimeManagerのタイマーを再開
-        TimeManager.Instance.ResumeTimer();
+        // TimeManager.Instance.ResumeTimer();
     }
 }

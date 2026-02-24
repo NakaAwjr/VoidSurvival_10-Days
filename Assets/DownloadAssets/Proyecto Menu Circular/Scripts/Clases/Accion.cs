@@ -33,7 +33,8 @@ namespace MoonAntonio.UI
 		{
 			get
 			{
-				if (ItemManager.Instance.quickItems[index] == null) return _defaultSprite;
+				var item = ItemManager.Instance.quickItems[index];
+				if (item == null) return _defaultSprite;
 				return ItemManager.Instance.quickItems[index].Item.ItemIcon;
 			}
 		}

@@ -11,7 +11,9 @@ public class TimeManager : MonoBehaviour
 
     public static TimeManager Instance => _instance;
     private static TimeManager _instance;
-
+    /// <summary>
+    /// ゲーム時間での合計経過時間（分）
+    /// </summary>
     public float ElapsedTime => _elapsedTime;
     private float _elapsedTime = 0f;
     private IEnumerator _timerCoroutine;
@@ -20,6 +22,10 @@ public class TimeManager : MonoBehaviour
     /// 日が変わったときに発火するイベント
     /// </summary>
     public UnityEvent OnDayChanged = new UnityEvent();
+    /// <summary>
+    /// 時間が変わったときに発火するイベント
+    /// </summary>
+    public UnityEvent OnMinuteChanged = new UnityEvent();
     private int _lastDay = 0;
 
     // Start is called before the first frame update
@@ -39,12 +45,12 @@ public class TimeManager : MonoBehaviour
 
     void Update()
     {
-        int currentDay = GetDay();
-        if (currentDay != _lastDay)
-        {
-            _lastDay = currentDay;
-            OnDayChanged.Invoke();
-        }
+        // int currentDay = GetDay();
+        // if (currentDay != _lastDay)
+        // {
+        //     _lastDay = currentDay;
+        //     OnDayChanged.Invoke();
+        // }
     }
 
     /// <summary>
@@ -53,8 +59,7 @@ public class TimeManager : MonoBehaviour
     /// <returns></returns>
     public int GetHour()
     {
-        float totalMinutes = _elapsedTime / 60f * 1440f / minutesPerDay;
-        int hour = (int)(totalMinutes % 1440) / 60;
+        int hour = (int)(_elapsedTime % 1440) / 60;
         return hour;
     }
     /// <summary>
@@ -62,8 +67,7 @@ public class TimeManager : MonoBehaviour
     /// </summary>
     public int GetMinute()
     {
-        float totalMinutes = _elapsedTime / 60f * 1440f / minutesPerDay;
-        int minute = (int)(totalMinutes % 1440) % 60;
+        int minute = (int)(_elapsedTime % 1440) % 60;
         return minute;
     }
     /// <summary>
@@ -72,8 +76,7 @@ public class TimeManager : MonoBehaviour
     /// <returns></returns>
     public int GetDay()
     {
-        float totalMinutes = _elapsedTime / 60f * 1440f / minutesPerDay;
-        int day = (int)(totalMinutes / 1440) + 1;
+        int day = (int)(_elapsedTime / 1440) + 1;
         return day;
     }
     /// <summary>
@@ -92,8 +95,13 @@ public class TimeManager : MonoBehaviour
     {
         while (true)
         {
-            _elapsedTime += Time.deltaTime;
-            yield return null;
+            _elapsedTime += 1;
+            OnMinuteChanged.Invoke();
+            if ((int)_elapsedTime % 1440 == 0)
+            {
+                OnDayChanged.Invoke();
+            }
+            yield return new WaitForSeconds(minutesPerDay * 60f / 1440f);
         }
     }
 

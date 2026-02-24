@@ -24,6 +24,7 @@ public class SaveManager : MonoBehaviour
     [SerializeField] private string scene;
     [SerializeField] private ItemDatabase itemDatabase;
     [SerializeField] private CraftingRecipeDatabase recipeDatabase;
+    [SerializeField] private WorkbenchRecipeDataBase workbenchRecipeDatabase;
     /// <summary>
     /// 初期インベントリを設定
     /// </summary>
@@ -49,6 +50,7 @@ public class SaveManager : MonoBehaviour
         DontDestroyOnLoad(this);
         ItemManager.Initialize(itemDatabase, initialInventory);
         CraftingManager.Initialize(recipeDatabase, initialRecipes);
+        WorkbenchManager.Initialize(itemDatabase, workbenchRecipeDatabase);
 
         saveKeys = await _saveKeyService.LoadAsync(SaveSlotKey);
         if (saveKeys == null)
@@ -73,6 +75,8 @@ public class SaveManager : MonoBehaviour
             ItemManager.Instance.FromSaveData(_data.ItemData);
             CraftingManager.Instance.FromSaveData(_data.RecipeData);
             TimeManager.Instance.FromSaveData(_data.ElapsedTime);
+            FacilityManager.Instance.FromSaveData(_data.FacilityDatas);
+            WorkbenchManager.Instance.FromSaveData(_data.WorkbenchData);
         }
         _loadOp.allowSceneActivation = true;
         Debug.Log("ロード完了");
@@ -85,6 +89,8 @@ public class SaveManager : MonoBehaviour
         _data.ItemData = ItemManager.Instance.ToSaveData();
         _data.RecipeData = CraftingManager.Instance.ToSaveData();
         _data.ElapsedTime = TimeManager.Instance.ElapsedTime;
+        _data.FacilityDatas = FacilityManager.Instance.ToSaveData();
+        _data.WorkbenchData = WorkbenchManager.Instance.ToSaveData();
         saveKeys.SetValue(key, DateTime.Now.ToString());
         await _saveService.SaveAsync(key, _data);
         await _saveKeyService.SaveAsync(SaveSlotKey, saveKeys);

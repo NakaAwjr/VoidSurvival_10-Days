@@ -6,11 +6,9 @@ public class SaveDialog : Dialog
     private SaveSlotButton[] _saveSlotButtons;
     private string _selected;
 
-    protected override void Start()
+    private void Awake()
     {
-        base.Start();
         _saveSlotButtons = viewPortContent.GetComponentsInChildren<SaveSlotButton>();
-        CloseDialog();
     }
 
     public override void OpenDialog()
