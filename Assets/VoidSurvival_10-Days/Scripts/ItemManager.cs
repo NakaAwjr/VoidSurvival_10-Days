@@ -1,44 +1,88 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ItemManager
 {
     public const int QUICK_ITEM_COUNT = 4;
     public static ItemManager Instance { get; private set; }
     private ItemDatabase _itemDatabase;
-    public List<ItemStack> inventory { get; private set; } // アイテムIDと数量の辞書
-    public Item[] quickItems { get; private set; } // クイックアイテムの配列
-    public int selectedQuickItemIndex { get; private set; } // 選択中のクイックアイテムのインデックス
-    public Dictionary<EquipmentSlot, Item> equipmentSlots { get; private set; } // 装備スロットの辞書
+    /// <summary>
+    /// ItemStack(Itemと数量)の集合
+    /// </summary>
+    public List<ItemStack> inventory { get; private set; }
+    /// <summary>
+    /// inventoryにあるItemStackを選ぶ
+    /// この中で選択されているアイテムが使用可能
+    /// </summary>
+    public ItemStack[] quickItems { get; private set; }
+    /// <summary>
+    /// quickItemsのどれを選択するかを決めるインデックス
+    /// </summary>
+    public int selectedQuickItemIndex { get; private set; }
+    /// <summary>
+    /// 装備スロット
+    /// 装備するとアイテムがインベントリから1つ減る
+    /// </summary>
+    public Dictionary<EquipmentType, Item> equipmentSlot { get; private set; }
 
     /// <summary>
     /// 装備スロットの列挙型
     /// </summary>
-    public enum EquipmentSlot
+    public enum EquipmentType
     {
         Head,
         Body,
         Legs,
-        Feet,
-        Hands,
-        Accessory
     }
 
+    /// <summary>
+    /// 何かしら変更されたときに発火するイベント
+    /// </summary>
+    public UnityEvent OnChanged = new UnityEvent();
+    /// <summary>
+    /// アイテムスロットの中身が変更されたときに発火するイベント
+    /// </summary>
+    public UnityEvent<int, ItemStack> OnItemUpdated = new UnityEvent<int, ItemStack>();
+    /// <summary>
+    /// アイテムが追加されたときに発火するイベント
+    /// </summary>
+    public UnityEvent<int> OnItemAdded = new UnityEvent<int>();
+    /// <summary>
+    /// アイテムが削除されたときに発火するイベント
+    /// </summary>
+    public UnityEvent<int> OnSlotCleared = new UnityEvent<int>();
+    /// <summary>
+    /// アイテムを取得したときに発火するイベント
+    /// </summary>
+    public UnityEvent<Item> OnGetItem = new UnityEvent<Item>();
 
-    private ItemManager(ItemDatabase itemDatabase)
+    private ItemManager(ItemDatabase itemDatabase, List<ItemStack> inventory = null)
     {
         _itemDatabase = itemDatabase;
-        inventory = new List<ItemStack>();
-        quickItems = new Item[QUICK_ITEM_COUNT];
+        quickItems = new ItemStack[QUICK_ITEM_COUNT];
         selectedQuickItemIndex = 0;
-        equipmentSlots = new Dictionary<EquipmentSlot, Item>();
+        equipmentSlot = new Dictionary<EquipmentType, Item>()
+        {
+            [EquipmentType.Head] = null,
+            [EquipmentType.Body] = null,
+            [EquipmentType.Legs] = null
+        };
+        if (inventory != null)
+        {
+            this.inventory = new List<ItemStack>(inventory);
+        }
+        else
+        {
+            this.inventory = new List<ItemStack>();
+        }
     }
-    public static void Initialize(ItemDatabase itemDatabase)
+    public static void Initialize(ItemDatabase itemDatabase, List<ItemStack> inventory = null)
     {
         if (Instance == null)
         {
-            Instance = new ItemManager(itemDatabase);
+            Instance = new ItemManager(itemDatabase, inventory);
         }
         else
         {
@@ -58,7 +102,7 @@ public class ItemManager
 
     /// <summary>
     /// アイテムを追加する処理
-    /// アイテムが既に存在する場合は数量を増やし、存在しない場合は新たに追加します。
+    /// アイテムが既に存在する場合は数量を増やし、存在しない場合は新たに追加
     /// </summary>
     /// <param name="item"></param>
     /// <param name="amount"></param>
@@ -79,16 +123,21 @@ public class ItemManager
         {
             // アイテムが既に存在する場合は数量を増やす
             existingStack.Add(amount);
+            OnItemUpdated?.Invoke(inventory.IndexOf(existingStack), existingStack);
         }
         else
         {
             // アイテムが存在しない場合は新たに追加
             inventory.Add(new ItemStack(item, amount));
+            OnItemAdded?.Invoke(inventory.Count - 1);
         }
+        OnChanged?.Invoke();
+        OnGetItem?.Invoke(item);
     }
     /// <summary>
     /// アイテムを削除する処理
-    /// アイテムの数量を減らし、数量が0以下になった場合はアイテムを辞書から削除します。
+    /// アイテムの数量を減らし、数量が0以下になった場合はアイテムをリストから削除
+    /// </summary>
     /// <param name="item"></param>
     /// <param name="amount"></param>
     public void RemoveItem(Item item, int amount = 1)
@@ -107,19 +156,38 @@ public class ItemManager
         if (existingStack.Item != null)
         {
             existingStack.Remove(amount);
+            OnItemUpdated?.Invoke(inventory.IndexOf(existingStack), existingStack);
             if (existingStack.Amount <= 0)
             {
                 // 数量が0以下になった場合はアイテムを削除
+                var index = inventory.IndexOf(existingStack);
                 inventory.Remove(existingStack);
+                for (int i = index; i < inventory.Count; i++)
+                {
+                    OnItemUpdated?.Invoke(i, inventory[i]);
+                }
+                OnSlotCleared?.Invoke(inventory.Count);
+                if (quickItems.Contains(existingStack))
+                {
+                    // クイックアイテムからも削除
+                    for (int i = 0; i < QUICK_ITEM_COUNT; i++)
+                    {
+                        if (quickItems[i] == existingStack)
+                        {
+                            quickItems[i] = null;
+                        }
+                    }
+                }
             }
         }
         else
         {
             Debug.LogWarning($"Item {item.name} not found in inventory.");
         }
+        OnChanged?.Invoke();
     }
     /// <summary>
-    /// クイックアイテムのインデックスを設定する処理
+    /// クイックアイテムを設定
     /// </summary>
     /// <param name="index"></param>
     /// <param name="item"></param>
@@ -130,10 +198,19 @@ public class ItemManager
             Debug.LogError("Invalid quick item index: " + index);
             return;
         }
-        quickItems[index] = item;
+        for (int i = 0; i < QUICK_ITEM_COUNT; i++)
+        {
+            if (quickItems[i] != null && quickItems[i].Item == item)
+            {
+                // 既にクイックアイテムに設定されている場合は解除
+                quickItems[i] = null;
+            }
+        }
+        quickItems[index] = GetItemStack(item);
+        OnChanged?.Invoke();
     }
     /// <summary>
-    /// クイックアイテムを選択する処理
+    /// クイックアイテムのインデックスを選択
     /// </summary>
     /// <param name="index"></param>
     public void SelectQuickItem(int index)
@@ -144,31 +221,36 @@ public class ItemManager
             return;
         }
         selectedQuickItemIndex = index;
+        OnChanged?.Invoke();
     }
     /// <summary>
     /// 装備スロットにアイテムを設定する処理
     /// </summary>
     /// <param name="slot"></param>
     /// <param name="item"></param>
-    public void SetEquipmentSlot(EquipmentSlot slot, Item item)
+    public void SetEquipmentSlot(EquipmentType type, Item item)
     {
-        if (equipmentSlots.ContainsKey(slot))
+        if (equipmentSlot.ContainsKey(type))
         {
-            equipmentSlots[slot] = item;
+            if (equipmentSlot[type] != null) AddItem(equipmentSlot[type]);
+            equipmentSlot[type] = item;
+            if (item != null) RemoveItem(item);
         }
         else
         {
-            equipmentSlots.Add(slot, item);
+            Debug.LogError($"スロット{type}は存在しません");
+            return;
         }
+        OnChanged?.Invoke();
     }
 
     public void FromSaveData(ItemSaveData saveData)
     {
         selectedQuickItemIndex = saveData.SelectedQuickItemIndex;
 
-        // アイテムIDを使用してアイテムを取得し、辞書に設定
+        // アイテムIDを使用してアイテムを取得し、インベントリに設定
         inventory = new List<ItemStack>();
-        foreach (var inv in saveData.Inventory)
+        foreach (var inv in saveData.Inventory.keyValuePairs)
         {
             Item itemData = _itemDatabase.GetValue(inv.Key);
             if (itemData != null)
@@ -182,7 +264,7 @@ public class ItemManager
             }
         }
 
-        quickItems = new Item[QUICK_ITEM_COUNT];
+        quickItems = new ItemStack[QUICK_ITEM_COUNT];
         // クイックアイテムの配列を設定
         for (int i = 0; i < QUICK_ITEM_COUNT; i++)
         {
@@ -191,7 +273,7 @@ public class ItemManager
                 Item itemData = _itemDatabase.GetValue(saveData.QuickItems[i]);
                 if (itemData != null)
                 {
-                    quickItems[i] = itemData;
+                    quickItems[i] = GetItemStack(itemData);
                 }
             }
             else
@@ -201,12 +283,16 @@ public class ItemManager
         }
 
         // 装備スロットのアイテムも同様に設定
-        foreach (var slot in equipmentSlots.Keys)
+        foreach (var slot in saveData.EquipmentSlot.keyValuePairs)
         {
-            Item itemData = _itemDatabase.GetValue(equipmentSlots[slot].ItemID);
-            if (itemData != null)
+            var itemData = _itemDatabase.GetValue(slot.Value);
+            if (equipmentSlot.ContainsKey(slot.Key))
             {
-                equipmentSlots[slot] = itemData;
+                equipmentSlot[slot.Key] = itemData;
+            }
+            else
+            {
+                Debug.LogWarning($"スロットが存在しません。コンストラクタを見直してください。");
             }
         }
     }
@@ -214,16 +300,16 @@ public class ItemManager
     {
         ItemSaveData saveData = new ItemSaveData
         {
-            Inventory = new Dictionary<int, int>(),
+            Inventory = new SerializableDictionary<int, int>(),
             QuickItems = new int[QUICK_ITEM_COUNT],
             SelectedQuickItemIndex = selectedQuickItemIndex,
-            EquipmentSlots = new Dictionary<EquipmentSlot, int>()
+            EquipmentSlot = new SerializableDictionary<EquipmentType, int>()
         };
 
         // アイテムのIDと数量を保存
         foreach (var itemStack in inventory)
         {
-            saveData.Inventory[itemStack.Item.ItemID] = itemStack.Amount;
+            saveData.Inventory.Add(itemStack.Item.ItemID, itemStack.Amount);
         }
 
         // クイックアイテムのIDを保存
@@ -231,7 +317,7 @@ public class ItemManager
         {
             if (quickItems[i] != null)
             {
-                saveData.QuickItems[i] = quickItems[i].ItemID;
+                saveData.QuickItems[i] = quickItems[i].Item.ItemID;
             }
             else
             {
@@ -240,9 +326,16 @@ public class ItemManager
         }
 
         // 装備スロットのアイテムIDを保存
-        foreach (var slot in equipmentSlots)
+        foreach (var slot in equipmentSlot)
         {
-            saveData.EquipmentSlots[slot.Key] = slot.Value.ItemID;
+            if (slot.Value != null)
+            {
+                saveData.EquipmentSlot.Add(slot.Key, slot.Value.ItemID);
+            }
+            else
+            {
+                saveData.EquipmentSlot.Add(slot.Key, -1);
+            }
         }
 
         return saveData;

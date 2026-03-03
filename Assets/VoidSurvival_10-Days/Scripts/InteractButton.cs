@@ -1,29 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class InteractButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerUpHandler, IPointerDownHandler
+public class InteractButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
     [SerializeField] private PlayerController playerController;
+    [SerializeField] private Image icon;
+    [SerializeField] private TMP_Text text;
 
     // このフラグはドラッグ中にクリックイベントを無効にするために使用されます
     private bool _isDragging = false;
 
-    public void OnPointerDown(PointerEventData eventData)
+    private void Start()
     {
+        ItemManager.Instance.OnChanged.AddListener(UpdateUI);
+        UpdateUI();
+    }
+    private void UpdateUI()
+    {
+        var itemStack = ItemManager.Instance.quickItems[ItemManager.Instance.selectedQuickItemIndex];
+        if (itemStack != null)
+        {
+            icon.sprite = itemStack.Item.ItemIcon;
+            text.text = itemStack.Amount.ToString();
+        }
+        else
+        {
+            icon.sprite = null;
+            text.text = string.Empty;
+        }
     }
 
-    /// ボタンがクリックされたときの処理
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        // ここにボタンがクリックされたときの処理を記述
         if (!_isDragging)
         {
             playerController.ActInteract();
         }
     }
-
     /// ボタンがドラッグされ始めたら、クリック機能を停止させる
     public void OnBeginDrag(PointerEventData eventData)
     {

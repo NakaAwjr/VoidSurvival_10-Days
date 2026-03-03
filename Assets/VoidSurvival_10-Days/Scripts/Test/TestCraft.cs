@@ -6,15 +6,12 @@ public class TestCraft : MonoBehaviour
 {
     [SerializeField] private CraftingRecipeDatabase craftingRecipeDatabase;
     [SerializeField] private ItemDatabase itemDatabase;
-
-    [SerializeField] private InvenrtyDialog inventoryDialog;
+    [SerializeField] private InventoryDialog inventoryDialog;
 
     // Start is called before the first frame update
     void Start()
     {
-        CraftingManager.Initialize(craftingRecipeDatabase);
         CraftingManager.Instance.AddRecipe(craftingRecipeDatabase.GetValue(0)); // 例としてID 0のレシピを追加
-        ItemManager.Initialize(itemDatabase);
         Item item = itemDatabase.GetValue(0); // ID 0のアイテムを取得
         ItemManager.Instance.AddItem(item, 10); // そのアイテムを10個追加
         Debug.Log("Inventory before crafting: " + ItemManager.Instance.GetItemStack(item)?.Amount);
@@ -24,6 +21,6 @@ public class TestCraft : MonoBehaviour
         Debug.Log($"Crafted {canCraftCount} items from recipe 0.");
         Debug.Log("Inventory after crafting: " + ItemManager.Instance.GetItemStack(item)?.Amount);
 
-        inventoryDialog.OpenInventory();
+        inventoryDialog.OpenDialog();
     }
 }

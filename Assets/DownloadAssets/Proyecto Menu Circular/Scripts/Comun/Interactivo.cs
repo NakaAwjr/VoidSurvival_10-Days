@@ -39,7 +39,7 @@ namespace MoonAntonio.UI
 		private void Start()// Inicializador de Interactivo
 		{
 			// Comprobacion y seleccion de titulo
-			if (titulo == "" || titulo == null) titulo = gameObject.name;
+			// if (titulo == "" || titulo == null) titulo = gameObject.name;
 		}
 		#endregion
 
