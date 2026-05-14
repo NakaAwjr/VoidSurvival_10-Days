@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "VoidSurvival_10-Days.sln"
+    "dotnet.defaultSolution": "VoidSurvival_10-Days.slnx"
 }

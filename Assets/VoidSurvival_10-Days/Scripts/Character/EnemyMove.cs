@@ -42,7 +42,7 @@ public class EnemyMove : MonoBehaviour
     /// </summary>
     public void OnDetectObject(Collider2D other)
     {
-        if (!_status.IsMoovable)
+        if (!_status.IsMovable)
         {
             _navMeshAgent.isStopped = true;
             return;
@@ -72,7 +72,7 @@ public class EnemyMove : MonoBehaviour
     //ランダムに移動する
     private void GoToNextPoint()
     {
-        if (!_status.IsMoovable) return;
+        if (!_status.IsMovable) return;
         if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance < 0.5f)
         {
             Vector3 randomDirection = Random.insideUnitSphere * detectionRadius;

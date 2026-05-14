@@ -8,10 +8,6 @@ public abstract class Dialog : MonoBehaviour
         UpdateUI();
     }
     protected virtual void OnDisable() { }
-    protected virtual void Start()
-    {
-        // CloseDialog();
-    }
 
     /// <summary>
     /// UIの更新
@@ -26,9 +22,6 @@ public abstract class Dialog : MonoBehaviour
     public virtual void OpenDialog()
     {
         gameObject.SetActive(true);
-        MainUI.Instance?.CloseMainUI();
-        // TimeManagerのタイマーを停止
-        // TimeManager.Instance.PauseTimer();
     }
     /// <summary>
     /// ダイアログを閉じる
@@ -36,8 +29,5 @@ public abstract class Dialog : MonoBehaviour
     public virtual void CloseDialog()
     {
         gameObject.SetActive(false);
-        MainUI.Instance?.OpenMainUI();
-        // TimeManagerのタイマーを再開
-        // TimeManager.Instance.ResumeTimer();
     }
 }

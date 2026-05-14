@@ -46,7 +46,7 @@ public class InventoryItemButton : ItemButtonBase
 
         foreach (var result in results)
         {
-            var itemControll = result.gameObject.GetComponent<IItemControll>();
+            var itemControll = result.gameObject.GetComponent<IItemControl>();
             if (itemControll != null)
             {
                 itemControll.OnDrop(itemStack.Item);

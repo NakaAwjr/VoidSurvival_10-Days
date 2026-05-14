@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerStatus : CharacterStatus
 {
     // キャラクターのステータスがIdleまたはFatigueのときに移動可能
-    public override bool IsMoovable => _status == StatusEnum.Idle || _status == StatusEnum.Fatigue;
+    public override bool IsMovable => _status == StatusEnum.Idle || _status == StatusEnum.Fatigue;
     // ダッシュ可能かどうか
     public bool IsDashing => _status == StatusEnum.Idle;
     //スタミナ

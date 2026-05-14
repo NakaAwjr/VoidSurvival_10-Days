@@ -1,4 +1,4 @@
-interface IItemControll
+interface IItemControl
 {
     /// <summary>
     /// インベントリからドラッグ＆ドロップで呼ばれる

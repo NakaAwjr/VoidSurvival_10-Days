@@ -15,7 +15,7 @@ public abstract class CharacterStatus : MonoBehaviour
     protected CharacterBuffManager _buffManager;
 
     // キャラクターのステータスがIdleのときに移動、行動可能
-    public virtual bool IsMoovable => _status == StatusEnum.Idle;
+    public virtual bool IsMovable => _status == StatusEnum.Idle;
     public bool IsActive => _status == StatusEnum.Idle;
 
     public int MaxHitPoint => getMaxHitPoint();
@@ -82,7 +82,7 @@ public abstract class CharacterStatus : MonoBehaviour
     /// アクティブ状態に移行する処理
     /// アクティブ状態では他の行動はできない
     /// </summary>
-    public void GoToActiveStatefPossible()
+    public void GoToActiveStateIfPossible()
     {
         if (!IsActive) return;
         _status = StatusEnum.Active;

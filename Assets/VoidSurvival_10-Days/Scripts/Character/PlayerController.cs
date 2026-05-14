@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
             _status.ConsumeStamina(1);
         }
 
-        if (_status.IsMoovable)
+        if (_status.IsMovable)
         {
             // キャラクターのアニメーションを更新
             _renderer.SetDirection(_moveInput);

@@ -25,6 +25,6 @@ public class SaveSlotButton : MonoBehaviour
 
     public void OnClick()
     {
-        _dialog.ButtonSerected(_pair.Key);
+        _dialog.ButtonSelected(_pair.Key);
     }
 }

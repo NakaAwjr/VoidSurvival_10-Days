@@ -35,7 +35,7 @@ public abstract class CharacterRenderer : MonoBehaviour
     /// </summary>
     public void SetDirection(Vector2 direction)
     {
-        if (_characterStatus.IsMoovable)
+        if (_characterStatus.IsMovable)
         {
             // 入力の大きさが小さい場合は待機状態を使用
             if (direction.magnitude < 0.01f)

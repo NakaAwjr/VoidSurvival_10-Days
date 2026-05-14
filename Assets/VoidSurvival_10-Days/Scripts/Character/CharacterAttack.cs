@@ -26,7 +26,7 @@ public class CharacterAttack : MonoBehaviour
     {
         if (!_characterStatus.IsActive) return;
         _characterRenderer.SetAttackAnimation();
-        _characterStatus.GoToActiveStatefPossible();
+        _characterStatus.GoToActiveStateIfPossible();
     }
     /// <summary>
     /// 攻撃範囲に入ったときに攻撃可能なら攻撃する(敵専用)
