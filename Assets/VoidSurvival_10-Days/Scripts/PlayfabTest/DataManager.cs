@@ -8,6 +8,9 @@ using System.Linq;
 
 public class DataManager : MonoBehaviour
 {
+
+    public static DataManager Instance { get; private set; }
+    public bool IsDataLoaded { get; private set; } = false;
     [SerializeField] private TMP_Text dataValueText;
 
     private GameMasterDataRoot _rootData;
@@ -78,5 +81,25 @@ public class DataManager : MonoBehaviour
                 }
             }, null);
         }, null);
+    }
+
+
+    // ▼ ロード時に呼ばれる処理 ▼
+    public void FromSaveData(GameMasterDataRoot data)
+    {
+        // セーブデータの中にちゃんとデータが存在すれば、通信を待たずに即座に復元！
+        if (data != null && data.Gyro != null && data.Gyro.Count > 0)
+        {
+            _rootData = data;
+            _dataStartOffset = _rootData.Gyro[0].TotalSeconds;
+            IsDataLoaded = true; // 即座に準備完了フラグを立てる
+            Debug.Log("セーブデータからPlayFabデータを一瞬で復元しました！");
+        }
+    }
+
+    // ▼ セーブ時に呼ばれる処理 ▼
+    public GameMasterDataRoot ToSaveData()
+    {
+        return _rootData;
     }
 }

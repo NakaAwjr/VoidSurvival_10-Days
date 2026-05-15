@@ -78,6 +78,8 @@ public class SaveManager : MonoBehaviour
             FacilityManager.Instance.FromSaveData(_data.FacilityDatas);
             WorkbenchManager.Instance.FromSaveData(_data.WorkbenchData);
         }
+
+
         _loadOp.allowSceneActivation = true;
         Debug.Log("ロード完了");
         TimeManager.Instance.ResumeTimer();
@@ -85,12 +87,17 @@ public class SaveManager : MonoBehaviour
 
     public async void SaveGameAsync(string key)
     {
+        
         SaveData _data = new SaveData();
         _data.ItemData = ItemManager.Instance.ToSaveData();
         _data.RecipeData = CraftingManager.Instance.ToSaveData();
         _data.ElapsedTime = TimeManager.Instance.ElapsedTime;
         _data.FacilityDatas = FacilityManager.Instance.ToSaveData();
         _data.WorkbenchData = WorkbenchManager.Instance.ToSaveData();
+        // if (DataManager.Instance != null)
+        // {
+        //     _data.SensorMasterData = DataManager.Instance.ToSaveData();
+        // }
         saveKeys.SetValue(key, DateTime.Now.ToString());
         await _saveService.SaveAsync(key, _data);
         await _saveKeyService.SaveAsync(SaveSlotKey, saveKeys);
