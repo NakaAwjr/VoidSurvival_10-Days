@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: SandGround_0
+  m_Name: stairs-collider-a
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -4746583026042436932, guid: 249a86e412f15e841b37d4816f023014, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 97367e8fd5a5c405fa7cda4d1139ad5c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
