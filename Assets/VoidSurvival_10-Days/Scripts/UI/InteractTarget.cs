@@ -8,6 +8,7 @@ public class InteractTarget : MonoBehaviour
     public static InteractTarget Instance { get; private set; }
     private Camera _mainCamera;
     private RectTransform _parentRectTransform;
+    private Transform _target = null;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,10 @@ public class InteractTarget : MonoBehaviour
         _parentRectTransform = transform.parent.GetComponent<RectTransform>();
         gameObject.SetActive(false);
     }
+    private void Update()
+    {
+        MoveTarget();
+    }
 
     /// <summary>
     /// IInteractActionを持つオブジェクトの範囲に入った時に呼び出してターゲットを表示する
@@ -35,9 +40,7 @@ public class InteractTarget : MonoBehaviour
     public void ShowTarget(Transform target)
     {
         gameObject.SetActive(true);
-        var screenPos = _mainCamera.WorldToScreenPoint(target.position);
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(_parentRectTransform, screenPos, null, out Vector2 localPoint);
-        transform.localPosition = localPoint + new Vector2(0, 50);
+        _target = target;
     }
     /// <summary>
     /// ターゲットを非表示にする
@@ -46,5 +49,13 @@ public class InteractTarget : MonoBehaviour
     public void HideTarget()
     {
         gameObject.SetActive(false);
+        _target = null;
+    }
+    private void MoveTarget()
+    {
+        if (_target == null) return;
+        var screenPos = _mainCamera.WorldToScreenPoint(_target.position);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(_parentRectTransform, screenPos, null, out Vector2 localPoint);
+        transform.localPosition = localPoint + new Vector2(0, 50);
     }
 }
