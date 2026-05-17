@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// インタラクト可能なオブジェクトのターゲットを表示するUI
@@ -21,11 +22,8 @@ public class InteractTarget : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if (_mainCamera == null)
-        {
-            _mainCamera = Camera.main;
-        }
         _parentRectTransform = transform.parent.GetComponent<RectTransform>();
+        SceneManager.sceneLoaded += CameraSelect;
         gameObject.SetActive(false);
     }
     private void Update()
@@ -33,6 +31,16 @@ public class InteractTarget : MonoBehaviour
         MoveTarget();
     }
 
+    /// <summary>
+    /// カメラ選択(シーンロード後に起動)
+    /// </summary>
+    public void CameraSelect(Scene nextScene, LoadSceneMode mode)
+    {
+        if (_mainCamera == null)
+        {
+            _mainCamera = Camera.main;
+        }
+    }
     /// <summary>
     /// IInteractActionを持つオブジェクトの範囲に入った時に呼び出してターゲットを表示する
     /// </summary>

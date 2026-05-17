@@ -22,23 +22,9 @@ public class SaveManager : MonoBehaviour
     public SerializableDictionary<string, string> saveKeys { get; private set; }
 
     [SerializeField] private string scene;
-    [SerializeField] private ItemDatabase itemDatabase;
-    [SerializeField] private CraftingRecipeDatabase recipeDatabase;
-    [SerializeField] private WorkbenchRecipeDataBase workbenchRecipeDatabase;
-    /// <summary>
-    /// 初期インベントリを設定
-    /// </summary>
-    [SerializeField] private List<ItemStack> initialInventory = new List<ItemStack>();
-    /// <summary>
-    /// 初期レシピを設定
-    /// </summary>
-    [SerializeField] private List<CraftingRecipe> initialRecipes = new List<CraftingRecipe>();
 
     private async void Awake()
     {
-        // フレームレート設定
-        Application.targetFrameRate = 61;
-
         if (Instance == null)
         {
             Instance = this;
@@ -48,9 +34,6 @@ public class SaveManager : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(this);
-        ItemManager.Initialize(itemDatabase, initialInventory);
-        CraftingManager.Initialize(recipeDatabase, initialRecipes);
-        WorkbenchManager.Initialize(itemDatabase, workbenchRecipeDatabase);
 
         saveKeys = await _saveKeyService.LoadAsync(SaveSlotKey);
         if (saveKeys == null)
@@ -67,6 +50,7 @@ public class SaveManager : MonoBehaviour
     public async void LoadGameAsync(string key)
     {
         Debug.Log("ロード中");
+        TimeManager.Instance.PauseTimer();
         AsyncOperation _loadOp = SceneManager.LoadSceneAsync(scene);
         _loadOp.allowSceneActivation = false;
         SaveData _data = await _saveService.LoadAsync(key);

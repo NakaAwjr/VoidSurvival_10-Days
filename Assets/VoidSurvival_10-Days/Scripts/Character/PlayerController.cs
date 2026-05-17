@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private Vector2 _moveInput;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -75,12 +79,14 @@ public class PlayerController : MonoBehaviour
     #region Collider Events
     public void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.GetComponent<InteractAction>() == null) return;
         _interactAction = other.GetComponent<InteractAction>();
         _interactAction?.ShowInteractTarget();
     }
 
     public void OnTriggerExit2D(Collider2D other)
     {
+        if (other.GetComponent<InteractAction>() == null) return;
         _interactAction?.HideInteractTarget();
         _interactAction = null;
     }

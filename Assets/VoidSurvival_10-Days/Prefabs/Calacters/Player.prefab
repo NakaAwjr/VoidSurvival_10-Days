@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 2929142814413688371}
   - component: {fileID: 4665596471536710678}
   m_Layer: 13
-  m_Name: RigitCollider
+  m_Name: RigidCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

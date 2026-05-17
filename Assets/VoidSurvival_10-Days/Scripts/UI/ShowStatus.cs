@@ -5,7 +5,11 @@ public class ShowStatus : MonoBehaviour
 {
     [SerializeField] private TMP_Text HPText;
     [SerializeField] private TMP_Text SPText;
-    [SerializeField] private PlayerStatus playerStats;
+    private PlayerStatus playerStats;
+    private void Awake()
+    {
+        playerStats = FindAnyObjectByType<PlayerStatus>().GetComponent<PlayerStatus>();
+    }
     // Update is called once per frame
     void Update()
     {
