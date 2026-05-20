@@ -6,4 +6,6 @@ public class SaveData
     public float ElapsedTime;
     public FacilitySaveData[] FacilityDatas;
     public WorkbenchSaveData WorkbenchData;
+    public PlayerSaveData PlayerSaveData;
+    public string Scene;
 }

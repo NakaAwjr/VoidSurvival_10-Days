@@ -31,12 +31,18 @@ public class CommunicationDialog : Dialog
         canvas = GetComponent<Canvas>();
         canvas.worldCamera = Camera.main;
         GenerateNewTarget();
-        CloseDialog();
+        gameObject.SetActive(false);
     }
     public override void OpenDialog()
     {
         base.OpenDialog();
+        MainUI.Instance.AddBackStack();
         GenerateNewTarget();
+    }
+    public override void CloseDialog()
+    {
+        base.CloseDialog();
+        MainUI.Instance.RemoveBackStack();
     }
     private void Update()
     {

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-public class QuickItemButton : ItemButtonBase, IItemControll
+public class QuickItemButton : ItemButtonBase, IItemControl
 {
     public void OnDrop(Item item)
     {

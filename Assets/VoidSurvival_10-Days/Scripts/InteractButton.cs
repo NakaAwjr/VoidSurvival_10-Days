@@ -5,13 +5,17 @@ using UnityEngine.UI;
 
 public class InteractButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
-    [SerializeField] private PlayerController playerController;
+    private PlayerController playerController;
     [SerializeField] private Image icon;
     [SerializeField] private TMP_Text text;
 
     // このフラグはドラッグ中にクリックイベントを無効にするために使用されます
     private bool _isDragging = false;
 
+    private void Awake()
+    {
+        playerController = FindAnyObjectByType<PlayerController>().GetComponent<PlayerController>();
+    }
     private void Start()
     {
         ItemManager.Instance.OnChanged.AddListener(UpdateUI);

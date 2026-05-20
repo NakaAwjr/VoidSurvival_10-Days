@@ -221,21 +221,7 @@ public class WorkbenchManager
     {
         if (_workingRecipe != null)
         {
-            float time = _workingRecipe.time;
-            var AllBuffs = OthersBuffManager.GetBuffs(OthersBuffType.WorkbenchEfficiency);
-            foreach (var buff in AllBuffs)
-            {
-                if (buff.OperationType == BuffOperationType.Multiply)
-                {
-                    time = time * (1 + buff.GetValue());
-                }
-                else if (buff.OperationType == BuffOperationType.Add)
-                {
-                    time += buff.GetValue();
-                }
-                Debug.Log(buff.Description + " applied. New time: " + time);
-            }
-            return Mathf.CeilToInt(time);
+            return Mathf.CeilToInt(OthersBuffManager.GetBuffValue(OthersBuffType.WorkbenchEfficiency, _workingRecipe.time));
         }
         return 0;
     }

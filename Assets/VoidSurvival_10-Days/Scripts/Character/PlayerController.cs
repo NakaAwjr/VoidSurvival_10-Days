@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private Vector2 _moveInput;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +49,7 @@ public class PlayerController : MonoBehaviour
             _status.ConsumeStamina(1);
         }
 
-        if (_status.IsMoovable)
+        if (_status.IsMovable)
         {
             // キャラクターのアニメーションを更新
             _renderer.SetDirection(_moveInput);
@@ -75,14 +79,20 @@ public class PlayerController : MonoBehaviour
     #region Collider Events
     public void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.GetComponent<InteractAction>() == null) return;
         _interactAction = other.GetComponent<InteractAction>();
         _interactAction?.ShowInteractTarget();
     }
 
     public void OnTriggerExit2D(Collider2D other)
     {
-        _interactAction?.HideInteractTarget();
-        _interactAction = null;
+        var interactAction = other.GetComponent<InteractAction>();
+        if (interactAction == null) return;
+        if (interactAction.Equals(_interactAction))
+        {
+            _interactAction?.HideInteractTarget();
+            _interactAction = null;
+        }
     }
     #endregion
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using System.Linq;
 
 public class MainUI : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class MainUI : MonoBehaviour
     [SerializeField] private GameObject dialogs;
     [SerializeField] private Button backButton;
     private RectTransform backButtonRect => backButton.GetComponent<RectTransform>();
+    [SerializeField] private DialogID othersID;
     [SerializeField] private List<DialogEntry> dialogEntries;
 
     private Dictionary<DialogID, Dialog> cache = new();
@@ -35,7 +37,7 @@ public class MainUI : MonoBehaviour
         });
 
         OpenMainUI();
-        SetActiveBackButton();
+        SetActiveBackButtonAndMainUI();
     }
 
     /// <summary>
@@ -58,18 +60,35 @@ public class MainUI : MonoBehaviour
         controllers.SetActive(false);
     }
 
-    private void SetActiveBackButton()
+    /// <summary>
+    /// バックボタンの表示を切り替える
+    //  ダイアログが開いているときはバックボタンを表示し、メインUIを閉じる
+    //  ダイアログが開いていないときはバックボタンを非表示にし、メインUIを開く
+    /// </summary>
+    private void SetActiveBackButtonAndMainUI()
     {
-        backButton.gameObject.SetActive(isDialogOpen);
+        if (isDialogOpen)
+        {
+            CloseMainUI();
+            // 最後に開いたダイアログのグループにothersIDが含まれているかでバックボタンの表示を切り替える
+            if (backStack.Peek().Contains(othersID))
+            {
+                backButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                backButton.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            OpenMainUI();
+            backButton.gameObject.SetActive(false);
+        }
         backButtonRect.SetAsLastSibling();
     }
 
-    #region メニュー
-    [SerializeField] private Dialog settingDialog;
-    [SerializeField] private Dialog inventoryDialog;
-    [SerializeField] private Dialog craftDialog;
-    [SerializeField] private Dialog workbenchDialog;
-
+    #region Dialog Management
     private bool isDialogOpen => backStack.Count > 0;
 
     /// <summary>
@@ -81,7 +100,7 @@ public class MainUI : MonoBehaviour
         var dialog = GetOrCreate(id);
         dialog.OpenDialog();
         backStack.Push(new List<DialogID> { id });
-        SetActiveBackButton();
+        SetActiveBackButtonAndMainUI();
     }
     /// <summary>
     /// ダイアログを開く(グループ)
@@ -98,7 +117,7 @@ public class MainUI : MonoBehaviour
         }
 
         backStack.Push(group);
-        SetActiveBackButton();
+        SetActiveBackButtonAndMainUI();
     }
     /// <summary>
     /// 現在のダイアログを閉じる
@@ -116,7 +135,7 @@ public class MainUI : MonoBehaviour
                 dlg.CloseDialog();
             }
         }
-        SetActiveBackButton();
+        SetActiveBackButtonAndMainUI();
     }
     /// <summary>
     /// ダイアログを取得する
@@ -139,25 +158,25 @@ public class MainUI : MonoBehaviour
         cache[id] = instance;
         return instance;
     }
-
-    public void OpenSetting()
+    /// <summary>
+    /// othersIDを現在のダイアロググループに追加する
+    /// MainUIのOpenDialogを使わないダイアログ用
+    /// </summary>
+    public void AddBackStack()
     {
-        // 設定画面を開く
-        settingDialog.OpenDialog();
+        backStack.Push(new List<DialogID> { othersID });
+        SetActiveBackButtonAndMainUI();
     }
-    public void OpenPlayerInfo()
+    /// <summary>
+    /// othersIDを現在のダイアロググループから削除する
+    /// </summary>
+    public void RemoveBackStack()
     {
-        // プレイヤー情報画面を開く
-        inventoryDialog.OpenDialog();
-    }
-    public void OpenCraft()
-    {
-        // クラフト画面を開く
-        craftDialog.OpenDialog();
-    }
-    public void OpenArchive()
-    {
-        // アーカイブ画面を開く
+        if (backStack.Count > 0 && backStack.Peek().Contains(othersID))
+        {
+            backStack.Pop();
+        }
+        SetActiveBackButtonAndMainUI();
     }
     #endregion
 }

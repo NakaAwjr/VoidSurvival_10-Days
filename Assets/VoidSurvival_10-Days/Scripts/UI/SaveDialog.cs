@@ -11,21 +11,11 @@ public class SaveDialog : Dialog
         _saveSlotButtons = viewPortContent.GetComponentsInChildren<SaveSlotButton>();
     }
 
-    public override void OpenDialog()
-    {
-        gameObject.SetActive(true);
-        UpdateUI();
-    }
-    public override void CloseDialog()
-    {
-        gameObject.SetActive(false);
-    }
-
     /// <summary>
     /// 押されたボタンのkeyを取得
     /// </summary>
     /// <param name="str"></param>
-    public void ButtonSerected(string str)
+    public void ButtonSelected(string str)
     {
         _selected = str;
     }

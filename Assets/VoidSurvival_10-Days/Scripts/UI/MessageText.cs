@@ -26,15 +26,21 @@ public class MessageText : Dialog, IPointerClickHandler
         {
             Destroy(gameObject);
         }
-        CloseDialog();
-        // //テスト用
-        // List<string> list = new List<string>()
-        // {
-        //     "aaaaaaa",
-        //     "bbbbbb",
-        //     "ccccccc"
-        // };
-        // StartCoroutine(TextMessage(list));
+        gameObject.SetActive(false);
+    }
+    public override void OpenDialog()
+    {
+        base.OpenDialog();
+        MainUI.Instance.AddBackStack();
+        // TimeManagerのタイマーを停止
+        TimeManager.Instance.PauseTimer();
+    }
+    public override void CloseDialog()
+    {
+        base.CloseDialog();
+        MainUI.Instance.RemoveBackStack();
+        // TimeManagerのタイマーを再開
+        TimeManager.Instance.ResumeTimer();
     }
     public void OnPointerClick(PointerEventData eventData)
     {

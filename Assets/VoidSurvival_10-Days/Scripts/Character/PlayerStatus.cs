@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerStatus : CharacterStatus
 {
     // キャラクターのステータスがIdleまたはFatigueのときに移動可能
-    public override bool IsMoovable => _status == StatusEnum.Idle || _status == StatusEnum.Fatigue;
+    public override bool IsMovable => _status == StatusEnum.Idle || _status == StatusEnum.Fatigue;
     // ダッシュ可能かどうか
     public bool IsDashing => _status == StatusEnum.Idle;
     //スタミナ
@@ -15,11 +15,15 @@ public class PlayerStatus : CharacterStatus
     [SerializeField] private int maxStaminaPoint = 100;
     private int _currentStaminaPoint;
 
+    private void Awake()
+    {
+        _currentHitPoint = maxHitPoint;
+        _currentStaminaPoint = maxStaminaPoint;
+    }
     protected override void Start()
     {
-        base.Start();
+        _buffManager = GetComponent<CharacterBuffManager>();
         FacilityManager.Instance.AllBuffAddToPlayer();
-        _currentStaminaPoint = MaxStaminaPoint;
         //時間経過でスタミナ回復、ゲーム内時間か現実時間かどうしようか？
         TimeManager.Instance.OnMinuteChanged.AddListener(() =>
         {
@@ -94,6 +98,35 @@ public class PlayerStatus : CharacterStatus
     {
         if (_status == StatusEnum.Dead) return;
         _status = StatusEnum.Fatigue;
+    }
+    #endregion
+
+    #region Save
+    public void FromSaveData(PlayerSaveData saveData)
+    {
+        maxHitPoint = saveData.MaxHitPoint;
+        maxStaminaPoint = saveData.MaxStaminaPoint;
+        power = saveData.Power;
+        defense = saveData.Defense;
+        _currentHitPoint = saveData.CurrentHitPoint;
+        _currentStaminaPoint = saveData.CurrentStaminaPoint;
+        staminaHealSpeed = saveData.StaminaHealSpeed;
+        transform.position = new Vector3(saveData.PositionX, saveData.PositionY, 0);
+    }
+    public PlayerSaveData ToSaveData()
+    {
+        PlayerSaveData saveData = new PlayerSaveData
+        {
+            MaxHitPoint = maxHitPoint,
+            MaxStaminaPoint = maxStaminaPoint,
+            Power = power,
+            Defense = defense,
+            CurrentHitPoint = _currentHitPoint,
+            CurrentStaminaPoint = _currentStaminaPoint,
+            PositionX = this.transform.position.x,
+            PositionY = this.transform.position.y,
+        };
+        return saveData;
     }
     #endregion
 }

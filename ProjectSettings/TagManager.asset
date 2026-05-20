@@ -18,8 +18,8 @@ TagManager:
   - Enemy
   - EnemyAttack
   - Item
-  - 
-  - 
+  - CharacterCollider
+  - SceneMover
   - 
   - 
   - 
@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Map
+    uniqueID: 3785071039
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

@@ -17,7 +17,7 @@ public class WeaponItem : Item
         var playerStatus = player.GetComponent<PlayerStatus>();
         if (!playerStatus.IsActive || playerStatus.CurrentStaminaPoint < StaminaCost) return;
         renderer.SetAttackAnimation();
-        playerStatus.GoToActiveStatefPossible();
+        playerStatus.GoToActiveStateIfPossible();
         playerStatus.ConsumeStamina(StaminaCost);
     }
 }

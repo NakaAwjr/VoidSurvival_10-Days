@@ -28,7 +28,7 @@ public class EnemyMove : MonoBehaviour
         _renderer = GetComponent<EnemyRenderer>();
         _navMeshAgent.speed = moveSpeed;
         _position = transform.position;
-        StartCoroutine(DetectionCoroutine());
+        //StartCoroutine(DetectionCoroutine());
     }
 
     // Update is called once per frame
@@ -42,7 +42,7 @@ public class EnemyMove : MonoBehaviour
     /// </summary>
     public void OnDetectObject(Collider2D other)
     {
-        if (!_status.IsMoovable)
+        if (!_status.IsMovable)
         {
             _navMeshAgent.isStopped = true;
             return;
@@ -57,14 +57,16 @@ public class EnemyMove : MonoBehaviour
             if (_hitCount == 0)
             {
                 // プレイヤーに向かって移動
-                StopCoroutine(DetectionCoroutine());
+                //StopCoroutine(DetectionCoroutine());
                 _navMeshAgent.isStopped = false;
                 _navMeshAgent.SetDestination(_player.transform.position);
             }
             else
             {
                 // プレイヤーが障害物の向こう側にいる場合は停止
-                StartCoroutine(DetectionCoroutine());
+                //StartCoroutine(DetectionCoroutine());
+                _navMeshAgent.isStopped = true;
+                Debug.Log(_hits[0].transform.name);
             }
         }
     }
@@ -72,7 +74,7 @@ public class EnemyMove : MonoBehaviour
     //ランダムに移動する
     private void GoToNextPoint()
     {
-        if (!_status.IsMoovable) return;
+        if (!_status.IsMovable) return;
         if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance < 0.5f)
         {
             Vector3 randomDirection = Random.insideUnitSphere * detectionRadius;

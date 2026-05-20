@@ -50,7 +50,7 @@ public class FacilityManager : MonoBehaviour
     private void Start()
     {
         // 毎分施設にダメージを与える
-        TimeManager.Instance.OnMinuteChanged.AddListener(DamageFacilitys);
+        TimeManager.Instance.OnMinuteChanged.AddListener(DamageFacilities);
     }
 
     /// <summary>
@@ -111,21 +111,9 @@ public class FacilityManager : MonoBehaviour
     /// <summary>
     /// 施設にダメージを与える
     /// </summary>
-    private void DamageFacilitys()
+    private void DamageFacilities()
     {
-        var _damagePerMinute = damagePerMinute;
-        var facilityBuffs = OthersBuffManager.GetBuffs(OthersBuffType.FacilityDamageAccumulation);
-        foreach (var buff in facilityBuffs)
-        {
-            if (buff.OperationType == BuffOperationType.Multiply)
-            {
-                _damagePerMinute = _damagePerMinute * (1 + buff.GetValue());
-            }
-            else if (buff.OperationType == BuffOperationType.Add)
-            {
-                _damagePerMinute += buff.GetValue();
-            }
-        }
+        var _damagePerMinute = OthersBuffManager.GetBuffValue(OthersBuffType.FacilityDamageAccumulation, damagePerMinute);
         foreach (var facility in facilities)
         {
             facility.DamageFacility(_damagePerMinute);

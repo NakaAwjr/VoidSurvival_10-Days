@@ -22,23 +22,10 @@ public class SaveManager : MonoBehaviour
     public SerializableDictionary<string, string> saveKeys { get; private set; }
 
     [SerializeField] private string scene;
-    [SerializeField] private ItemDatabase itemDatabase;
-    [SerializeField] private CraftingRecipeDatabase recipeDatabase;
-    [SerializeField] private WorkbenchRecipeDataBase workbenchRecipeDatabase;
-    /// <summary>
-    /// 初期インベントリを設定
-    /// </summary>
-    [SerializeField] private List<ItemStack> initialInventory = new List<ItemStack>();
-    /// <summary>
-    /// 初期レシピを設定
-    /// </summary>
-    [SerializeField] private List<CraftingRecipe> initialRecipes = new List<CraftingRecipe>();
+    private PlayerStatus _playerStatus;
 
     private async void Awake()
     {
-        // フレームレート設定
-        Application.targetFrameRate = 61;
-
         if (Instance == null)
         {
             Instance = this;
@@ -48,9 +35,6 @@ public class SaveManager : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(this);
-        ItemManager.Initialize(itemDatabase, initialInventory);
-        CraftingManager.Initialize(recipeDatabase, initialRecipes);
-        WorkbenchManager.Initialize(itemDatabase, workbenchRecipeDatabase);
 
         saveKeys = await _saveKeyService.LoadAsync(SaveSlotKey);
         if (saveKeys == null)
@@ -62,24 +46,32 @@ public class SaveManager : MonoBehaviour
                 saveKeys.Add($"SaveData{i}", DateTime.MinValue.ToString());
             }
         }
+
+        _playerStatus = FindAnyObjectByType<PlayerStatus>();
     }
 
     public async void LoadGameAsync(string key)
     {
         Debug.Log("ロード中");
-        AsyncOperation _loadOp = SceneManager.LoadSceneAsync(scene);
-        _loadOp.allowSceneActivation = false;
+        TimeManager.Instance.PauseTimer();
+        //_loadOp.allowSceneActivation = false;
         SaveData _data = await _saveService.LoadAsync(key);
         if (_data != null)
         {
+            AsyncOperation _loadOp = SceneManager.LoadSceneAsync(_data.Scene);
             ItemManager.Instance.FromSaveData(_data.ItemData);
             CraftingManager.Instance.FromSaveData(_data.RecipeData);
             TimeManager.Instance.FromSaveData(_data.ElapsedTime);
             FacilityManager.Instance.FromSaveData(_data.FacilityDatas);
             WorkbenchManager.Instance.FromSaveData(_data.WorkbenchData);
+            _playerStatus.FromSaveData(_data.PlayerSaveData);
         }
-        _loadOp.allowSceneActivation = true;
-        Debug.Log("ロード完了");
+        else
+        {
+            AsyncOperation _loadOp = SceneManager.LoadSceneAsync(scene);
+        }
+            //_loadOp.allowSceneActivation = true;
+            Debug.Log("ロード完了");
         TimeManager.Instance.ResumeTimer();
     }
 
@@ -91,6 +83,8 @@ public class SaveManager : MonoBehaviour
         _data.ElapsedTime = TimeManager.Instance.ElapsedTime;
         _data.FacilityDatas = FacilityManager.Instance.ToSaveData();
         _data.WorkbenchData = WorkbenchManager.Instance.ToSaveData();
+        _data.PlayerSaveData = _playerStatus.ToSaveData();
+        _data.Scene = SceneManager.GetActiveScene().name;
         saveKeys.SetValue(key, DateTime.Now.ToString());
         await _saveService.SaveAsync(key, _data);
         await _saveKeyService.SaveAsync(SaveSlotKey, saveKeys);
