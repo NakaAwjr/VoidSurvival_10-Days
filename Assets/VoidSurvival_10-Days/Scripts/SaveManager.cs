@@ -22,6 +22,7 @@ public class SaveManager : MonoBehaviour
     public SerializableDictionary<string, string> saveKeys { get; private set; }
 
     [SerializeField] private string scene;
+    private PlayerStatus _playerStatus;
 
     private async void Awake()
     {
@@ -45,25 +46,32 @@ public class SaveManager : MonoBehaviour
                 saveKeys.Add($"SaveData{i}", DateTime.MinValue.ToString());
             }
         }
+
+        _playerStatus = FindAnyObjectByType<PlayerStatus>();
     }
 
     public async void LoadGameAsync(string key)
     {
         Debug.Log("ロード中");
         TimeManager.Instance.PauseTimer();
-        AsyncOperation _loadOp = SceneManager.LoadSceneAsync(scene);
-        _loadOp.allowSceneActivation = false;
+        //_loadOp.allowSceneActivation = false;
         SaveData _data = await _saveService.LoadAsync(key);
         if (_data != null)
         {
+            AsyncOperation _loadOp = SceneManager.LoadSceneAsync(_data.Scene);
             ItemManager.Instance.FromSaveData(_data.ItemData);
             CraftingManager.Instance.FromSaveData(_data.RecipeData);
             TimeManager.Instance.FromSaveData(_data.ElapsedTime);
             FacilityManager.Instance.FromSaveData(_data.FacilityDatas);
             WorkbenchManager.Instance.FromSaveData(_data.WorkbenchData);
+            _playerStatus.FromSaveData(_data.PlayerSaveData);
         }
-        _loadOp.allowSceneActivation = true;
-        Debug.Log("ロード完了");
+        else
+        {
+            AsyncOperation _loadOp = SceneManager.LoadSceneAsync(scene);
+        }
+            //_loadOp.allowSceneActivation = true;
+            Debug.Log("ロード完了");
         TimeManager.Instance.ResumeTimer();
     }
 
@@ -75,6 +83,8 @@ public class SaveManager : MonoBehaviour
         _data.ElapsedTime = TimeManager.Instance.ElapsedTime;
         _data.FacilityDatas = FacilityManager.Instance.ToSaveData();
         _data.WorkbenchData = WorkbenchManager.Instance.ToSaveData();
+        _data.PlayerSaveData = _playerStatus.ToSaveData();
+        _data.Scene = SceneManager.GetActiveScene().name;
         saveKeys.SetValue(key, DateTime.Now.ToString());
         await _saveService.SaveAsync(key, _data);
         await _saveKeyService.SaveAsync(SaveSlotKey, saveKeys);

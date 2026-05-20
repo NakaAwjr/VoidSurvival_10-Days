@@ -19,7 +19,7 @@ TagManager:
   - EnemyAttack
   - Item
   - CharacterCollider
-  - 
+  - SceneMover
   - 
   - 
   - 

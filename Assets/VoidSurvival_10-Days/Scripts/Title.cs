@@ -10,17 +10,17 @@ public class Title : MonoBehaviour
     [SerializeField] private GameObject player;
 
     /// <summary>
-    /// ‰ŠúƒCƒ“ƒxƒ“ƒgƒŠ‚ğİ’è
+    /// åˆæœŸã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã‚’è¨­å®š
     /// </summary>
     [SerializeField] private List<ItemStack> initialInventory = new List<ItemStack>();
     /// <summary>
-    /// ‰ŠúƒŒƒVƒs‚ğİ’è
+    /// åˆæœŸãƒ¬ã‚·ãƒ”ã‚’è¨­å®š
     /// </summary>
     [SerializeField] private List<CraftingRecipe> initialRecipes = new List<CraftingRecipe>();
 
     private void Awake()
     {
-        // ƒtƒŒ[ƒ€ƒŒ[ƒgİ’è
+        // ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆè¨­å®š
         Application.targetFrameRate = 61;
         // Initialize
         ItemManager.Initialize(itemDatabase, initialInventory);
@@ -41,11 +41,12 @@ public class Title : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒ^ƒCƒgƒ‹Œo—R‚Ìƒf[ƒ^ƒ[ƒh
+    /// ã‚¿ã‚¤ãƒˆãƒ«çµŒç”±ã®ãƒ‡ãƒ¼ã‚¿ãƒ­ãƒ¼ãƒ‰
     /// </summary>
     public void FirstLoadGame()
     {
         saveDialog.Load();
+        Debug.Log("Load Game");
         player.SetActive(true);
         MainUI.Instance.OpenMainUI();
     }

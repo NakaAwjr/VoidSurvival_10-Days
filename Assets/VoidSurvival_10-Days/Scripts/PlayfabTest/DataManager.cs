@@ -1,8 +1,8 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
-using PlayFab;
-using PlayFab.ClientModels;
+// using PlayFab;
+// using PlayFab.ClientModels;
 using Newtonsoft.Json;
 using System.Linq;
 
@@ -12,11 +12,11 @@ public class DataManager : MonoBehaviour
 
     private GameMasterDataRoot _rootData;
     private bool _isDataLoaded = false;
-    private int _dataStartOffset = 0; 
+    private int _dataStartOffset = 0;
 
     void Start()
     {
-        PlayFabSettings.staticSettings.TitleId = "148482";
+        // PlayFabSettings.staticSettings.TitleId = "148482";
         LoadDataFromPlayFab();
     }
 
@@ -32,7 +32,7 @@ public class DataManager : MonoBehaviour
         var cMag1 = _rootData.Mag1?.Where(d => d.TotalSeconds <= targetTotalSec).OrderByDescending(d => d.TotalSeconds).FirstOrDefault();
         var cMag2 = _rootData.Mag2?.Where(d => d.TotalSeconds <= targetTotalSec).OrderByDescending(d => d.TotalSeconds).FirstOrDefault();
         var cMag3 = _rootData.Mag3?.Where(d => d.TotalSeconds <= targetTotalSec).OrderByDescending(d => d.TotalSeconds).FirstOrDefault();
-        var cRad  = _rootData.Radiation?.Where(d => d.TotalSeconds <= targetTotalSec).OrderByDescending(d => d.TotalSeconds).FirstOrDefault();
+        var cRad = _rootData.Radiation?.Where(d => d.TotalSeconds <= targetTotalSec).OrderByDescending(d => d.TotalSeconds).FirstOrDefault();
 
         UpdateUI(cGyro, cMag1, cMag2, cMag3, cRad);
     }
@@ -61,22 +61,22 @@ public class DataManager : MonoBehaviour
 
     private void LoadDataFromPlayFab()
     {
-        var loginRequest = new LoginWithCustomIDRequest { CustomId = "VoidSurvival_User", CreateAccount = false };
-        PlayFabClientAPI.LoginWithCustomID(loginRequest, loginRes => {
-            PlayFabClientAPI.GetTitleData(new GetTitleDataRequest(), result => {
-                if (result.Data.ContainsKey("GameMasterData"))
-                {
-                    string jsonStr = result.Data["GameMasterData"];
-                    _rootData = JsonConvert.DeserializeObject<GameMasterDataRoot>(jsonStr);
+        // var loginRequest = new LoginWithCustomIDRequest { CustomId = "VoidSurvival_User", CreateAccount = false };
+        // PlayFabClientAPI.LoginWithCustomID(loginRequest, loginRes => {
+        //     PlayFabClientAPI.GetTitleData(new GetTitleDataRequest(), result => {
+        //         if (result.Data.ContainsKey("GameMasterData"))
+        //         {
+        //             string jsonStr = result.Data["GameMasterData"];
+        //             _rootData = JsonConvert.DeserializeObject<GameMasterDataRoot>(jsonStr);
 
-                    if (_rootData != null && _rootData.Gyro != null && _rootData.Gyro.Count > 0)
-                    {
-                        _dataStartOffset = _rootData.Gyro[0].TotalSeconds;
-                        _isDataLoaded = true;
-                        Debug.Log("★全センサーデータ（Mag3つ含む）読み込み完了！");
-                    }
-                }
-            }, null);
-        }, null);
+        //             if (_rootData != null && _rootData.Gyro != null && _rootData.Gyro.Count > 0)
+        //             {
+        //                 _dataStartOffset = _rootData.Gyro[0].TotalSeconds;
+        //                 _isDataLoaded = true;
+        //                 Debug.Log("★全センサーデータ（Mag3つ含む）読み込み完了！");
+        //             }
+        //         }
+        //     }, null);
+        // }, null);
     }
 }

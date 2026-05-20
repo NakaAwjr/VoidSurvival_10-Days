@@ -86,9 +86,13 @@ public class PlayerController : MonoBehaviour
 
     public void OnTriggerExit2D(Collider2D other)
     {
-        if (other.GetComponent<InteractAction>() == null) return;
-        _interactAction?.HideInteractTarget();
-        _interactAction = null;
+        var interactAction = other.GetComponent<InteractAction>();
+        if (interactAction == null) return;
+        if (interactAction.Equals(_interactAction))
+        {
+            _interactAction?.HideInteractTarget();
+            _interactAction = null;
+        }
     }
     #endregion
 }

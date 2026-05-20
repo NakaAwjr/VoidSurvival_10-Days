@@ -17,12 +17,12 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < spownCount; i++)
         {
             var maxRange = Enemies.Sum(x => x.spawnRange);
-            EnemySpawn(SelectEnemy(Random.Range(1, maxRange+1)));
+            EnemySpawn(SelectEnemy(Random.Range(1, maxRange + 1)));
         }
     }
 
     /// <summary>
-    /// �ǂ̃G�l�~�[���o�邩���߂�
+    /// どのエネミーが出るか決める
     /// </summary>
     /// <param name="x"></param>
     /// <returns></returns>
@@ -37,7 +37,7 @@ public class EnemySpawner : MonoBehaviour
         return null;
     }
     /// <summary>
-    /// �G��NavMesh��̃����_���Ȉʒu�ɃX�|�[��
+    /// 敵をNavMesh上のランダムな位置にスポーン
     /// </summary>
     /// <param name="enemy"></param>
     private void EnemySpawn(GameObject enemy)
