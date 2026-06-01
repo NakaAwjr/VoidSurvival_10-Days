@@ -476,7 +476,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &933465030
 Canvas:
   m_ObjectHideFlags: 0
@@ -486,7 +486,7 @@ Canvas:
   m_GameObject: {fileID: 933465027}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 2
   m_Camera: {fileID: 128323404}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -508,8 +508,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 933465027}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 89.99117}
+  m_LocalScale: {x: 0.01568211, y: 0.01568211, z: 0.01568211}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1503967447}
@@ -520,9 +520,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.785, y: 0.178}
+  m_SizeDelta: {x: 1275.3385, y: 717.3779}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &933465032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3544,7 +3544,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1594730467031353507, guid: 03c42c51d5d22e04597eec6c174aaafa, type: 3}
       propertyPath: orthographic size
-      value: 7.0251665
+      value: 5.625
       objectReference: {fileID: 0}
     - target: {fileID: 4670348827709254623, guid: 03c42c51d5d22e04597eec6c174aaafa, type: 3}
       propertyPath: m_Follow
