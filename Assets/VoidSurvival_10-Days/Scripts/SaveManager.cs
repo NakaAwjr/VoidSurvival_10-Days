@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -53,12 +53,15 @@ public class SaveManager : MonoBehaviour
     public async void LoadGameAsync(string key)
     {
         Debug.Log("ロード中");
-        TimeManager.Instance.PauseTimer();
-        //_loadOp.allowSceneActivation = false;
+        SceneLording.Instance.OpenDialog();
+        // TimeManager.Instance.PauseTimer();
         SaveData _data = await _saveService.LoadAsync(key);
+        var s = (_data != null) ? _data.Scene : scene;
+        AsyncOperation _loadOp = SceneManager.LoadSceneAsync(s);
+        _loadOp.allowSceneActivation = false;
+        await UniTask.WaitUntil(() => _loadOp.progress >= 0.9f);
         if (_data != null)
         {
-            AsyncOperation _loadOp = SceneManager.LoadSceneAsync(_data.Scene);
             ItemManager.Instance.FromSaveData(_data.ItemData);
             CraftingManager.Instance.FromSaveData(_data.RecipeData);
             TimeManager.Instance.FromSaveData(_data.ElapsedTime);
@@ -66,13 +69,11 @@ public class SaveManager : MonoBehaviour
             WorkbenchManager.Instance.FromSaveData(_data.WorkbenchData);
             _playerStatus.FromSaveData(_data.PlayerSaveData);
         }
-        else
-        {
-            AsyncOperation _loadOp = SceneManager.LoadSceneAsync(scene);
-        }
-            //_loadOp.allowSceneActivation = true;
-            Debug.Log("ロード完了");
-        TimeManager.Instance.ResumeTimer();
+        _loadOp.allowSceneActivation = true;
+        await UniTask.WaitUntil(() => _loadOp.isDone);
+        Debug.Log("ロード完了");
+        SceneLording.Instance.CloseDialog();
+        // TimeManager.Instance.ResumeTimer();
     }
 
     public async void SaveGameAsync(string key)

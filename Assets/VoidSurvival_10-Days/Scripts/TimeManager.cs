@@ -28,8 +28,7 @@ public class TimeManager : MonoBehaviour
     public UnityEvent OnMinuteChanged = new UnityEvent();
     private int _lastDay = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         DontDestroyOnLoad(gameObject);
         if (_instance == null)
@@ -41,16 +40,6 @@ public class TimeManager : MonoBehaviour
             Destroy(gameObject);
         }
         _timerCoroutine = StartTimer();
-    }
-
-    void Update()
-    {
-        // int currentDay = GetDay();
-        // if (currentDay != _lastDay)
-        // {
-        //     _lastDay = currentDay;
-        //     OnDayChanged.Invoke();
-        // }
     }
 
     /// <summary>
