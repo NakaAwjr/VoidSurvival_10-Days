@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TemplateScene.unity
     guid: 482e798b74c625c41a7a2f7f5caf3a61
+  - enabled: 1
+    path: Assets/Scenes/Indoor/HUB-A.unity
+    guid: 5019f6cd12e7f944e8caf22a1022005a
+  - enabled: 1
+    path: Assets/Scenes/Outdoor/ZONE-N.unity
+    guid: fb62ea77c77a9b2499862f164f3906d2
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 2774976281ef96945b2bf15aea9f6aae, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: b96fb4e62291cd94d871acead306d6e2, type: 2}
