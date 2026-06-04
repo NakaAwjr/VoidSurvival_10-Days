@@ -43,8 +43,8 @@ public class EnemySpawner : MonoBehaviour
     private void EnemySpawn(GameObject enemy)
     {
         NavMeshHit navMeshHit;
-        var ramdomPsition = new Vector3(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y), 0);
-        if (NavMesh.SamplePosition(ramdomPsition, out navMeshHit, 10, NavMesh.AllAreas))
+        var randomPosition = new Vector3(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y), 0);
+        if (NavMesh.SamplePosition(randomPosition, out navMeshHit, 10, NavMesh.AllAreas))
         {
             Instantiate(enemy, navMeshHit.position, Quaternion.identity);
         }
