@@ -7,7 +7,7 @@ public class TestInventry : MonoBehaviour
     void Start()
     {
         // ItemManagerの初期化
-        ItemManager.Initialize(itemDatabase);
+        // ItemManager.Initialize();
 
         // アイテムの追加
         Item item = itemDatabase.GetValue(0); // ID 1のアイテムを取得

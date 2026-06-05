@@ -2,9 +2,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class CraftingManager : MonoBehaviour
+public class CraftingManager
 {
-    public static CraftingManager Instance { get; private set; }
+    private static CraftingManager _instance;
+    public static CraftingManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new CraftingManager();
+            return _instance;
+        }
+    }
     private CraftingRecipeDatabase _craftingRecipeDatabase;
     public List<CraftingRecipe> craftingRecipes { get; private set; } // クラフト可能なレシピのリスト
 
@@ -13,30 +22,32 @@ public class CraftingManager : MonoBehaviour
     /// </summary>
     public UnityEvent OnChanged = new UnityEvent();
 
-    private CraftingManager(CraftingRecipeDatabase craftingRecipeDatabase, List<CraftingRecipe> initialRecipes = null)
+    private CraftingManager()
     {
-        _craftingRecipeDatabase = craftingRecipeDatabase;
-        if (initialRecipes != null)
+        _craftingRecipeDatabase = Resources.Load<CraftingRecipeDatabase>("CraftingRecipeDatabase");
+        List<CraftingRecipe> _initialRecipes = Resources.Load<InitData>("InitData")?.initialRecipes;
+        if (_initialRecipes != null)
         {
-            craftingRecipes = new List<CraftingRecipe>(initialRecipes);
+            craftingRecipes = new List<CraftingRecipe>(_initialRecipes);
         }
         else
         {
             craftingRecipes = new List<CraftingRecipe>();
         }
     }
-    public static void Initialize(CraftingRecipeDatabase craftingRecipeDatabase, List<CraftingRecipe> initialRecipes = null)
-    {
-        if (Instance == null)
-        {
-            Instance = new CraftingManager(craftingRecipeDatabase, initialRecipes);
-        }
-        else
-        {
-            Debug.LogWarning("CraftingManager instance already exists. Reinitializing.");
-        }
-    }
+    // public static void Initialize()
+    // {
+    //     if (Instance == null)
+    //     {
+    //         Instance = new CraftingManager();
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning("CraftingManager instance already exists. Reinitializing.");
+    //     }
+    // }
 
+    #region Methods
     /// <summary>
     /// 指定されたレシピに基づいてクラフト可能なアイテムの数を計算する
     /// </summary>
@@ -119,7 +130,9 @@ public class CraftingManager : MonoBehaviour
         }
         OnChanged?.Invoke();
     }
+    #endregion
 
+    #region Save
     public void FromSaveData(RecipeSaveData saveData)
     {
         if (saveData.Recipes == null)
@@ -154,4 +167,5 @@ public class CraftingManager : MonoBehaviour
 
         return saveData;
     }
+    #endregion
 }

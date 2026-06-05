@@ -6,7 +6,16 @@ using UnityEngine.Events;
 public class ItemManager
 {
     public const int QUICK_ITEM_COUNT = 4;
-    public static ItemManager Instance { get; private set; }
+    private static ItemManager _instance;
+    public static ItemManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new ItemManager();
+            return _instance;
+        }
+    }
     private ItemDatabase _itemDatabase;
     /// <summary>
     /// ItemStack(Itemと数量)の集合
@@ -37,6 +46,7 @@ public class ItemManager
         Legs,
     }
 
+    #region Events
     /// <summary>
     /// 何かしら変更されたときに発火するイベント
     /// </summary>
@@ -57,10 +67,13 @@ public class ItemManager
     /// アイテムを取得したときに発火するイベント
     /// </summary>
     public UnityEvent<Item> OnGetItem = new UnityEvent<Item>();
+    #endregion
 
-    private ItemManager(ItemDatabase itemDatabase, List<ItemStack> inventory = null)
+    #region Init
+    private ItemManager()
     {
-        _itemDatabase = itemDatabase;
+        _itemDatabase = Resources.Load<ItemDatabase>("ItemDatabase");
+        List<ItemStack> _initialInventory = Resources.Load<InitData>("InitData")?.initialInventory;
         quickItems = new ItemStack[QUICK_ITEM_COUNT];
         selectedQuickItemIndex = 0;
         equipmentSlot = new Dictionary<EquipmentType, Item>()
@@ -69,27 +82,29 @@ public class ItemManager
             [EquipmentType.Body] = null,
             [EquipmentType.Legs] = null
         };
-        if (inventory != null)
+        if (_initialInventory != null)
         {
-            this.inventory = new List<ItemStack>(inventory);
+            this.inventory = new List<ItemStack>(_initialInventory);
         }
         else
         {
             this.inventory = new List<ItemStack>();
         }
     }
-    public static void Initialize(ItemDatabase itemDatabase, List<ItemStack> inventory = null)
-    {
-        if (Instance == null)
-        {
-            Instance = new ItemManager(itemDatabase, inventory);
-        }
-        else
-        {
-            Debug.LogWarning("ItemManager instance already exists. Reinitializing.");
-        }
-    }
+    // public static void Initialize()
+    // {
+    //     if (Instance == null)
+    //     {
+    //         Instance = new ItemManager();
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning("ItemManager instance already exists. Reinitializing.");
+    //     }
+    // }
+    #endregion
 
+    #region Methods
     /// <summary>
     /// アイテムスタックを取得する処理
     /// </summary>
@@ -243,7 +258,9 @@ public class ItemManager
         }
         OnChanged?.Invoke();
     }
+    #endregion
 
+    #region Save
     public void FromSaveData(ItemSaveData saveData)
     {
         selectedQuickItemIndex = saveData.SelectedQuickItemIndex;
@@ -340,4 +357,5 @@ public class ItemManager
 
         return saveData;
     }
+    #endregion
 }
