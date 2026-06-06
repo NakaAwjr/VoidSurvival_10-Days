@@ -3,17 +3,18 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(BoxCollider2D))]
 public class EnemySpawner : MonoBehaviour
 {
+    [Header("敵情報")]
     [SerializeField] private int spownCount;
     [SerializeField] private List<SpawnEnemy> Enemies;
+    [Header("沸き範囲")]
+    [SerializeField] private Vector2 minXY;
+    [SerializeField] private Vector2 maxXY;
 
-    private Bounds bounds;
     // Start is called before the first frame update
     void Start()
     {
-        bounds = GetComponent<Collider2D>().bounds;
         for (int i = 0; i < spownCount; i++)
         {
             var maxRange = Enemies.Sum(x => x.spawnRange);
@@ -43,11 +44,21 @@ public class EnemySpawner : MonoBehaviour
     private void EnemySpawn(GameObject enemy)
     {
         NavMeshHit navMeshHit;
-        var randomPosition = new Vector3(Random.Range(bounds.min.x, bounds.max.x), Random.Range(bounds.min.y, bounds.max.y), 0);
+        var randomPosition = new Vector3(Random.Range(minXY.x, maxXY.x), Random.Range(minXY.y, maxXY.y), 0);
         if (NavMesh.SamplePosition(randomPosition, out navMeshHit, 10, NavMesh.AllAreas))
         {
             Instantiate(enemy, navMeshHit.position, Quaternion.identity);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(1f, 0.85f, 0f, 0.6f);
+        Vector2 transform = this.transform.position;
+        Gizmos.DrawLine(minXY, new Vector2(minXY.x, maxXY.y));
+        Gizmos.DrawLine(minXY, new Vector2(maxXY.x, minXY.y));
+        Gizmos.DrawLine(maxXY, new Vector2(minXY.x, maxXY.y));
+        Gizmos.DrawLine(maxXY, new Vector2(maxXY.x, minXY.y));
     }
 
     [System.Serializable]

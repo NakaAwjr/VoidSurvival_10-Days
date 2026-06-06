@@ -246,8 +246,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f2bdd319475ee4392d1d1cc72da67f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackInterval: 1
   attackCollider: {fileID: 2611785456064681240}
+  attackInterval: 1
+  northOffset: {x: 0, y: 0.5}
+  northSize: {x: 1, y: 1}
+  southOffset: {x: 0, y: -0.91}
+  southSize: {x: 1, y: 1}
+  westOffset: {x: -0.89, y: -0.42}
+  westSize: {x: 1, y: 1}
 --- !u!114 &7021246200343774717
 MonoBehaviour:
   m_ObjectHideFlags: 0

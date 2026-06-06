@@ -412,7 +412,7 @@ Transform:
   m_GameObject: {fileID: 389016308}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.2614508, y: 1.0772667, z: -10.056037}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1240,16 +1240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bdd428ebe4a5f6488c6cdf1d1b3f8b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemDatabase: {fileID: 11400000, guid: 50111a5a09e1a5c4087f5534727699f7, type: 2}
-  recipeDatabase: {fileID: 11400000, guid: d043e63f1d0e0214d9429dbf4f70b946, type: 2}
-  workbenchRecipeDatabase: {fileID: 11400000, guid: 226626838160bcb4c9b4b56a46877737, type: 2}
   saveDialog: {fileID: 1410149156}
   player: {fileID: 860158507}
-  initialInventory:
-  - item: {fileID: 11400000, guid: 0c64eaac1d175204589f6a7db8ba535f, type: 2}
-    amount: 10
-  initialRecipes:
-  - {fileID: 11400000, guid: e8ecb3ba1ad9bc348b4e550411c0dfeb, type: 2}
 --- !u!1 &1896322893
 GameObject:
   m_ObjectHideFlags: 0
