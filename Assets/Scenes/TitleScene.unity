@@ -402,7 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41ceef3b46519d488c9357cd7af431b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: MainScene
+  scene: HUB-A
 --- !u!4 &389016310
 Transform:
   m_ObjectHideFlags: 0
@@ -412,7 +412,7 @@ Transform:
   m_GameObject: {fileID: 389016308}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.2614508, y: 1.0772667, z: -10.056037}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -564,10 +564,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 706966738453147687, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
-      propertyPath: playerStats
-      value: 
-      objectReference: {fileID: 860158510}
     - target: {fileID: 865460416305857766, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -676,17 +672,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5809127689665169466, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
-      propertyPath: playerController
-      value: 
-      objectReference: {fileID: 860158511}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 2489014744811870873, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
-    - {fileID: 7827435073998224420, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
-    - {fileID: 2774349056784361830, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
-    - {fileID: 4903176383133622174, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
-    - {fileID: 8751711987379457706, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
@@ -742,28 +729,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2882814635830300548, guid: 946d018d010fb1f48ae32d42b31a1296, type: 3}
   m_PrefabInstance: {fileID: 1616883274}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &860158510 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1651195052698221959, guid: 946d018d010fb1f48ae32d42b31a1296, type: 3}
-  m_PrefabInstance: {fileID: 1616883274}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 860158507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17459fd9dba9df54d81e425d16ec7263, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &860158511 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7186683053911358325, guid: 946d018d010fb1f48ae32d42b31a1296, type: 3}
-  m_PrefabInstance: {fileID: 1616883274}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 860158507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60bf668f65f91574d884bca0eadca3b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1046025738
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,16 +1240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bdd428ebe4a5f6488c6cdf1d1b3f8b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemDatabase: {fileID: 11400000, guid: 50111a5a09e1a5c4087f5534727699f7, type: 2}
-  recipeDatabase: {fileID: 11400000, guid: d043e63f1d0e0214d9429dbf4f70b946, type: 2}
-  workbenchRecipeDatabase: {fileID: 11400000, guid: 226626838160bcb4c9b4b56a46877737, type: 2}
   saveDialog: {fileID: 1410149156}
   player: {fileID: 860158507}
-  initialInventory:
-  - item: {fileID: 11400000, guid: 0c64eaac1d175204589f6a7db8ba535f, type: 2}
-    amount: 10
-  initialRecipes:
-  - {fileID: 11400000, guid: e8ecb3ba1ad9bc348b4e550411c0dfeb, type: 2}
 --- !u!1 &1896322893
 GameObject:
   m_ObjectHideFlags: 0

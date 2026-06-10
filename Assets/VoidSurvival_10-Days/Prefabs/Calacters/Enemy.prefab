@@ -421,7 +421,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: 1.19
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &7132393486690822753
@@ -497,8 +497,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f2bdd319475ee4392d1d1cc72da67f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackInterval: 1
   attackCollider: {fileID: 9166427525847344308}
+  attackInterval: 1
+  northOffset: {x: 0, y: 0.5}
+  northSize: {x: 1, y: 1}
+  southOffset: {x: 0, y: -0.5}
+  southSize: {x: 1, y: 1}
+  westOffset: {x: -0.5, y: 0}
+  westSize: {x: 1, y: 1}
 --- !u!114 &8536152843561593343
 MonoBehaviour:
   m_ObjectHideFlags: 0

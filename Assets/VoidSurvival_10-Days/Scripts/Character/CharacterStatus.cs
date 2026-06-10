@@ -73,7 +73,7 @@ public abstract class CharacterStatus : MonoBehaviour
     /// <summary>
     /// 死んだときの処理
     /// </summary>
-    public virtual void OnDie()
+    protected virtual void OnDie()
     {
         onDie?.Invoke();
     }

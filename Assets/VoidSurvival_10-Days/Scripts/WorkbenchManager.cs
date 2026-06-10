@@ -9,7 +9,16 @@ using UnityEngine.Events;
 /// </summary>
 public class WorkbenchManager
 {
-    public static WorkbenchManager Instance { get; private set; }
+    private static WorkbenchManager _instance;
+    public static WorkbenchManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new WorkbenchManager();
+            return _instance;
+        }
+    }
     private ItemDatabase _itemDatabase;
     private WorkbenchRecipeDataBase _workbenchRecipeDataBase;
 
@@ -35,21 +44,21 @@ public class WorkbenchManager
     /// </summary>
     public UnityEvent OnChangeWorkingState = new UnityEvent();
 
-    private WorkbenchManager(ItemDatabase itemDatabase, WorkbenchRecipeDataBase workbenchRecipeDataBase)
+    private WorkbenchManager()
     {
-        _itemDatabase = itemDatabase;
-        _workbenchRecipeDataBase = workbenchRecipeDataBase;
-        Instance = this;
+        _itemDatabase = Resources.Load<ItemDatabase>("ItemDatabase");
+        _workbenchRecipeDataBase = Resources.Load<WorkbenchRecipeDataBase>("WorkbenchRecipeDataBase"); ;
     }
-    public static void Initialize(ItemDatabase itemDatabase, WorkbenchRecipeDataBase workbenchRecipeDataBase)
-    {
-        if (Instance == null)
-        {
-            new WorkbenchManager(itemDatabase, workbenchRecipeDataBase);
-        }
-        // AllBuffs = FacilityManager.Instance.GetBuffs(BuffType.WorkbenchEfficiency);
-    }
+    // public static void Initialize()
+    // {
+    //     if (Instance == null)
+    //     {
+    //         new WorkbenchManager();
+    //     }
+    //     // AllBuffs = FacilityManager.Instance.GetBuffs(BuffType.WorkbenchEfficiency);
+    // }
 
+    #region Methods
     /// <summary>
     /// 入力したアイテムから作られるアイテムのレシピを返す
     /// </summary>
@@ -225,7 +234,9 @@ public class WorkbenchManager
         }
         return 0;
     }
+    #endregion
 
+    #region Save
     public void FromSaveData(WorkbenchSaveData data)
     {
         _workingRecipe = data.WorkingRecipe != -1 ? _workbenchRecipeDataBase.GetValue(_itemDatabase.GetValue(data.WorkingRecipe)) : null;
@@ -264,4 +275,5 @@ public class WorkbenchManager
         };
         return data;
     }
+    #endregion
 }

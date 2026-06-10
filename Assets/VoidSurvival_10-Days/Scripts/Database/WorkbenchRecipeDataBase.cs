@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "WorkbenchRecipeDataBase", menuName = "Items/WorkbenchRecipeDataBase")]
+[CreateAssetMenu(fileName = "WorkbenchRecipeDataBase", menuName = "Database/WorkbenchRecipeDataBase")]
 public class WorkbenchRecipeDataBase : BaseDatabase<WorkbenchRecipe, Item>
 {
     /// <summary>

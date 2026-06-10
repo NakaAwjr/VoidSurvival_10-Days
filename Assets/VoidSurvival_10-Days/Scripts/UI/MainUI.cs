@@ -85,11 +85,14 @@ public class MainUI : MonoBehaviour
             OpenMainUI();
             backButton.gameObject.SetActive(false);
         }
-        backButtonRect.SetAsLastSibling();
+        // backButtonRect.SetAsLastSibling();
     }
 
     #region Dialog Management
-    private bool isDialogOpen => backStack.Count > 0;
+    /// <summary>
+    /// ダイアログが開かれているか
+    /// </summary>
+    public bool isDialogOpen => backStack.Count > 0;
 
     /// <summary>
     /// ダイアログを開く(単体)

@@ -1,14 +1,20 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterStatus))]
+[RequireComponent(typeof(CharacterStatus), typeof(CharacterRenderer))]
 public class CharacterAttack : MonoBehaviour
 {
-    /// <summary>
-    /// 攻撃間隔
-    /// </summary>
+    [SerializeField] private BoxCollider2D attackCollider;
+    [Header("攻撃間隔")]
     [SerializeField] private float attackInterval = 1.0f;
-    [SerializeField] private Collider2D attackCollider;
+    [Header("攻撃範囲")]
+    [SerializeField] private Vector2 northOffset = new Vector2(0, 0.5f);
+    [SerializeField] private Vector2 northSize = new Vector2(1f, 1f);
+    [SerializeField] private Vector2 southOffset = new Vector2(0, -0.5f);
+    [SerializeField] private Vector2 southSize = new Vector2(1f, 1f);
+    [SerializeField] private Vector2 westOffset = new Vector2(-0.5f, 0);
+    [SerializeField] private Vector2 westSize = new Vector2(1f, 1f);
+
     private CharacterStatus _characterStatus;
     private CharacterRenderer _characterRenderer;
     // Start is called before the first frame update
@@ -47,13 +53,16 @@ public class CharacterAttack : MonoBehaviour
         switch (_characterRenderer.lastDirection)
         {
             case 0: // 北
-                attackCollider.offset = new Vector2(0, 0.5f);
+                attackCollider.offset = northOffset;
+                attackCollider.size = northSize;
                 break;
             case 1: // 南
-                attackCollider.offset = new Vector2(0, -0.5f);
+                attackCollider.offset = southOffset;
+                attackCollider.size = southSize;
                 break;
             case 2: // 西
-                attackCollider.offset = new Vector2(-0.5f, 0);
+                attackCollider.offset = westOffset;
+                attackCollider.size = westSize;
                 break;
             default:
                 break;
@@ -83,5 +92,14 @@ public class CharacterAttack : MonoBehaviour
     {
         yield return new WaitForSeconds(attackInterval);
         _characterStatus.GoToIdleStateIfPossible();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(0.498f, 0.514f, 0.996f, 0.342f);
+        Vector2 transform = this.transform.position;
+        Gizmos.DrawCube(southOffset + transform, southSize);
+        Gizmos.DrawCube(northOffset + transform, northSize);
+        Gizmos.DrawCube(westOffset + transform, westSize);
     }
 }
