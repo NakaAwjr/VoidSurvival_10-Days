@@ -11,14 +11,14 @@ public abstract class CharacterRenderer : MonoBehaviour
     protected Animator _animator;
 
     /// アニメーションの名前
-    private static readonly string[] idleDirections = { "Idle N", "Idle S", "Idle W" };
-    private static readonly string[] runDirections = { "Run N", "Run S", "Run W" };
-    private static readonly string[] attackDirections = { "Attack N", "Attack S", "Attack W" };
+    private static readonly string[] idleDirections = { "Idle N", "Idle S", "Idle E" };
+    private static readonly string[] runDirections = { "Run N", "Run S", "Run E" };
+    private static readonly string[] attackDirections = { "Attack N", "Attack S", "Attack E" };
     private static readonly string dieDirection = "Die";
 
     /// <summary>
     /// 最後に設定された方向のインデックス
-    /// 0: 北, 1: 南, 2: 西
+    /// 0: 北, 1: 南, 2: 東
     /// </summary>
     public int lastDirection { get; private set; } = 0;
 
@@ -47,7 +47,7 @@ public abstract class CharacterRenderer : MonoBehaviour
             // 入力の方向に基づいてアニメーションを設定
             lastDirection = DirectionToIndex(direction);
             // 左右反転
-            transform.localScale = new Vector3(-Mathf.Sign(direction.x), 1, 1);
+            transform.localScale = new Vector3(Mathf.Sign(direction.x), 1, 1);
             // アニメーションを再生
             _animator.Play(runDirections[lastDirection]);
         }
