@@ -101,3 +101,11 @@ InitTestScene*.unity*
 
 # テスト用のアセット
 /[Aa]ssets/[Tt]est[Aa]ssets/
+
+# PlayFab SDK
+/Assets/PlayFabSDK/
+/Assets/PlayFabSDK.meta
+
+# 2D Character
+/Assets/COPY SPRIGHT/Comic Battle Royale/2D Character - Astronaut/
+/Assets/COPY SPRIGHT/Comic Battle Royale/2D Character - Astronaut.meta
