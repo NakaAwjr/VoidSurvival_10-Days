@@ -1,8 +1,8 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
-// using PlayFab;
-// using PlayFab.ClientModels;
+using PlayFab;
+using PlayFab.ClientModels;
 using Newtonsoft.Json;
 using System.Linq;
 
@@ -16,7 +16,7 @@ public class DataManager : MonoBehaviour
 
     void Start()
     {
-        // PlayFabSettings.staticSettings.TitleId = "148482";
+        PlayFabSettings.staticSettings.TitleId = "148482";
         LoadDataFromPlayFab();
     }
 
@@ -61,22 +61,22 @@ public class DataManager : MonoBehaviour
 
     private void LoadDataFromPlayFab()
     {
-        // var loginRequest = new LoginWithCustomIDRequest { CustomId = "VoidSurvival_User", CreateAccount = false };
-        // PlayFabClientAPI.LoginWithCustomID(loginRequest, loginRes => {
-        //     PlayFabClientAPI.GetTitleData(new GetTitleDataRequest(), result => {
-        //         if (result.Data.ContainsKey("GameMasterData"))
-        //         {
-        //             string jsonStr = result.Data["GameMasterData"];
-        //             _rootData = JsonConvert.DeserializeObject<GameMasterDataRoot>(jsonStr);
+        var loginRequest = new LoginWithCustomIDRequest { CustomId = "VoidSurvival_User", CreateAccount = false };
+        PlayFabClientAPI.LoginWithCustomID(loginRequest, loginRes => {
+            PlayFabClientAPI.GetTitleData(new GetTitleDataRequest(), result => {
+                if (result.Data.ContainsKey("GameMasterData"))
+                {
+                    string jsonStr = result.Data["GameMasterData"];
+                    _rootData = JsonConvert.DeserializeObject<GameMasterDataRoot>(jsonStr);
 
-        //             if (_rootData != null && _rootData.Gyro != null && _rootData.Gyro.Count > 0)
-        //             {
-        //                 _dataStartOffset = _rootData.Gyro[0].TotalSeconds;
-        //                 _isDataLoaded = true;
-        //                 Debug.Log("★全センサーデータ（Mag3つ含む）読み込み完了！");
-        //             }
-        //         }
-        //     }, null);
-        // }, null);
+                    if (_rootData != null && _rootData.Gyro != null && _rootData.Gyro.Count > 0)
+                    {
+                        _dataStartOffset = _rootData.Gyro[0].TotalSeconds;
+                        _isDataLoaded = true;
+                        Debug.Log("★全センサーデータ（Mag3つ含む）読み込み完了！");
+                    }
+                }
+            }, null);
+        }, null);
     }
 }

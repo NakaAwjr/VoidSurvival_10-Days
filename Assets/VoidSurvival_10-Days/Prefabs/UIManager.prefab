@@ -1181,7 +1181,7 @@ GameObject:
   - component: {fileID: 6524129904226056279}
   - component: {fileID: 1691860737549281320}
   m_Layer: 5
-  m_Name: Plafab
+  m_Name: Playfab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
