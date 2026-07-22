@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using PlayFab;
@@ -8,8 +9,9 @@ using Newtonsoft.Json.Linq;
 
 /// <summary>
 /// PlayFab の "HKdata"（温度・電圧・電流の20点）を読み込み、
-/// 各カテゴリで変化が大きい列を抜き出して 5秒ごとに1点ずつ表示する。
-/// ・時間ずれ対策：実時間の絶対グリッドで発火（timeScale やフレーム落ちの影響を受けない）
+/// 各カテゴリで変化が大きい列を抜き出して表示する。
+/// ・DataManagerと同じ「1日の中での経過分」（GetHour()*60+GetMinute()、日が変わるとリセット）を
+/// 　minutesPerSplit（ゲーム内分、Inspectorで調整可）で割って現在の行を求める。
 /// ・データ全体を見て HIGH / NORMAL / LOW を判定してテキストに表示。
 /// </summary>
 public class HKDataDisplay : MonoBehaviour
@@ -17,10 +19,14 @@ public class HKDataDisplay : MonoBehaviour
     [Header("表示先")]
     [SerializeField] private TMP_Text dataValueText;
 
-    [Header("動作設定")]
-    [SerializeField] private float updateInterval = 5f;      // 何秒ごとに切り替えるか
-    [SerializeField] private bool useUnscaledTime = true;    // true=実時間(timeScaleの影響を受けない)
-    [SerializeField] private bool loop = true;               // 最後まで行ったら先頭へ戻る
+    [Tooltip("1つのSplit（行）をゲーム内何分間表示するか（例:2なら00:02→2/20, 00:04→3/20）")]
+    [SerializeField] private float minutesPerSplit = 2f;
+
+    [Tooltip("データ進行の速度係数。1=通常速度、0.5=2倍遅い、2=2倍速い")]
+    [SerializeField] private float speedFactor = 1f;
+
+    [Tooltip("ONで最後の行まで行ったら先頭に戻ってループする。OFFなら最後の行で止まる")]
+    [SerializeField] private bool loop = false;
 
     [Header("各カテゴリで抜き出す本数（変化が大きい順）")]
     [SerializeField] private int tempCount = 2;
@@ -30,6 +36,12 @@ public class HKDataDisplay : MonoBehaviour
     [Header("状態表示")]
     [SerializeField] private bool showState = true;          // HIGH/NORMAL/LOW を出すか
 
+    // 現在の各カテゴリの状態（LOW/NORMAL/HIGH、複数列ある場合は最も厳しい状態）。
+    // WeatherTester等の外部スクリプトから参照する。
+    public string TempState { get; private set; } = "NORMAL";
+    public string VoltageState { get; private set; } = "NORMAL";
+    public string CurrentState { get; private set; } = "NORMAL";
+
     private JArray _rows;
     private List<string> _tempCols = new List<string>();
     private List<string> _voltCols = new List<string>();
@@ -37,10 +49,6 @@ public class HKDataDisplay : MonoBehaviour
     private Dictionary<string, double[]> _range = new Dictionary<string, double[]>(); // col -> [min,max]
 
     private bool _isLoaded = false;
-    private float _nextTime = 0f;
-    private int _index = 0;
-
-    private float Now => useUnscaledTime ? Time.unscaledTime : Time.time;
 
     void Start()
     {
@@ -51,17 +59,28 @@ public class HKDataDisplay : MonoBehaviour
     void Update()
     {
         if (!_isLoaded || _rows == null || _rows.Count == 0) return;
-        if (Now < _nextTime) return;
+        if (TimeManager.Instance == null) return;
 
-        _nextTime += updateInterval;                 // グリッドに固定 → ドリフトしない
-        if (_nextTime < Now) _nextTime = Now + updateInterval; // 大きく遅れたら引き直し(多重発火防止)
-
-        ShowRow(_index);
-        _index++;
-        if (_index >= _rows.Count) _index = loop ? 0 : _rows.Count - 1;
+        ShowRow(GetIndexFromGameTime());
     }
 
-    private void LoadHKData()
+    // DataManagerと同じ「1日の中での経過分」（日が変わるとリセットされる）を基準に、
+    // minutesPerSplit分ごとに1行ずつ切り替える。
+    private int GetIndexFromGameTime()
+    {
+        var tm = TimeManager.Instance;
+        int gameElapsedMinutes = Mathf.FloorToInt((tm.GetHour() * 60 + tm.GetMinute()) * speedFactor);
+        int rawIndex = Mathf.FloorToInt(gameElapsedMinutes / minutesPerSplit);
+
+        if (loop)
+            return ((rawIndex % _rows.Count) + _rows.Count) % _rows.Count;
+        return Mathf.Clamp(rawIndex, 0, _rows.Count - 1);
+    }
+
+    private const int MaxLoginRetries = 3;
+    private const float LoginRetryDelay = 1f;
+
+    private void LoadHKData(int retryCount = 0)
     {
         var login = new LoginWithCustomIDRequest { CustomId = "VoidSurvival_User", CreateAccount = false };
         PlayFabClientAPI.LoginWithCustomID(login, _ =>
@@ -73,7 +92,26 @@ public class HKDataDisplay : MonoBehaviour
                 else
                     Debug.LogError("[HKDataDisplay] TitleData に 'HKdata' キーがありません。");
             }, err => Debug.LogError("[HKDataDisplay] GetTitleData 失敗: " + err.GenerateErrorReport()));
-        }, err => Debug.LogError("[HKDataDisplay] Login 失敗: " + err.GenerateErrorReport()));
+        }, err =>
+        {
+            // DataManager等が同時にLoginWithCustomIDを叩くと同じIDでの同時ログインが409 Conflictになることがあるため、
+            // 少し待ってリトライする（他のログイン処理と時間をずらせば通常成功する）。
+            if (retryCount < MaxLoginRetries)
+            {
+                Debug.LogWarning($"[HKDataDisplay] Login 失敗（{retryCount + 1}/{MaxLoginRetries}回目）、{LoginRetryDelay}秒後に再試行します: " + err.GenerateErrorReport());
+                StartCoroutine(RetryLoadHKData(retryCount + 1));
+            }
+            else
+            {
+                Debug.LogError("[HKDataDisplay] Login 失敗（リトライ上限到達）: " + err.GenerateErrorReport());
+            }
+        });
+    }
+
+    private IEnumerator RetryLoadHKData(int retryCount)
+    {
+        yield return new WaitForSeconds(LoginRetryDelay);
+        LoadHKData(retryCount);
     }
 
     private void ParseHKData(string json)
@@ -101,7 +139,6 @@ public class HKDataDisplay : MonoBehaviour
         }
 
         _isLoaded = true;
-        _nextTime = Now; // 読み込み直後に即1回表示
         Debug.Log($"[HKDataDisplay] 読込完了 行数={_rows.Count} / 温度[{string.Join(", ", _tempCols)}]" +
                   $" 電圧[{string.Join(", ", _voltCols)}] 電流[{string.Join(", ", _currCols)}]");
     }
@@ -146,8 +183,13 @@ public class HKDataDisplay : MonoBehaviour
 
     private void ShowRow(int i)
     {
-        if (dataValueText == null) return;
         var row = (JObject)_rows[i];
+
+        TempState = _tempCols.Count > 0 ? WorstState(_tempCols, row) : "NORMAL";
+        VoltageState = _voltCols.Count > 0 ? WorstState(_voltCols, row) : "NORMAL";
+        CurrentState = _currCols.Count > 0 ? WorstState(_currCols, row) : "NORMAL";
+
+        if (dataValueText == null) return;
 
         string s = "<color=#FFFF00>--- HK Data ---</color>\n";
 
@@ -161,6 +203,22 @@ public class HKDataDisplay : MonoBehaviour
 
         dataValueText.text = s;
     }
+
+    // 複数列のうち最も厳しい状態（HIGH > NORMAL > LOW）を返す
+    private string WorstState(List<string> cols, JObject row)
+    {
+        string worst = "LOW";
+        foreach (var c in cols)
+        {
+            var tok = row[c];
+            if (tok == null || tok.Type == JTokenType.Null || !double.TryParse(tok.ToString(), out double v)) continue;
+            string st = Classify(c, v);
+            if (Severity(st) > Severity(worst)) worst = st;
+        }
+        return worst;
+    }
+
+    private static int Severity(string state) => state == "HIGH" ? 2 : state == "LOW" ? 0 : 1;
 
     private string Line(JObject row, string col)
     {

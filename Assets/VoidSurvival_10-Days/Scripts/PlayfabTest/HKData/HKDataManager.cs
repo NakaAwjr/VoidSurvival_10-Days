@@ -18,7 +18,7 @@ public class HKDataManager : MonoBehaviour
     [SerializeField] private TMP_Text dataValueText;
 
     [Header("動作設定")]
-    [SerializeField] private DisplayMode displayMode = DisplayMode.StepThrough;
+    [SerializeField] private DisplayMode displayMode = DisplayMode.GameTimeSynced;
     [SerializeField] private float updateInterval = 5f; // ← 5秒に1回だけ変化
     [SerializeField] private bool loop = true;          // StepThrough：最後まで行ったら先頭へ
 
