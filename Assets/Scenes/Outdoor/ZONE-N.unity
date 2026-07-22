@@ -8044,11 +8044,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2110055074612913712, guid: fedc5cce2311e214fa51f6f18f9499ac, type: 3}
       propertyPath: spawnPoint.x
-      value: -0.162
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2110055074612913712, guid: fedc5cce2311e214fa51f6f18f9499ac, type: 3}
       propertyPath: spawnPoint.y
-      value: 4.457
+      value: 3.21
       objectReference: {fileID: 0}
     - target: {fileID: 6798112444261861871, guid: fedc5cce2311e214fa51f6f18f9499ac, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8432,7 +8432,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1594730467031353507, guid: 03c42c51d5d22e04597eec6c174aaafa, type: 3}
       propertyPath: orthographic size
-      value: 5.625
+      value: 7.0251665
       objectReference: {fileID: 0}
     - target: {fileID: 4670348827709254623, guid: 03c42c51d5d22e04597eec6c174aaafa, type: 3}
       propertyPath: m_Follow
