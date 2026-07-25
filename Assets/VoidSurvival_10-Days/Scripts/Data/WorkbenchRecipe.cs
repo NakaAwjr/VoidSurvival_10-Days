@@ -2,9 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WorkbenchRecipe", menuName = "Items/WorkbenchRecipe")]
-public class WorkbenchRecipe : ScriptableObject, IDatabaseEntry<Item>
+public class WorkbenchRecipe : ScriptableObject, IDatabaseEntry<int>
 {
-    public Item Key => RequiredItem.Item; // IDatabaseEntryインターフェースの実装
+    public int Key => RecipeID; // IDatabaseEntryインターフェースの実装
+    public int RecipeID;
     public string RecipeName; // レシピの名前
     public string RecipeDescription; // レシピの説明
     public Item ResultItem; // このレシピで作成されるアイテム

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WorkbenchRecipeDataBase", menuName = "Database/WorkbenchRecipeDataBase")]
-public class WorkbenchRecipeDataBase : BaseDatabase<WorkbenchRecipe, Item>
+public class WorkbenchRecipeDataBase : BaseDatabase<WorkbenchRecipe, int>
 {
     /// <summary>
     /// 入力した要求アイテムから作られるレシピのすべてを取得
@@ -14,7 +14,7 @@ public class WorkbenchRecipeDataBase : BaseDatabase<WorkbenchRecipe, Item>
         List<WorkbenchRecipe> recipes = new List<WorkbenchRecipe>();
         foreach (var value in Values)
         {
-            if (EqualityComparer<Item>.Default.Equals(value.Key, item))
+            if (EqualityComparer<Item>.Default.Equals(value.RequiredItem.Item, item))
             {
                 recipes.Add(value);
             }

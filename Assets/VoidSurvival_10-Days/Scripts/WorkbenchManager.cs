@@ -239,7 +239,7 @@ public class WorkbenchManager
     #region Save
     public void FromSaveData(WorkbenchSaveData data)
     {
-        _workingRecipe = data.WorkingRecipe != -1 ? _workbenchRecipeDataBase.GetValue(_itemDatabase.GetValue(data.WorkingRecipe)) : null;
+        _workingRecipe = data.WorkingRecipe != -1 ? _workbenchRecipeDataBase.GetValue(data.WorkingRecipe) : null;
         _workingAmount = data.WorkingAmount;
         WorkingProgress = data.WorkingProgress;
         WorkingRequiredItem = data.WorkingRequiredItem.ItemID != -1 ? new ItemStack(_itemDatabase.GetValue(data.WorkingRequiredItem.ItemID), data.WorkingRequiredItem.Amount) : null;
@@ -252,7 +252,7 @@ public class WorkbenchManager
     public WorkbenchSaveData ToSaveData()
     {
         WorkbenchSaveData data = new WorkbenchSaveData();
-        data.WorkingRecipe = _workingRecipe != null ? _workingRecipe.ResultItem.ItemID : -1;
+        data.WorkingRecipe = _workingRecipe != null ? _workingRecipe.RecipeID : -1;
         data.WorkingAmount = _workingAmount;
         data.WorkingProgress = WorkingProgress;
         data.WorkingRequiredItem = WorkingRequiredItem != null ? new ItemStackSaveData()

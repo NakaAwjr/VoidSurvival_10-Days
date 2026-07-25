@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dab8217d97536c49948497c9fd921c9, type: 3}
-  m_Name: CraftingRecipeDatabase
+  m_Script: {fileID: 11500000, guid: b11aebd54296f5b48a44bf224a1911b1, type: 3}
+  m_Name: IronIngot
   m_EditorClassIdentifier: 
-  Values:
-  - {fileID: 11400000, guid: e8ecb3ba1ad9bc348b4e550411c0dfeb, type: 2}
-  - {fileID: 11400000, guid: 5a76c6b1fd967bd4985e86eb9a0baaf9, type: 2}
+  ItemID: 0
+  ItemName: "\u9244\u30A4\u30F3\u30B4\u30C3\u30C8"
+  ItemDescription: 
+  ItemIcon: {fileID: 21300000, guid: 64a88c0961734a7a9ec9799ac01db22c, type: 3}
