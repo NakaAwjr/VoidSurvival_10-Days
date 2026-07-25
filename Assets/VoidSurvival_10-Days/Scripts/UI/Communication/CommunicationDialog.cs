@@ -112,8 +112,8 @@ public class CommunicationDialog : Dialog
     {
         isSuccessful = true;
         successCount++;
-        freqHandle.isDragable = false;
-        dirHandle.isDragable = false;
+        freqHandle.isDraggable = false;
+        dirHandle.isDraggable = false;
         if (successCount >= dailyLimit)
         {
             // 1日の通信回数上限に達した場合の処理
@@ -128,8 +128,8 @@ public class CommunicationDialog : Dialog
                 $"Remaining communication attempts: {dailyLimit - successCount}"
             });
             GenerateNewTarget();
-            freqHandle.isDragable = true;
-            dirHandle.isDragable = true;
+            freqHandle.isDraggable = true;
+            dirHandle.isDraggable = true;
             isSuccessful = false;
         }
     }

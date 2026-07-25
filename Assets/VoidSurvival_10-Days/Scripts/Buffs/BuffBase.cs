@@ -36,7 +36,7 @@ public enum OthersBuffType
 public abstract class BuffBase
 {
     public Enum BuffType { get; set; }
-    public virtual bool IsAcctive { get; set; } = true;
+    public virtual bool IsActive { get; set; } = true;
     public abstract float GetValue();
     public BuffOperationType OperationType { get; set; }
     public String Description { get; set; }

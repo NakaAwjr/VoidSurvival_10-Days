@@ -51,5 +51,17 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "VoidSurvival_10-Days.slnx"
+    "dotnet.defaultSolution": "VoidSurvival_10-Days.slnx",
+    "cSpell.words": [
+        "Behaviour",
+        "Cinemachine",
+        "Cysharp",
+        "Dont",
+        "Lerp",
+        "Mathf",
+        "Prefs",
+        "Rigidbody",
+        "Scriptable",
+        "Tweening"
+    ]
 }

@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class EnemySpawner : MonoBehaviour
 {
     [Header("敵情報")]
-    [SerializeField] private int spownCount;
+    [SerializeField] private int spawnCount;
     [SerializeField] private List<SpawnEnemy> Enemies;
     [Header("沸き範囲")]
     [SerializeField] private Vector2 minXY;
@@ -15,7 +15,7 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < spownCount; i++)
+        for (int i = 0; i < spawnCount; i++)
         {
             var maxRange = Enemies.Sum(x => x.spawnRange);
             EnemySpawn(SelectEnemy(Random.Range(1, maxRange + 1)));

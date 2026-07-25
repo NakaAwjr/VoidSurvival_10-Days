@@ -99,7 +99,7 @@ public class WorkbenchManager
     public void StartCraftItem(WorkbenchRecipe recipe, int amount)
     {
         // エラー処理
-        if (FacilityManager.Instance.GetFacility(FacilityManager.FacilityType.PowerSpupply).IsBroken)
+        if (FacilityManager.Instance.GetFacility(FacilityManager.FacilityType.PowerSupply).IsBroken)
         {
             Debug.LogWarning("Cannot start crafting: Power Supply facility is broken.");
             return;
@@ -168,7 +168,7 @@ public class WorkbenchManager
     /// </summary>
     public void Crafting()
     {
-        if (FacilityManager.Instance.GetFacility(FacilityManager.FacilityType.PowerSpupply).IsBroken)
+        if (FacilityManager.Instance.GetFacility(FacilityManager.FacilityType.PowerSupply).IsBroken)
         {
             Debug.LogWarning("Crafting paused: Power Supply facility is broken.");
             TimeManager.Instance.OnMinuteChanged.RemoveListener(Crafting);
@@ -244,7 +244,7 @@ public class WorkbenchManager
         WorkingProgress = data.WorkingProgress;
         WorkingRequiredItem = data.WorkingRequiredItem.ItemID != -1 ? new ItemStack(_itemDatabase.GetValue(data.WorkingRequiredItem.ItemID), data.WorkingRequiredItem.Amount) : null;
         WorkingResultItem = data.WorkingResultItem.ItemID != -1 ? new ItemStack(_itemDatabase.GetValue(data.WorkingResultItem.ItemID), data.WorkingResultItem.Amount) : null;
-        if (_workingRecipe != null && WorkingRequiredItem != null && !FacilityManager.Instance.GetFacility(FacilityManager.FacilityType.PowerSpupply).IsBroken)
+        if (_workingRecipe != null && WorkingRequiredItem != null && !FacilityManager.Instance.GetFacility(FacilityManager.FacilityType.PowerSupply).IsBroken)
         {
             TimeManager.Instance.OnMinuteChanged.AddListener(Crafting);
         }
