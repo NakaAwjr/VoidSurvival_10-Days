@@ -3,7 +3,8 @@ using TMPro;
 
 // ============================================================
 //  WeatherDisplay.cs   ★現在の天気を画面に表示する
-//  WeatherManager の OnWeatherChanged を購読し、変化のたびに更新。
+//  WeatherTester（DataManager連携のルールベース判定）の
+//  OnWeatherChanged を購読し、変化のたびに更新。
 //
 //  ★日本語が □（豆腐）になる場合：
 //    使っているTMPフォントに日本語が含まれていません。
@@ -15,6 +16,7 @@ using TMPro;
 public class WeatherDisplay : MonoBehaviour
 {
     [SerializeField] private TMP_Text weatherText;
+    [SerializeField] private WeatherTester weatherTester;
 
     [Header("日本語で表示する（フォントが日本語対応のときだけON）")]
     [SerializeField] private bool useJapanese = false; // ★まずは英語(false)で確認
@@ -24,21 +26,21 @@ public class WeatherDisplay : MonoBehaviour
 
     private void Start()
     {
-        if (WeatherManager.Instance != null)
+        if (weatherTester != null)
         {
-            Refresh(WeatherManager.Instance.CurrentWeather);
-            WeatherManager.Instance.OnWeatherChanged += Refresh;
+            Refresh(weatherTester.CurrentRuleBasedWeather);
+            weatherTester.OnWeatherChanged += Refresh;
         }
         else if (weatherText != null)
         {
-            weatherText.text = "Weather: (no WeatherManager)";
+            weatherText.text = "Weather: (no WeatherTester)";
         }
     }
 
     private void OnDestroy()
     {
-        if (WeatherManager.Instance != null)
-            WeatherManager.Instance.OnWeatherChanged -= Refresh;
+        if (weatherTester != null)
+            weatherTester.OnWeatherChanged -= Refresh;
     }
 
     private void Refresh(Weather weather)
