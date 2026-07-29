@@ -12,6 +12,8 @@ using UnityEngine;
 
 public class WeatherTester : MonoBehaviour
 {
+    public static WeatherTester Instance { get; private set; }
+
     public enum DataSourceType
     {
         Gyro,
@@ -39,6 +41,17 @@ public class WeatherTester : MonoBehaviour
     public Weather CurrentRuleBasedWeather { get; private set; } = Weather.Sunny;
 
     public event Action<Weather> OnWeatherChanged;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void LateUpdate()
     {

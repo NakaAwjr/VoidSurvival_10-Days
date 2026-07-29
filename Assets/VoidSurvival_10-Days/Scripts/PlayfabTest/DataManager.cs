@@ -8,6 +8,8 @@ using System.Linq;
 
 public class DataManager : MonoBehaviour
 {
+    public static DataManager Instance { get; private set; }
+
     [SerializeField] private TMP_Text dataValueText;
 
     [Tooltip("データ進行の速度係数。1=通常速度、0.5=2倍遅い、2=2倍速い")]
@@ -37,6 +39,17 @@ public class DataManager : MonoBehaviour
     private double _mag2MagMin, _mag2MagMax;
     private double _mag3MagMin, _mag3MagMax;
     private List<RadiationData> _radSorted;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     void Start()
     {
