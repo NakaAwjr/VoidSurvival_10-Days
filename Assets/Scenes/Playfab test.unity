@@ -149,10 +149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd5c4d4c5b91d8438d30a88e05920fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radiationSignal: 50.8
-  gyroMagnitude: 0.2
-  magMagnitude: 10000
-  applyContinuously: 0
+  dataManager: {fileID: 522562679}
+  hkDataDisplay: {fileID: 1485064152}
+  selectedSources: 040000000100000005000000
 --- !u!4 &21284950
 Transform:
   m_ObjectHideFlags: 0
@@ -437,6 +436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weatherText: {fileID: 1313153384}
+  weatherTester: {fileID: 21284949}
   useJapanese: 0
   useColor: 1
 --- !u!4 &513122056
@@ -499,6 +499,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dataValueText: {fileID: 1515973232}
+  speedFactor: 1
+  useStateDisplay: 1
+  loop: 0
 --- !u!1 &669146272
 GameObject:
   m_ObjectHideFlags: 0
@@ -1144,11 +1147,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dataValueText: {fileID: 499852813}
-  updateInterval: 5
+  minutesPerSplit: 5
+  speedFactor: 1
   loop: 1
   tempCount: 2
   voltCount: 1
   currCount: 1
+  showState: 1
 --- !u!4 &1485064153
 Transform:
   m_ObjectHideFlags: 0
@@ -1355,8 +1360,8 @@ SceneRoots:
   - {fileID: 669146275}
   - {fileID: 1139606811}
   - {fileID: 522562678}
+  - {fileID: 1485064153}
   - {fileID: 21284950}
   - {fileID: 1397120710}
   - {fileID: 1029949420}
   - {fileID: 513122056}
-  - {fileID: 1485064153}

@@ -20,7 +20,7 @@ public class HKDataDisplay : MonoBehaviour
     [SerializeField] private TMP_Text dataValueText;
 
     [Tooltip("1つのSplit（行）をゲーム内何分間表示するか（例:2なら00:02→2/20, 00:04→3/20）")]
-    [SerializeField] private float minutesPerSplit = 2f;
+    [SerializeField] private float minutesPerSplit = 5f;
 
     [Tooltip("データ進行の速度係数。1=通常速度、0.5=2倍遅い、2=2倍速い")]
     [SerializeField] private float speedFactor = 1f;

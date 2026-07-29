@@ -11,10 +11,10 @@ public class DataManager : MonoBehaviour
     [SerializeField] private TMP_Text dataValueText;
 
     [Tooltip("データ進行の速度係数。1=通常速度、0.5=2倍遅い、2=2倍速い")]
-    [SerializeField] private float speedFactor = 0.5f;
+    [SerializeField] private float speedFactor = 1f;
 
     [Tooltip("ONで、生の数値の代わりにHIGH/NORMAL/LOW状態表示に切り替える")]
-    [SerializeField] private bool useStateDisplay = false;
+    [SerializeField] private bool useStateDisplay = true;
 
     [Tooltip("ONで最後のデータまで行ったら先頭に戻ってループする。OFFなら最後のデータで止まる")]
     [SerializeField] private bool loop = false;
