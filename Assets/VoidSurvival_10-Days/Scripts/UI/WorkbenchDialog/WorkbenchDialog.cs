@@ -72,7 +72,7 @@ public class WorkbenchDialog : Dialog
     protected override void OnEnable()
     {
         base.OnEnable();
-        OnWarkbenchStateChanged();
+        OnWorkbenchStateChanged();
         // スライダー初期化
         craftCountSlider.onValueChanged.AddListener(OnCraftCountSliderChanged);
         craftCountSlider.wholeNumbers = true;
@@ -84,7 +84,7 @@ public class WorkbenchDialog : Dialog
         selectRecipe = recipeSlots.Slots.Count > 0 ? recipeSlots.Slots[0].WorkbenchRecipe : null;
         // イベント登録
         ItemManager.Instance.OnChanged.AddListener(UpdateUI);
-        WorkbenchManager.Instance.OnChangeWorkingState.AddListener(OnWarkbenchStateChanged);
+        WorkbenchManager.Instance.OnChangeWorkingState.AddListener(OnWorkbenchStateChanged);
         inventoryDialogInstance.OnButtonClicked.AddListener(ItemSelectedFromInventory);
     }
     protected override void OnDisable()
@@ -92,7 +92,7 @@ public class WorkbenchDialog : Dialog
         base.OnDisable();
         // イベント解除
         ItemManager.Instance.OnChanged.RemoveListener(UpdateUI);
-        WorkbenchManager.Instance.OnChangeWorkingState.RemoveListener(OnWarkbenchStateChanged);
+        WorkbenchManager.Instance.OnChangeWorkingState.RemoveListener(OnWorkbenchStateChanged);
         inventoryDialogInstance.OnButtonClicked.RemoveListener(ItemSelectedFromInventory);
     }
     private void Awake()
@@ -103,12 +103,12 @@ public class WorkbenchDialog : Dialog
     {
         selectRecipe = _selectRecipe;
     }
-    public void OnWarkbenchStateChanged()
+    public void OnWorkbenchStateChanged()
     {
         requiredItemButton.SetItem(WorkbenchManager.Instance.WorkingRequiredItem);
         resultItemButton.SetItem(WorkbenchManager.Instance.WorkingResultItem);
         progressSlider.value = WorkbenchManager.Instance.WorkingProgress;
-        progressSlider.maxValue = _selectRecipe != null ? WorkbenchManager.Instance.WorkingTime() : 1;
+        progressSlider.maxValue = WorkbenchManager.Instance.WorkingTime();
     }
 
     #region Events
@@ -150,7 +150,7 @@ public class WorkbenchDialog : Dialog
         craftCount = (int)value;
     }
     /// <summary>
-    /// クラフト停止(ReqiredItemButtonをクリックしたとき)
+    /// クラフト停止(RequiredItemButtonをクリックしたとき)
     /// </summary>
     public void Stop()
     {

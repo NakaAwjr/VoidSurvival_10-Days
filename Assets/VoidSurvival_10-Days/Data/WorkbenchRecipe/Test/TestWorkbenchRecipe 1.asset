@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5977d9b54fdb76b49b7e147a8463141c, type: 3}
-  m_Name: TestWorkbenchRecipe
+  m_Name: TestWorkbenchRecipe 1
   m_EditorClassIdentifier: 
-  RecipeName: TestWorkbenchRecipe
-  RecipeDescription: TestWorkbenchRecipe
-  ResultItem: {fileID: 11400000, guid: 15498ad63ce06a14988c9fdc077ce208, type: 2}
+  RecipeID: 2
+  RecipeName: 
+  RecipeDescription: 
+  ResultItem: {fileID: 11400000, guid: 1fad69fa4eb506446a70c8c9ff4a3fb1, type: 2}
   ResultAmount: 1
   RequiredItem:
     item: {fileID: 11400000, guid: 0c64eaac1d175204589f6a7db8ba535f, type: 2}

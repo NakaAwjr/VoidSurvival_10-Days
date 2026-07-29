@@ -20,7 +20,7 @@ public static class OthersBuffManager
         List<BuffBase> buffs = new List<BuffBase>();
         foreach (var buff in _allBuffs)
         {
-            if (buff.BuffType.Equals(buffType) && buff.IsAcctive)
+            if (buff.BuffType.Equals(buffType) && buff.IsActive)
             {
                 buffs.Add(buff);
             }

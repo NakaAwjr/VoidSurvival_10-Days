@@ -10,7 +10,7 @@ public class FacilityManager : MonoBehaviour
     public enum FacilityType
     {
         None,
-        PowerSpupply,
+        PowerSupply,
         ThermalControl,
         Mission,
         Communication,

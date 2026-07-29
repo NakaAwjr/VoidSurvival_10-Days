@@ -10,7 +10,7 @@ public class RadioHandle : MonoBehaviour, IDragHandler
     /// <summary>
     /// ハンドルがドラッグ可能かどうか
     /// </summary>
-    public bool isDragable = true;
+    public bool isDraggable = true;
     private RectTransform rectTransform;
     private Vector2 initialPosition;
     // Start is called before the first frame update
@@ -21,7 +21,7 @@ public class RadioHandle : MonoBehaviour, IDragHandler
     }
     public void OnDrag(PointerEventData eventData)
     {
-        if (!isDragable) return;
+        if (!isDraggable) return;
         var angle = Mathf.Atan2(eventData.position.y - initialPosition.y,
                                 eventData.position.x - initialPosition.x) * Mathf.Rad2Deg;
         rectTransform.rotation = Quaternion.Euler(0, 0, angle);

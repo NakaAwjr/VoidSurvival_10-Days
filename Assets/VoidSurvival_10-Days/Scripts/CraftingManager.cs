@@ -18,7 +18,7 @@ public class CraftingManager
     public List<CraftingRecipe> craftingRecipes { get; private set; } // クラフト可能なレシピのリスト
 
     /// <summary>
-    /// Craftingrecipesが変更されたときに発火するイベント
+    /// CraftingRecipesが変更されたときに発火するイベント
     /// </summary>
     public UnityEvent OnChanged = new UnityEvent();
 

@@ -14,9 +14,9 @@ using UnityEngine;
 /// 通信が出来なくなる
 /// 電源、OBC、ミッション、通信から得られる効果がなくなる（天候操作、通信も無くなる）
 /// </summary>
-class PowerSpupply : FacilityBase
+class PowerSupply : FacilityBase
 {
-    public override FacilityManager.FacilityType FacilityType => FacilityManager.FacilityType.PowerSpupply;
+    public override FacilityManager.FacilityType FacilityType => FacilityManager.FacilityType.PowerSupply;
     public override String FacilityName { get; protected set; } = "電源";
     public override int MaxHealthPoint { get; protected set; } = 200;
     public override List<BuffBase> Buffs => new List<BuffBase>()
