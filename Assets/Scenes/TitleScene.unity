@@ -120,6 +120,57 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &28608298
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 28608299}
+  - component: {fileID: 28608300}
+  m_Layer: 5
+  m_Name: WeatherTester
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &28608299
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28608298}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1212309918}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &28608300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28608298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd5c4d4c5b91d8438d30a88e05920fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dataManager: {fileID: 1594609949}
+  hkDataDisplay: {fileID: 1961860107}
+  selectedSources: 040000000100000005000000
 --- !u!1 &134692675
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,9 +723,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5047204390631888069, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 290
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047204390631888069, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195717888018125421, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
+      propertyPath: useJapanese
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195717888018125421, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
+      propertyPath: weatherTester
+      value: 
+      objectReference: {fileID: 28608300}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2117484509388702912, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 28608299}
+    - targetCorrespondingSourceObject: {fileID: 2117484509388702912, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1961860106}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
 --- !u!1 &659024555
@@ -797,6 +870,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &1212309918 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2117484509388702912, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
+  m_PrefabInstance: {fileID: 640159351}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1290648353
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,6 +1013,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1581300505}
   m_CullTransparentMesh: 1
+--- !u!114 &1594609949 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1691860737549281320, guid: 2299e558ccfb3b84fb41e9f442ed6ae1, type: 3}
+  m_PrefabInstance: {fileID: 640159351}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7086fa3b7f2682848a1bfef207ffa6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1608388007
 GameObject:
   m_ObjectHideFlags: 0
@@ -1431,6 +1520,62 @@ Transform:
   m_Children: []
   m_Father: {fileID: 446671648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1961860105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1961860106}
+  - component: {fileID: 1961860107}
+  m_Layer: 5
+  m_Name: HKtester
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1961860106
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961860105}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1212309918}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1961860107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961860105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 973116d77ba59c94991e6f59cfc76f78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dataValueText: {fileID: 0}
+  minutesPerSplit: 5
+  speedFactor: 1
+  loop: 0
+  tempCount: 2
+  voltCount: 1
+  currCount: 1
+  showState: 1
 --- !u!1001 &3542447913142471747
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2113,5 +2258,5 @@ SceneRoots:
   - {fileID: 1865091076}
   - {fileID: 1046025741}
   - {fileID: 1616883274}
-  - {fileID: 640159351}
   - {fileID: 134692680}
+  - {fileID: 640159351}

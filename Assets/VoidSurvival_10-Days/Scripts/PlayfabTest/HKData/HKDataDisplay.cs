@@ -16,6 +16,8 @@ using Newtonsoft.Json.Linq;
 /// </summary>
 public class HKDataDisplay : MonoBehaviour
 {
+    public static HKDataDisplay Instance { get; private set; }
+
     [Header("表示先")]
     [SerializeField] private TMP_Text dataValueText;
 
@@ -49,6 +51,17 @@ public class HKDataDisplay : MonoBehaviour
     private Dictionary<string, double[]> _range = new Dictionary<string, double[]>(); // col -> [min,max]
 
     private bool _isLoaded = false;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     void Start()
     {
