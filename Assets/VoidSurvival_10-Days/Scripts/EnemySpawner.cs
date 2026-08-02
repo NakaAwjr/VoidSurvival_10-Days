@@ -5,9 +5,13 @@ using UnityEngine.AI;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("敵情報")]
+    [Header("敵情報(デフォルト)")]
     [SerializeField] private int spawnCount;
-    [SerializeField] private List<SpawnEnemy> Enemies;
+    [SerializeField] private List<SpawnEnemy> spawnEnemies;
+    [Header("敵情報(天気ごと)")]
+    [SerializeField] private List<WeatherSpawnCount> weatherSpawnCounts;
+    [SerializeField] private List<WeatherSpawnEnemy> weatherSpawnEnemies;
+
     [Header("沸き範囲")]
     [SerializeField] private Vector2 minXY;
     [SerializeField] private Vector2 maxXY;
@@ -15,10 +19,26 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < spawnCount; i++)
+        int count = spawnCount;
+        List<SpawnEnemy> enemies = spawnEnemies;
+        foreach (var value in weatherSpawnCounts)
         {
-            var maxRange = Enemies.Sum(x => x.spawnRange);
-            EnemySpawn(SelectEnemy(Random.Range(1, maxRange + 1)));
+            if (EqualityComparer<Weather>.Default.Equals(WeatherTester.Instance.CurrentRuleBasedWeather, value.weather))
+            {
+                count = value.spawnCount;
+            }
+        }
+        foreach (var value in weatherSpawnEnemies)
+        {
+            if (EqualityComparer<Weather>.Default.Equals(WeatherTester.Instance.CurrentRuleBasedWeather, value.weather))
+            {
+                enemies = value.Enemies;
+            }
+        }
+        for (int i = 0; i < count; i++)
+        {
+            var maxRange = enemies.Sum(x => x.spawnRange);
+            EnemySpawn(SelectEnemy(Random.Range(1, maxRange + 1), enemies));
         }
     }
 
@@ -27,10 +47,10 @@ public class EnemySpawner : MonoBehaviour
     /// </summary>
     /// <param name="x"></param>
     /// <returns></returns>
-    private GameObject SelectEnemy(int x)
+    private GameObject SelectEnemy(int x, List<SpawnEnemy> enemies)
     {
         var i = 0;
-        foreach (var enemy in Enemies)
+        foreach (var enemy in enemies)
         {
             i += enemy.spawnRange;
             if (x <= i) return enemy.enemyPrefab;
@@ -66,5 +86,17 @@ public class EnemySpawner : MonoBehaviour
     {
         public GameObject enemyPrefab;
         public int spawnRange;
+    }
+    [System.Serializable]
+    class WeatherSpawnCount
+    {
+        public Weather weather;
+        public int spawnCount;
+    }
+    [System.Serializable]
+    class WeatherSpawnEnemy
+    {
+        public Weather weather;
+        public List<SpawnEnemy> Enemies;
     }
 }
