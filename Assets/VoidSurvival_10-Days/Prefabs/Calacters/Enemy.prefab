@@ -521,6 +521,22 @@ MonoBehaviour:
   - dropRate: 1
     item: {fileID: 11400000, guid: 0c64eaac1d175204589f6a7db8ba535f, type: 2}
     number: 1
+  weatherDropItems:
+  - weather: 0
+    dropItems:
+    - dropRate: 1
+      item: {fileID: 11400000, guid: 1fad69fa4eb506446a70c8c9ff4a3fb1, type: 2}
+      number: 1
+  - weather: 1
+    dropItems:
+    - dropRate: 1
+      item: {fileID: 11400000, guid: 15498ad63ce06a14988c9fdc077ce208, type: 2}
+      number: 1
+  - weather: 2
+    dropItems:
+    - dropRate: 1
+      item: {fileID: 11400000, guid: bbb5da63a863ee44faf2e40a5a8a8eb3, type: 2}
+      number: 1
   fieldItemPrefab: {fileID: 1033813288063196199, guid: c49213c899fac5643973eb645668efe1, type: 3}
 --- !u!114 &-1476760836636198103
 MonoBehaviour:

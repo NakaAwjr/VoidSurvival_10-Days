@@ -91,11 +91,21 @@ public abstract class IntKeyDatabaseEditor : Editor
             usedIds.Add(nextId);
             assignedCount++;
             nextId++;
+
+            // 値を書き換えたのはこの要素(v)自身なので、
+            // targetではなくvの方をdirtyにしないとディスクに保存されない
+            if (v is UnityEngine.Object unityObj)
+            {
+                EditorUtility.SetDirty(unityObj);
+            }
+            else
+            {
+                Debug.LogWarning($"{v.GetType().Name} はUnityEngine.Objectではないため、SetDirtyできませんでした。");
+            }
         }
 
         if (assignedCount > 0)
         {
-            EditorUtility.SetDirty(target);
             AssetDatabase.SaveAssets();
             Debug.Log($"{assignedCount} 件の要素にIDを割り当てました。");
         }
