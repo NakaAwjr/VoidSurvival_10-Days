@@ -17,6 +17,10 @@ public class FlagData : ScriptableObject
     }
 
     public bool craftTutorial = false;
+    public bool craftWorkbench = false;
+    [Header("ZONE-N")]
+    public bool destructionRock = false;
+    public bool findSomeone = false;
 
     public void FromSaveData()
     {

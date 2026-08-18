@@ -15,5 +15,7 @@ MonoBehaviour:
   initialInventory:
   - item: {fileID: 11400000, guid: 0c64eaac1d175204589f6a7db8ba535f, type: 2}
     amount: 10
+  - item: {fileID: 11400000, guid: 9c86ca18b7d1a31479aafb1048870ea1, type: 2}
+    amount: 1
   initialRecipes:
   - {fileID: 11400000, guid: e8ecb3ba1ad9bc348b4e550411c0dfeb, type: 2}
