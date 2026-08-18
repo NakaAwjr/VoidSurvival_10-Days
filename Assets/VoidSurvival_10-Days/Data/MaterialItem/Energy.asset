@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b11aebd54296f5b48a44bf224a1911b1, type: 3}
   m_Name: Energy
   m_EditorClassIdentifier: 
-  ItemID: 0
+  ItemID: 6
   ItemName: "\u30A8\u30CD\u30EB\u30AE\u30FC"
   ItemDescription: 
   ItemIcon: {fileID: 21300000, guid: 1cb3937b7ed64c94a8c0664c7c449a0d, type: 3}

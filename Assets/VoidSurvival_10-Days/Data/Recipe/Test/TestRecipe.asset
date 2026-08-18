@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 487b3c128fe285d4f8d5e53f937cdccb, type: 3}
   m_Name: TestRecipe
   m_EditorClassIdentifier: 
-  RecipeID: 0
+  RecipeID: 1
   RecipeName: TestRecipe
   RecipeDescription: Create 5 Test Items.
   ResultItem: {fileID: 11400000, guid: 0c64eaac1d175204589f6a7db8ba535f, type: 2}
