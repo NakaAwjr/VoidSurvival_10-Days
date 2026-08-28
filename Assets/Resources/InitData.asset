@@ -17,5 +17,13 @@ MonoBehaviour:
     amount: 10
   - item: {fileID: 11400000, guid: 9c86ca18b7d1a31479aafb1048870ea1, type: 2}
     amount: 1
+  - item: {fileID: 11400000, guid: 46af88963ccd3aa42b14075c5478a9b1, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 4e46570061e5b674cbb8cc3254790ee8, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: ef77b6469ebe2f04d9bc258bba3bbb4d, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 2f6bc4a0be5d01748b4ff3fc8cc33d10, type: 2}
+    amount: 1
   initialRecipes:
   - {fileID: 11400000, guid: e8ecb3ba1ad9bc348b4e550411c0dfeb, type: 2}

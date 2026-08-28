@@ -15,4 +15,4 @@ MonoBehaviour:
   ItemID: 9
   ItemName: "\u9244\u304F\u305A"
   ItemDescription: 
-  ItemIcon: {fileID: 21300000, guid: af13ecc8b1db4e758512be20b00cbf1d, type: 3}
+  ItemIcon: {fileID: 21300000, guid: f04c155ea797be948bbd35aaabbb42e1, type: 3}

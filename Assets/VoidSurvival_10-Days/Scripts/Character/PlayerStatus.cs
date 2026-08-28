@@ -6,6 +6,8 @@ public class PlayerStatus : CharacterStatus
     public override bool IsMovable => _status == StatusEnum.Idle || _status == StatusEnum.Fatigue;
     // ダッシュ可能かどうか
     public bool IsDashing => _status == StatusEnum.Idle;
+    // 入力反転(ビット反転による)
+    public bool IsInversion = false;
     //スタミナ
     public int MaxStaminaPoint => getMaxStaminaPoint();
     public int CurrentStaminaPoint => _currentStaminaPoint;

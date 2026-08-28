@@ -39,6 +39,13 @@ public class PlayerController : MonoBehaviour
         _moveInput.x = CrossPlatformInputManager.GetAxis("Horizontal");
         _moveInput.y = CrossPlatformInputManager.GetAxis("Vertical");
 
+        // 入力反転が有効な場合、入力を反転させる
+        if (_status.IsInversion)
+        {
+            _moveInput.x = -_moveInput.x;
+            _moveInput.y = -_moveInput.y;
+        }
+
         // 正規化し、速度を一定にする
         _moveInput.Normalize();
 
