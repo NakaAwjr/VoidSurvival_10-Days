@@ -15,6 +15,6 @@ MonoBehaviour:
   ItemID: 5
   ItemName: "\u91CE\u7403\u30D0\u30C3\u30C8"
   ItemDescription: 
-  ItemIcon: {fileID: 21300000, guid: 406cd22d1ae74fc8b965253237d2275b, type: 3}
+  ItemIcon: {fileID: 21300000, guid: 301cc13e63585524b84d1f1d0e0795c5, type: 3}
   Power: 0
   StaminaCost: 0
